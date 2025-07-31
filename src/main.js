@@ -41,9 +41,9 @@ let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
 //Directional Light
 const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1)
 directionalLight.castShadow = true
-directionalLight.position.set(0,5,0)
+directionalLight.position.set(0,7,0)
 directionalLight.shadow.camera.near = 1
-directionalLight.shadow.camera.far = 6
+directionalLight.shadow.camera.far = 8
 directionalLight.shadow.camera.top = 15
 directionalLight.shadow.camera.right = 10
 directionalLight.shadow.camera.bottom = - 15
@@ -76,9 +76,35 @@ exrLoader.load('/hdri.exr', (environmentMap) => {
     //scene.backgroundIntensity = 0.02
 }) 
 
-let soccerBall, soccerField
+//Seting the Physics World
+
+//Flor Collider
+let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0);
+groundColliderDesc.setTranslation(0,-1,0)
+physicsWorld.createCollider(groundColliderDesc)
+
+// Create a dynamic rigid-body.
+let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+    .setTranslation(0.0, 1.0, 0.0)
+    .setLinvel(0.0, 2.0, -8.0)
+    .setAngvel({ x: 3.0, y: 3.0, z: -3.0 })
+    .setAdditionalMass(0.3)
+    .setLinearDamping(0.2)
+    .setAngularDamping(0.2)
+let rigidBody = physicsWorld.createRigidBody(rigidBodyDesc)
+rigidBody.addForce({ x: 0.0, y: 10.0, z: 0.0 }, true)
+
+
+
+// Create a cuboid collider attached to the dynamic rigidBody.
+let colliderDesc = RAPIER.ColliderDesc.ball(1).setDensity(1)
+let collider = physicsWorld.createCollider(colliderDesc, rigidBody)
+
+
 
 //Loading Soccer Field
+let soccerBall, soccerField
+let ballDownloaded = false
 gltfLoader.load(
     '/soccerfield.gltf',
     
@@ -102,7 +128,7 @@ gltfLoader.load(
         ballDebug.addBinding(soccerBall.position, "y")
         ballDebug.addBinding(soccerBall.position, "z")
 
-        
+        ballDownloaded = true
         
         soccerField = scene.getObjectByName("SoccerField")
         soccerField.receiveShadow = true
@@ -126,19 +152,17 @@ gltfLoader.load(
 
 
 
-
-
-
-
-
 //Animation Loop Function
 const tick = () => {
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
 
 
 
-
-
+    if (ballDownloaded) {
+        soccerBall.position.copy(rigidBody.translation())
+        soccerBall.setRotationFromQuaternion(rigidBody.rotation())
+    }
+        
 
 
     camera.lookAt(new THREE.Vector3()) //Look At Center
