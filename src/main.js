@@ -6,6 +6,7 @@ import { RapierDebugger } from './physicsDebugger.js'
 import { SoccerScene } from './soccerScene.js'
 import { PhysicsScene } from './physicsScene.js'
 import { HDRI } from './hdri.js'
+import { SceneLights } from './sceneLights.js'
 
 //Sizes
 const sizes = { width: window.innerWidth, height: window.innerHeight }
@@ -35,35 +36,9 @@ const controls = new OrbitControls( camera, canvas )
 
 //My Scene
 
-//Lights
-
-//Directional Light
-const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1)
-directionalLight.castShadow = true
-directionalLight.position.set(0,7,0)
-directionalLight.shadow.camera.near = 1
-directionalLight.shadow.camera.far = 8
-directionalLight.shadow.camera.top = 15
-directionalLight.shadow.camera.right = 10
-directionalLight.shadow.camera.bottom = - 15
-directionalLight.shadow.camera.left = - 10
-directionalLight.shadow.mapSize.width = 2048
-directionalLight.shadow.mapSize.height = 2048
-scene.add(directionalLight)
-
-//Directional Light Debug
-let directionalLightDebug = debug.addFolder({ title: 'Directional Light' })
-directionalLightDebug.addBinding(directionalLight.position, "x")
-directionalLightDebug.addBinding(directionalLight.position, "y")
-directionalLightDebug.addBinding(directionalLight.position, "z")
-
-//Directional Light Helper Model
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight)
-//scene.add(directionalLightHelper)
-//Directional Light Shadow Camera Helper
-const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-//scene.add(directionalLightCameraHelper)
-
+//Adding Lights to the Scene
+let sceneLights = new SceneLights(scene, debug)
+sceneLights.loadLights()
 
 
 //Seting the Physics World

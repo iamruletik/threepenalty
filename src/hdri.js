@@ -7,7 +7,7 @@ export class HDRI {
     this.scene = scene
     this.path = path
     this.exrLoader = new EXRLoader()
-    this.environmentIntensity = 1.5
+    this.environmentIntensity = 0.5
     this.backgroundIntensity = 1
     this.enableBackground = false
   }
