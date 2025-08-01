@@ -1,9 +1,12 @@
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { EXRLoader } from 'three/addons/loaders/EXRLoader.js' 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import {Pane} from 'tweakpane'
+import { Pane } from 'tweakpane'
+import { RapierDebugger } from './physicsDebugger.js'
+import { SoccerScene } from './soccerScene.js'
+import { PhysicsScene } from './physicsScene.js'
+import { HDRI } from './hdri.js'
+
 //Sizes
 const sizes = { width: window.innerWidth, height: window.innerHeight }
 //TweakPane Gui
@@ -27,10 +30,6 @@ camera.position.set(0,10,10)
 scene.add(camera)
 //Orbit Controls
 const controls = new OrbitControls( camera, canvas )
-//GLTFLoader
-const gltfLoader = new GLTFLoader()
-//Rapier World
-let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
 
 
 
@@ -60,92 +59,33 @@ directionalLightDebug.addBinding(directionalLight.position, "z")
 
 //Directional Light Helper Model
 const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight)
-scene.add(directionalLightHelper)
+//scene.add(directionalLightHelper)
 //Directional Light Shadow Camera Helper
 const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-scene.add(directionalLightCameraHelper)
+//scene.add(directionalLightCameraHelper)
 
-//HDRI Loading
-const exrLoader = new EXRLoader()
-exrLoader.load('/hdri.exr', (environmentMap) => {
-    //console.log(environmentMap)
-    environmentMap.mapping = THREE.EquirectangularReflectionMapping
-    //scene.background = environmentMap
-    scene.environment = environmentMap
-    scene.environmentIntensity = 0.5
-    //scene.backgroundIntensity = 0.02
-}) 
+
 
 //Seting the Physics World
+let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
+let physicsScene = new PhysicsScene(physicsWorld)
+physicsScene.createScene()
 
-//Flor Collider
-let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0);
-groundColliderDesc.setTranslation(0,-1,0)
-physicsWorld.createCollider(groundColliderDesc)
 
-// Create a dynamic rigid-body.
-let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-    .setTranslation(0.0, 1.0, 0.0)
-    .setLinvel(0.0, 2.0, -8.0)
-    .setAngvel({ x: 3.0, y: 3.0, z: -3.0 })
-    .setAdditionalMass(0.3)
-    .setLinearDamping(0.2)
-    .setAngularDamping(0.2)
-let rigidBody = physicsWorld.createRigidBody(rigidBodyDesc)
-rigidBody.addForce({ x: 0.0, y: 10.0, z: 0.0 }, true)
+//HDRI Loading
+const sceneHDRI = new HDRI(scene, '/hdri.exr')
+sceneHDRI.enable()
+
+
+//Soccer Scene Loading
+let soccerScene = new SoccerScene(scene, physicsWorld)
+soccerScene.loadSceneMesh()
 
 
 
-// Create a cuboid collider attached to the dynamic rigidBody.
-let colliderDesc = RAPIER.ColliderDesc.ball(1).setDensity(1)
-let collider = physicsWorld.createCollider(colliderDesc, rigidBody)
-
-
-
-//Loading Soccer Field
-let soccerBall, soccerField
-let ballDownloaded = false
-gltfLoader.load(
-    '/soccerfield.gltf',
-    
-    (gltf) => {
-        //console.log(gltf)
-
-        const children = [...gltf.scene.children]
-
-        for (const child of children) {
-            scene.add(child)
-            console.log('added')
-        }
-
-
-        console.log(scene.children)
-        soccerBall = scene.getObjectByName("SoccerBall")
-        soccerBall.castShadow = true
-
-        let ballDebug = debug.addFolder({ title: 'Soccer Ball' })
-        ballDebug.addBinding(soccerBall.position, "x")
-        ballDebug.addBinding(soccerBall.position, "y")
-        ballDebug.addBinding(soccerBall.position, "z")
-
-        ballDownloaded = true
-        
-        soccerField = scene.getObjectByName("SoccerField")
-        soccerField.receiveShadow = true
-        const soccerFieldChildren = [...soccerField.children]
-        console.log(soccerFieldChildren)
-
-        for (const child of soccerFieldChildren) {
-            child.receiveShadow = true
-        }
-
-    }
-)
-
-
-
-
-
+//Debug Render
+let physicsDebugger = new RapierDebugger(scene, physicsWorld)
+physicsDebugger.addDebugMesh()
 
 
 
@@ -156,19 +96,15 @@ gltfLoader.load(
 const tick = () => {
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
 
-
-
-    if (ballDownloaded) {
-        soccerBall.position.copy(rigidBody.translation())
-        soccerBall.setRotationFromQuaternion(rigidBody.rotation())
-    }
-        
-
-
     camera.lookAt(new THREE.Vector3()) //Look At Center
-    renderer.render(scene, camera) //Update Render
+
     physicsWorld.step() //Update Physics
+    soccerScene.update() //Update Soccer Scene
+    physicsDebugger.update() //Update Debug Data in class RapierDebugger
     controls.update() //Update Orbit Controls
+
+    
+    renderer.render(scene, camera) //Update Render
     window.requestAnimationFrame(tick) //Request next frame of animation lopp
 }
 tick()
