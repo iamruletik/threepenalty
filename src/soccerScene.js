@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import RAPIER from '@dimforge/rapier3d'
+import { RapierDebugger } from './physicsDebugger'
 
 export class SoccerScene {
 
@@ -33,9 +34,25 @@ export class SoccerScene {
         this.soccerField = this.scene.getObjectByName(this.soccerFieldObjectName)
         this.soccerField.receiveShadow = true
 
+        
+
         //Iterate through all mesh objects in Soccer Field and set them to recieve shadows
         const soccerFieldChildren = [...this.soccerField.children]
-        for (const child of soccerFieldChildren) { child.receiveShadow = true}
+        for (const child of soccerFieldChildren) { 
+          child.receiveShadow = true
+          console.log(child.geometry.attributes.position.array)
+          console.log(child.geometry.index.array)
+
+          let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
+          this.world.createCollider(newCollider)
+
+          let debug = new RapierDebugger(this.scene, this.world)
+          debug.addDebugMesh()
+          debug.update()
+          
+        }
+
+        
 
     })
     
