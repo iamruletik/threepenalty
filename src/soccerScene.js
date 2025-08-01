@@ -40,15 +40,15 @@ export class SoccerScene {
         const soccerFieldChildren = [...this.soccerField.children]
         for (const child of soccerFieldChildren) { 
           child.receiveShadow = true
-          console.log(child.geometry.attributes.position.array)
-          console.log(child.geometry.index.array)
+          //console.log(child.geometry.attributes.position.array)
+          //console.log(child.geometry.index.array)
 
-          let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
-          this.world.createCollider(newCollider)
+          //let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
+          //this.world.createCollider(newCollider)
 
-          let debug = new RapierDebugger(this.scene, this.world)
-          debug.addDebugMesh()
-          debug.update()
+          //let debug = new RapierDebugger(this.scene, this.world)
+          //debug.addDebugMesh()
+          //debug.update()
           
         }
 

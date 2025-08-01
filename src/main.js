@@ -43,8 +43,11 @@ sceneLights.loadLights()
 
 //Seting the Physics World
 let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
+physicsWorld.timestep = 1/60 //Sync to 60 Hz
 let physicsScene = new PhysicsScene(physicsWorld)
 physicsScene.createScene()
+
+let eventQueue = new RAPIER.EventQueue(true)
 
 
 //HDRI Loading
@@ -73,7 +76,24 @@ const tick = () => {
 
     camera.lookAt(new THREE.Vector3()) //Look At Center
 
-    physicsWorld.step() //Update Physics
+    //Handling Collision Events
+    eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+        console.log('GOAL')
+        physicsWorld.getRigidBody(0).sleep()
+        physicsWorld.getRigidBody(0).resetForces()
+        physicsWorld.getRigidBody(0).setTranslation({ x: 0.0, y: 0.3, z: 0.0 }, true)
+        physicsWorld.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
+        physicsWorld.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
+        //physicsWorld.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
+        physicsWorld.getRigidBody(0).applyImpulse({ x: ((Math.random()-0.5)*20), y: 5.0, z: (-Math.random()*20) }, true)
+
+        
+
+        
+    })
+
+
+    physicsWorld.step(eventQueue) //Update Physics
     soccerScene.update() //Update Soccer Scene
     physicsDebugger.update() //Update Debug Data in class RapierDebugger
     controls.update() //Update Orbit Controls
