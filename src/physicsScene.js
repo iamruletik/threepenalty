@@ -39,15 +39,15 @@ export class PhysicsScene {
         // Create a dynamic rigid-body.
         let ballRigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
             .setTranslation(0.0, 1.0, 0.0)
-            .setLinvel(0.0, 2.0, -10.0)
-            .setAngvel({ x: 3.0, y: 3.0, z: -3.0 })
+            //.setLinvel(0.0, 2.0, -10.0)
+            //.setAngvel({ x: 3.0, y: 3.0, z: -3.0 })
             .setAdditionalMass(0.5)
-            .setLinearDamping(0.2)
-            .setAngularDamping(0.2)
+            //.setLinearDamping(0.2)
+            //.setAngularDamping(0.2)
         let ballRigidBody = this.world.createRigidBody(ballRigidBodyDesc)
-        ballRigidBody.addForce({ x: 0.0, y: 1.0, z: -5.0 }, true)
+        //ballRigidBody.addForce({ x: 0.0, y: 1.0, z: -5.0 }, true)
 
-        console.log(ballRigidBody.isMoving())
+        //console.log(ballRigidBody.isMoving())
         
         // Create a ball collider attached to the dynamic rigidBody.
         let ballColliderDesc = RAPIER.ColliderDesc.ball(0.55).setDensity(0.5)

@@ -31,6 +31,8 @@ camera.position.set(0,10,10)
 scene.add(camera)
 //Orbit Controls
 const controls = new OrbitControls( camera, canvas )
+//Texture Loader
+let textureLoader = new THREE.TextureLoader()
 
 
 
@@ -66,6 +68,73 @@ let physicsDebugger = new RapierDebugger(scene, physicsWorld)
 physicsDebugger.addDebugMesh()
 
 
+//Button Kick
+
+const BUTTON_IDLE = 0, BUTTON_KICK_DIRECTION = 1, BUTTON_KICK_POWER = 2, BUTTON_INACTIVE = -1
+let button = document.querySelector(".button")
+let buttonState = BUTTON_IDLE
+
+let arrowTexture = textureLoader.load('/arrow-texture.png')
+let arrowAlphaTexture = textureLoader.load('/arrow-alpha.png')
+
+
+//Direction Arrow
+const ARROW_RIGHT = -1, ARROW_LEFT = 1
+let arrowDirection = ARROW_LEFT
+let directionArrowParent = new THREE.Group()
+let directionArrow = new THREE.Mesh(
+    new THREE.PlaneGeometry(5, 5),
+    new THREE.MeshBasicMaterial({
+        transparent: true,
+        map: arrowTexture,
+        alphaMap: arrowAlphaTexture
+    })
+)
+directionArrow.position.set(0,1,-6)
+directionArrow.rotation.x = -Math.PI * 0.5
+
+directionArrowParent.position.set(0,0,2)
+
+directionArrowParent.add(directionArrow)
+
+
+const POWER_DOWN = -1, POWER_UP = 1
+let powerDirection = POWER_UP
+let powerBar = document.querySelector('.progressBar')
+powerBar.value = 0
+
+function animatePowerBar() {
+    powerBar.value += (0.5 * powerDirection)
+    if (powerBar.value >= 19) { powerDirection = POWER_DOWN } 
+    if (powerBar.value <= 1) { powerDirection = POWER_UP }
+    console.log(powerBar.value)
+}
+
+
+function animateDirectionArrow() {
+    directionArrowParent.rotation.y += 0.02 * arrowDirection
+    if (directionArrowParent.rotation.y >= 0.5) { arrowDirection = ARROW_RIGHT } 
+    if (directionArrowParent.rotation.y <= -0.5) { arrowDirection = ARROW_LEFT }
+}
+
+button.addEventListener("click", (event) => {
+
+
+        if (buttonState == BUTTON_IDLE) {
+            buttonState = BUTTON_KICK_DIRECTION
+        } else if (buttonState == BUTTON_KICK_DIRECTION) {
+            buttonState = BUTTON_KICK_POWER
+        } else if (buttonState == BUTTON_KICK_POWER) {
+            buttonState = BUTTON_INACTIVE
+            physicsWorld.getRigidBody(0).resetForces()
+            physicsWorld.getRigidBody(0).setTranslation({ x: 0.0, y: 0.3, z: 0.0 }, true)
+            physicsWorld.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
+            physicsWorld.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
+            //physicsWorld.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
+            physicsWorld.getRigidBody(0).applyImpulse({ x: (-directionArrowParent.rotation.y*10), y: 5.0, z: -powerBar.value-3 }, true)
+        }
+
+}, true)
 
 
 
@@ -82,15 +151,25 @@ const tick = () => {
         physicsWorld.getRigidBody(0).sleep()
         physicsWorld.getRigidBody(0).resetForces()
         physicsWorld.getRigidBody(0).setTranslation({ x: 0.0, y: 0.3, z: 0.0 }, true)
-        physicsWorld.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
-        physicsWorld.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
-        //physicsWorld.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
-        physicsWorld.getRigidBody(0).applyImpulse({ x: ((Math.random()-0.5)*20), y: 5.0, z: (-Math.random()*20) }, true)
+        buttonState = BUTTON_IDLE
 
-        
-
-        
     })
+
+    //console.log(buttonState)
+
+    if (buttonState == BUTTON_KICK_DIRECTION) {
+        scene.add(directionArrowParent)
+        animateDirectionArrow()
+    }
+
+    if (buttonState == BUTTON_KICK_POWER) {
+        animatePowerBar()
+    }
+
+    if (buttonState == BUTTON_INACTIVE) {
+        scene.remove(directionArrowParent)
+    }
+    
 
 
     physicsWorld.step(eventQueue) //Update Physics

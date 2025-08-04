@@ -6,3 +6,37 @@
 body {
   overflow: hidden;
 }
+
+.button {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background-color: white;
+  bottom: 10%;
+  right: calc(50% - 100px);
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 2rem;
+  border-radius: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  transition: box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.progressBar {
+  position: absolute;
+    width: 200px;
+  height: 50px;
+  bottom: 20%;
+  right: calc(50% - 100px);
+}
+
+
+.button:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    transition: box-shadow 0.2s ease-in-out;
+}
