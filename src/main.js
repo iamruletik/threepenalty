@@ -17,7 +17,8 @@ const pane = new Pane()
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 //Debug Folder
-const debug = pane.addFolder({ title: 'Soccer Debug GUI' })
+const playDebug = pane.addFolder({ title: 'Play Debug' })
+const debug = pane.addFolder({ title: 'Scene Debug' })
 //TweakPane Import/Export
 let state = null
 debug.addBlade({
@@ -83,6 +84,7 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(2)//Setting pixel ratio
 renderer.setClearColor(0x050505) //Background Color
 renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 //Clock
 const clock = new THREE.Clock()
 //Scene
@@ -105,7 +107,7 @@ let textureLoader = new THREE.TextureLoader()
 //Seting the Physics World
 let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
 physicsWorld.timestep = 1/60 //Sync to 60 Hz
-let physicsScene = new PhysicsScene(physicsWorld)
+let physicsScene = new PhysicsScene(physicsWorld, debug)
 physicsScene.createScene()
 
 let eventQueue = new RAPIER.EventQueue(true)
@@ -161,7 +163,7 @@ soccerScene.loadSceneMesh()
 //Button Kick
 
 const BUTTON_IDLE = 0, BUTTON_KICK_DIRECTION = 1, BUTTON_KICK_POWER = 2, BUTTON_INACTIVE = -1
-let button = document.querySelector(".button")
+let button = playDebug.addButton({ title: "Kick Ball "})
 let buttonState = BUTTON_IDLE
 
 let arrowTexture = textureLoader.load('/arrow-texture.png')
@@ -194,20 +196,21 @@ let powerBar = document.querySelector('.progressBar')
 powerBar.value = 0
 
 function animatePowerBar() {
+    powerBar.style.display = "block"
     powerBar.value += (0.5 * powerDirection)
-    if (powerBar.value >= 19) { powerDirection = POWER_DOWN } 
-    if (powerBar.value <= 1) { powerDirection = POWER_UP }
+    if (powerBar.value >= 20) { powerDirection = POWER_DOWN } 
+    if (powerBar.value <= 0) { powerDirection = POWER_UP }
     console.log(powerBar.value)
 }
 
 
 function animateDirectionArrow() {
     directionArrowParent.rotation.y += 0.02 * arrowDirection
-    if (directionArrowParent.rotation.y >= 0.5) { arrowDirection = ARROW_RIGHT } 
-    if (directionArrowParent.rotation.y <= -0.5) { arrowDirection = ARROW_LEFT }
+    if (directionArrowParent.rotation.y >= 1) { arrowDirection = ARROW_RIGHT } 
+    if (directionArrowParent.rotation.y <= -1) { arrowDirection = ARROW_LEFT }
 }
 
-button.addEventListener("click", (event) => {
+button.on("click", (event) => {
 
 
         if (buttonState == BUTTON_IDLE) {
@@ -258,6 +261,7 @@ const tick = () => {
     }
 
     if (buttonState == BUTTON_INACTIVE) {
+        powerBar.style.display = "none"
         scene.remove(directionArrowParent)
     }
     
