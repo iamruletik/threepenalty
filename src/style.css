@@ -8,6 +8,7 @@ body {
 }
 
 .button {
+  display: none !important;
   position: absolute;
   width: 200px;
   height: 100px;
@@ -28,8 +29,9 @@ body {
 }
 
 .progressBar {
+  display: none;
   position: absolute;
-    width: 200px;
+  width: 200px;
   height: 50px;
   bottom: 20%;
   right: calc(50% - 100px);

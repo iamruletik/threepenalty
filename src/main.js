@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { Pane } from 'tweakpane'
+import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
+import * as TweakpaneRotationInputPlugin from "@0b5vr/tweakpane-plugin-rotation"
 import { RapierDebugger } from './physicsDebugger.js'
 import { SoccerScene } from './soccerScene.js'
 import { PhysicsScene } from './physicsScene.js'
@@ -12,14 +14,74 @@ import { SceneLights } from './sceneLights.js'
 const sizes = { width: window.innerWidth, height: window.innerHeight }
 //TweakPane Gui
 const pane = new Pane()
-const debug = pane.addFolder({ title: 'Soccer GUI' })
+pane.registerPlugin(EssentialsPlugin)
+pane.registerPlugin(TweakpaneRotationInputPlugin)
+//Debug Folder
+const debug = pane.addFolder({ title: 'Soccer Debug GUI' })
+//TweakPane Import/Export
+let state = null
+debug.addBlade({
+  view: 'buttongrid',
+  size: [2, 1],
+  cells: (x, y) => ({
+    title: [
+      ['Export', 'Import'],
+    ][y][x],
+  }),
+  label: 'Settings',
+}).on('click', (ev) => {
+  console.log(ev.index[0])
+  switch (ev.index[0]) {
+    case 0:
+        state = pane.exportState()
+        console.log(state)
+        var jsonData = JSON.stringify(state, null, 2)
+        function download(content) {
+            var a = document.createElement("a")
+            var file = new Blob([content], { type: 'application/json' });
+            a.href = URL.createObjectURL(file)
+            a.download = 'tweakpane_state.json'
+            a.click()
+        }
+        download(jsonData)
+        break;
+    case 1:
+        let input = document.getElementById('jsonFileInput')
+        input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        console.log(data);
+                        pane.importState(data)
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        })
+        input.click()
+        
+        console.log('imported')
+        break;
+  }
+})
+//FPS Counter
+const fpsGraph = debug.addBlade({
+  view: 'fpsgraph',
+  label: 'FPS',
+  rows: 2,
+})
 //Canvas Element
 const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(2)//Setting pixel ratio
-renderer.setClearColor(0x87CEEB) //Instead of black background
+renderer.setClearColor(0x050505) //Background Color
 renderer.shadowMap.enabled = true
 //Clock
 const clock = new THREE.Clock()
@@ -27,22 +89,19 @@ const clock = new THREE.Clock()
 const scene = new THREE.Scene()
 //Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // FOV vertical angle, aspect ratio with/height
-camera.position.set(0,10,10)
+camera.position.set(0,20,0)
 scene.add(camera)
 //Orbit Controls
 const controls = new OrbitControls( camera, canvas )
+controls.enableDamping = true
+controls.maxDistance = 20
+controls.maxPolarAngle = Math.PI / 3
 //Texture Loader
 let textureLoader = new THREE.TextureLoader()
 
 
 
 //My Scene
-
-//Adding Lights to the Scene
-let sceneLights = new SceneLights(scene, debug)
-sceneLights.loadLights()
-
-
 //Seting the Physics World
 let physicsWorld = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
 physicsWorld.timestep = 1/60 //Sync to 60 Hz
@@ -51,10 +110,43 @@ physicsScene.createScene()
 
 let eventQueue = new RAPIER.EventQueue(true)
 
+//Debug Render for Physics
+const debugButton = debug.addButton({ title: "Show Colliders" })
+let debugDataShown = false
+
+let physicsDebugger = new RapierDebugger(scene, physicsWorld)
+debugButton.on('click', () => {
+    if (debugDataShown == false) {
+        physicsDebugger.addDebugMesh()
+        debugDataShown = true
+    } else if (debugDataShown) {
+        physicsDebugger.removeDebugMesh()
+        debugDataShown = false
+    }
+})
+
+//Setup Debug Tabs
+const debugTabs = debug.addTab({
+    pages: [
+        { title: "Render" },
+        { title: "Physics" }
+    ]
+})
+
+let backgroundColor = 0x000000
+
+
+//Adding Lights to the Scene
+let sceneLights = new SceneLights(scene, debugTabs.pages[0])
+sceneLights.loadLights()
+
+
+
+
 
 //HDRI Loading
 const sceneHDRI = new HDRI(scene, '/hdri.exr')
-sceneHDRI.enable()
+//sceneHDRI.enable()
 
 
 //Soccer Scene Loading
@@ -63,9 +155,7 @@ soccerScene.loadSceneMesh()
 
 
 
-//Debug Render
-let physicsDebugger = new RapierDebugger(scene, physicsWorld)
-physicsDebugger.addDebugMesh()
+
 
 
 //Button Kick
@@ -141,9 +231,10 @@ button.addEventListener("click", (event) => {
 
 //Animation Loop Function
 const tick = () => {
+    fpsGraph.begin()
+
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
 
-    camera.lookAt(new THREE.Vector3()) //Look At Center
 
     //Handling Collision Events
     eventQueue.drainCollisionEvents((handle1, handle2, started) => {
@@ -179,6 +270,7 @@ const tick = () => {
 
     
     renderer.render(scene, camera) //Update Render
+    fpsGraph.end() // Update FPS Counter
     window.requestAnimationFrame(tick) //Request next frame of animation lopp
 }
 tick()

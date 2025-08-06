@@ -15,6 +15,10 @@ export class RapierDebugger {
     this.scene.add(this.debugMesh)
   }
 
+  removeDebugMesh() {
+    this.scene.remove(this.debugMesh)
+  }
+
   update() {
     let debugData = this.world.debugRender()
     this.debugGeometry.setAttribute( 'position', new THREE.BufferAttribute( debugData.vertices, 3 ))

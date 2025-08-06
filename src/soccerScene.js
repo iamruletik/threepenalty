@@ -6,7 +6,8 @@ import { RapierDebugger } from './physicsDebugger'
 export class SoccerScene {
 
   constructor(scene, world) {
-    this.pathToGLTFScene = '/soccerfield.gltf'
+    this.pathToGLTFScene = '/SoccerFieldNew/SoccerFieldNew.gltf'
+    this.pathToGLTFBall = '/SoccerBall/soccerBall.gltf'
     this.soccerBall = null
     this.soccerBallObjectName = "SoccerBall"
     this.soccerField = null
@@ -19,8 +20,9 @@ export class SoccerScene {
 
   loadSceneMesh() {
 
-    this.gltfLoader.load(this.pathToGLTFScene, (gltf) => {
-
+    //Load the Ball
+    this.gltfLoader.load(this.pathToGLTFBall, (gltf) => {
+      
         //Iterate through all objects from GLTF file and add them to the provided scene
         const children = [...gltf.scene.children]
         for (const child of children) { this.scene.add(child) }
@@ -29,30 +31,19 @@ export class SoccerScene {
         this.soccerBall = this.scene.getObjectByName(this.soccerBallObjectName)
         this.soccerBall.castShadow = true 
         this.ballDownloaded = true 
+    })
+
+
+  //Load Soccer Field
+    this.gltfLoader.load(this.pathToGLTFScene, (gltf) => {
+      
+        //Iterate through all objects from GLTF file and add them to the provided scene
+        const children = [...gltf.scene.children]
+        for (const child of children) { this.scene.add(child) }
         
         //Find Soccer Field Object and set it to recieve shadows
         this.soccerField = this.scene.getObjectByName(this.soccerFieldObjectName)
         this.soccerField.receiveShadow = true
-
-        
-
-        //Iterate through all mesh objects in Soccer Field and set them to recieve shadows
-        const soccerFieldChildren = [...this.soccerField.children]
-        for (const child of soccerFieldChildren) { 
-          child.receiveShadow = true
-          //console.log(child.geometry.attributes.position.array)
-          //console.log(child.geometry.index.array)
-
-          //let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
-          //this.world.createCollider(newCollider)
-
-          //let debug = new RapierDebugger(this.scene, this.world)
-          //debug.addDebugMesh()
-          //debug.update()
-          
-        }
-
-        
 
     })
     

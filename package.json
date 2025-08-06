@@ -12,7 +12,9 @@
     "vite": "^7.0.4"
   },
   "dependencies": {
+    "@0b5vr/tweakpane-plugin-rotation": "^0.2.0",
     "@dimforge/rapier3d": "^0.18.0",
+    "@tweakpane/plugin-essentials": "^0.2.1",
     "three": "^0.178.0",
     "tweakpane": "^4.0.5",
     "vite-plugin-restart": "^1.0.0",
