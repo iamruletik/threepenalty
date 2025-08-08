@@ -1,5 +1,5 @@
-import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { ColliderCreator } from './colliderCreator.js'
 import RAPIER from '@dimforge/rapier3d'
 
 export class SoccerScene {
@@ -15,9 +15,17 @@ export class SoccerScene {
     this.gltfLoader = new GLTFLoader()
     this.scene = scene
     this.world = world
+    this.objectNames = [ 
+                            "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
+                            "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
+                            "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
+                            "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
+                          ]
   }
 
   loadSceneMesh() {
+
+    let colliderCreator = new ColliderCreator(this.scene, this.world)
 
     //Load the Ball
     this.gltfLoader.load(this.pathToGLTFBall, (gltf) => {
@@ -38,11 +46,9 @@ export class SoccerScene {
     })
 
 
-  //Load Soccer Field
+   //Load Soccer Field
     this.gltfLoader.load(this.pathToGLTFScene, (gltf) => {
 
-        
-      
         //Iterate through all objects from GLTF file and add them to the provided scene
         const children = [...gltf.scene.children]
         for (const child of children) { 
@@ -50,19 +56,7 @@ export class SoccerScene {
           child.castShadow = true
         }
 
-        createNewCollider("BottleCap01", this.scene, this.world)
-        createNewCollider("BottleCap02", this.scene, this.world)
-        createNewCollider("BottleCap03", this.scene, this.world)
-        createNewCollider("BottleCap04", this.scene, this.world)
-        createNewCollider("BottleCap05", this.scene, this.world)
-        createNewCollider("BottleCap06", this.scene, this.world)
-        createNewCollider("BottleCap07", this.scene, this.world)
-        createNewCollider("BottleCap08", this.scene, this.world)
-        createNewCollider("BottleCap09", this.scene, this.world)
-        createNewCollider("BottleCap10", this.scene, this.world)
-        createNewCollider("BottleCap11", this.scene, this.world)
-        createNewCollider("BottleCap12", this.scene, this.world)
-
+        //Set Shadow for Soccer Field Outer
         let soccerFieldOuter = this.scene.getObjectByName("SoccerFieldOuter")
         soccerFieldOuter.receiveShadow = true
 
@@ -71,13 +65,33 @@ export class SoccerScene {
         this.soccerField.receiveShadow = true
         this.soccerField.castShadow = false
 
-        function createNewCollider(objectName, scene, world) {
-          let tempMesh = scene.getObjectByName(objectName)
-          let newCollider = RAPIER.ColliderDesc.convexHull(tempMesh.geometry.attributes.position.array)
-          newCollider.setTranslation(tempMesh.position.x, tempMesh.position.y, tempMesh.position.z)
-          world.createCollider(newCollider)
-        }
+        //Create Convex Hull Colliders for Specific Objects in the Scene
+        colliderCreator.create(this.objectNames)
 
+
+    })
+
+
+        //Load the Ball
+    this.gltfLoader.load("/SoccerFieldNew/SoccerFieldColliders.gltf", (gltf) => {
+      
+        //Iterate through all objects from GLTF file and add them to the provided scene
+        const children = [...gltf.scene.children]
+        for (const child of children) { 
+
+          if (child.name != "SensorGate") {
+              let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
+              newCollider.setTranslation(child.position.x, child.position.y, child.position.z)
+              this.world.createCollider(newCollider)
+          } else {
+              let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
+              newCollider.setSensor(true)
+              newCollider.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS)
+              newCollider.setTranslation(child.position.x, child.position.y, child.position.z)
+              this.world.createCollider(newCollider)
+          }
+
+        }
     })
     
   }
