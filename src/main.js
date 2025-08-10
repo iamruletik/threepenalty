@@ -8,14 +8,17 @@ import { RapierDebugger } from './physicsDebugger.js'
 import { SoccerScene } from './soccerScene.js'
 import { SoccerBall } from './soccerBall.js'
 import { SceneLights } from './sceneLights.js'
+import { BottleFinder } from './bottleFinder.js'
 import { Loop } from './loop.js'
 
-
+//Variables
 let backgroundColor = 0x050505
+
 //TweakPane Gui
 const pane = new Pane()
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
+
 //Debug Folder
 const debug = pane.addFolder({ title: 'Scene Debug' })
 let fpsGraph = debug.addBlade({
@@ -92,7 +95,10 @@ soccerBall.load()
 loop.updatables.push(soccerBall)
 
 
-
+//Raycaster
+let bottleFinder = new BottleFinder(camera, scene)
+bottleFinder.init()
+loop.updatables.push(bottleFinder)
 
 
 
