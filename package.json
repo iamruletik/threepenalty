@@ -15,6 +15,7 @@
     "@0b5vr/tweakpane-plugin-rotation": "^0.2.0",
     "@dimforge/rapier3d": "^0.18.0",
     "@tweakpane/plugin-essentials": "^0.2.1",
+    "camera-controls": "^3.1.0",
     "gsap": "^3.13.0",
     "three": "^0.178.0",
     "tweakpane": "^4.0.5",

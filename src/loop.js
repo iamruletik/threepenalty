@@ -8,6 +8,7 @@ class Loop {
     this.world = world
     this.updatables = []
     this.fpsGraph = debug
+    this.clock = new Clock()
   }
 
   start() {
@@ -16,12 +17,15 @@ class Loop {
     this.renderer.setAnimationLoop(() => {
         this.fpsGraph.begin()
 
+        //Clock
+        let delta = this.clock.getDelta()
+
         //Update Camera
         this.camera.aspect = window.innerWidth / window.innerHeight
         this.camera.updateProjectionMatrix()
         
         this.world.step(this.eventQueue) //Update Physics
-        this.tick() // Update All objects
+        this.tick(delta) // Update All objects
         this.renderer.setSize(window.innerWidth, window.innerHeight) //Update Size Matrix
         this.renderer.render(this.scene, this.camera) // Render
 
@@ -33,9 +37,9 @@ class Loop {
     this.renderer.setAnimationLoop(null)
   }
 
-  tick() {
+  tick(delta) {
     for (const object of this.updatables) {
-        object.update()
+        object.update(delta)
     }
   }
 }

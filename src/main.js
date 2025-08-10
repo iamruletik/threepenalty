@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import CameraControls from 'camera-controls'
 import { Pane } from 'tweakpane'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 import * as TweakpaneRotationInputPlugin from "@0b5vr/tweakpane-plugin-rotation"
@@ -10,6 +10,8 @@ import { SoccerBall } from './soccerBall.js'
 import { SceneLights } from './sceneLights.js'
 import { BottleFinder } from './bottleFinder.js'
 import { Loop } from './loop.js'
+
+
 
 //Variables
 let backgroundColor = 0x050505
@@ -56,12 +58,11 @@ scene.add(camera)
 let loop = new Loop(camera, scene, renderer, world, fpsGraph)
 loop.start()
 
-//Orbit Controls
-const controls = new OrbitControls( camera, canvas )
-controls.enableDamping = true
-controls.maxDistance = 20
-controls.maxPolarAngle = Math.PI / 3
-loop.updatables.push(controls)
+
+//CameraControls
+CameraControls.install({ THREE: THREE })
+const cameraControls = new CameraControls( camera, canvas )
+loop.updatables.push(cameraControls)
 
 
 //Debug Render for Physics
@@ -96,7 +97,7 @@ loop.updatables.push(soccerBall)
 
 
 //Raycaster
-let bottleFinder = new BottleFinder(camera, scene, controls)
+let bottleFinder = new BottleFinder(camera, scene, cameraControls)
 bottleFinder.init()
 loop.updatables.push(bottleFinder)
 

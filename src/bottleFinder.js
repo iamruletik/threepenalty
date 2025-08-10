@@ -38,24 +38,18 @@ export class BottleFinder {
             
 
             let coords = {
-                x: this.camera.position.x,
-                y: this.camera.position.y,
-                z: this.camera.position.z,
-            }
-
-            gsap.to(coords, {
                 x: this.hoverableIntersector.position.x,
-                y: 5,
+                y: this.hoverableIntersector.position.y,
                 z: this.hoverableIntersector.position.z,
-                onUpdate: () => {
-                    this.camera.position.x = coords.x
-                    this.camera.position.y = coords.y
-                    this.camera.position.z = coords.z
-                    this.controls.target.x = coords.x
-                    this.controls.target.z = coords.z
-                },
-                duration: 1
-            })
+            }
+            
+            this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
+            this.controls.moveTo(coords.x, coords.y, coords.z, true)
+            this.controls.dollyTo(3, true)
+
+            
+
+            console.log(coords)
         }
 
     }
