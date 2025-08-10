@@ -3,12 +3,15 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 
 export class BottleFinder {
 
-    constructor(camera, scene) {
+    constructor(camera, scene, controls) {
         this.raycaster = new THREE.Raycaster()
         this.pointer = new THREE.Vector2()
         this.gltfLoader = new GLTFLoader()
+        this.spotlightFolder = new THREE.Group()
         this.intersectors = null
         this.intersectorsDownloaded = false
+        this.selectedLight = new THREE.SpotLight(0xffffff, 0, Math.PI * 2, Math.PI / 10, 1)
+        this.targetObject = new THREE.Object3D()
         this.camera = camera
         this.scene = scene
     }
@@ -36,6 +39,17 @@ export class BottleFinder {
                 this.scene.add(child)
             }
         })
+
+        this.selectedLight.position.set(0, 3, 0)
+        this.selectedLight.target = this.targetObject
+        let lightHelper = new THREE.SpotLightHelper(this.selectedLight)
+        this.spotlightFolder.add(this.selectedLight)
+        //this.spotlightFolder.add(lightHelper)
+        this.scene.add(this.spotlightFolder)
+        this.scene.add(this.targetObject)
+        
+
+
     }
 
     update() {
@@ -45,12 +59,16 @@ export class BottleFinder {
             const intersects = this.raycaster.intersectObjects(this.intersectors)
 
             for (const object of this.intersectors) {
-                object.material.opacity = 0
+                this.selectedLight.intensity = 0
             }
             
             for (const intersect of intersects) {
-                intersect.object.material.opacity = 1
-                console.log(intersect.object.name)
+                this.selectedLight.intensity = 200
+                this.spotlightFolder.position.x = intersect.object.position.x
+                this.spotlightFolder.position.z = intersect.object.position.z
+
+                this.targetObject.position.x = intersect.object.position.x
+                this.targetObject.position.z = intersect.object.position.z
             }
         }
     }

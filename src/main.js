@@ -96,7 +96,7 @@ loop.updatables.push(soccerBall)
 
 
 //Raycaster
-let bottleFinder = new BottleFinder(camera, scene)
+let bottleFinder = new BottleFinder(camera, scene, controls)
 bottleFinder.init()
 loop.updatables.push(bottleFinder)
 
