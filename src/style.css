@@ -7,27 +7,6 @@ body {
   overflow: hidden;
 }
 
-.button {
-  display: none !important;
-  position: absolute;
-  width: 200px;
-  height: 100px;
-  background-color: white;
-  bottom: 10%;
-  right: calc(50% - 100px);
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 2rem;
-  border-radius: 1rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  transition: box-shadow 0.2s ease-in-out;
-  cursor: pointer;
-}
-
 .progressBar {
   display: none;
   position: absolute;
@@ -37,8 +16,35 @@ body {
   right: calc(50% - 100px);
 }
 
+.modalContainer {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
+  flex-direction: column;
+  transform: translateY(100%);
+}
 
-.button:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    transition: box-shadow 0.2s ease-in-out;
+.bottleDescription {
+  width: 35vw;
+  height: 55vh;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  font-family: sans-serif;
+  font-size: 3rem;
+  pointer-events: none;
+}
+
+button {
+    width: 35vw;
+    height: 5vh;
 }

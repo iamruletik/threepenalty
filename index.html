@@ -8,7 +8,11 @@
   </head>
   <body style="background-color: #050505;">
     <progress class="progressBar" id="file" max="20" value="0.1"></progress>
-    <div class="button">KICK</div>
+    <div class="modalContainer">
+      <div class="bottleDescription">Bottle Description</div>
+      <button id="closeModal">CLOSE</button>
+      <button>PENALTY</button>
+    </div>
     <canvas class="webgl"></canvas>
     <input hidden type="file" id="jsonFileInput" accept=".json">
     <script type="module" src="src/main.js"></script>

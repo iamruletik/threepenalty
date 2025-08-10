@@ -19,6 +19,7 @@ export class BottleFinder {
         this.isCameraAnimating = false
         this.isHovering = false
         this.hoverableIntersector = null
+        this.isModalActive = false
     }
 
     onPointerMove(event) {
@@ -31,32 +32,54 @@ export class BottleFinder {
 
     onPointerClick(event) {
 
-        if (this.isHovering) {
-            console.log(this.targetObject.position)
-            this.isCameraAnimating = true
+        let modal = document.querySelector(".modalContainer")
+        let modalButton = document.querySelector("#closeModal")
 
-            
+        console.log(this.controls)
+
+        if (this.isHovering && !this.isCameraAnimating && !this.isModalActive) {
+            console.log("fired")
+
+            this.isHovering = false
+            this.isCameraAnimating = true
+            this.isModalActive = true
 
             let coords = {
                 x: this.hoverableIntersector.position.x,
                 y: this.hoverableIntersector.position.y,
                 z: this.hoverableIntersector.position.z,
             }
-            
+            this.controls.enabled = false
             this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
             this.controls.moveTo(coords.x, coords.y, coords.z, true)
-            this.controls.dollyTo(3, true)
-
+            this.controls.dolly(18, true)
             
 
-            console.log(coords)
+            gsap.to(modal, {
+                yPercent: -100,
+                delay: 1
+            })
+
+            modalButton.addEventListener('click', (event) => {        
+                console.log("closed")       
+                this.controls.lookInDirectionOf(0, -100, 0, true)                
+                this.controls.moveTo(0, 0, 0, true)
+                this.controls.dolly(-18, true)
+               
+                gsap.to(modal, {
+                    yPercent: 100
+                })
+                this.controls.enabled = true 
+                this.isModalActive = false
+                this.isCameraAnimating = false
+            })
         }
 
     }
 
     init() {
         window.addEventListener( 'pointermove', (event) => this.onPointerMove(event) )
-        window.addEventListener( 'click', (event) => this.onPointerClick(event) )
+        window.addEventListener( 'click', (event) => this.onPointerClick(event))
 
 
         //Load Intersectros
@@ -84,7 +107,7 @@ export class BottleFinder {
     }
 
     update() {
-        if (this.intersectorsDownloaded && !this.isCameraAnimating) {
+        if (this.intersectorsDownloaded && !this.isCameraAnimating && !this.isModalActive) {
             this.raycaster.setFromCamera(this.pointer, this.camera)
 
             const intersects = this.raycaster.intersectObjects(this.intersectors)

@@ -62,6 +62,13 @@ loop.start()
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
+cameraControls.maxDistance = 20
+cameraControls.maxZoom = 1
+cameraControls.minAzimuthAngle = -Math.PI / 2
+cameraControls.maxAzimuthAngle = Math.PI / 2
+cameraControls.minPolarAngle = -Math.PI / 2
+cameraControls.maxPolarAngle = Math.PI / 3
+cameraControls.smoothTime = 0.5
 loop.updatables.push(cameraControls)
 
 
