@@ -415,11 +415,11 @@
 						"KHR_texture_transform":{
 							"offset":[
 								0,
-								-49
+								-19
 							],
 							"scale":[
-								50,
-								50
+								20,
+								20
 							]
 						}
 					},
@@ -430,7 +430,6 @@
 			}
 		},
 		{
-			"alphaMode":"BLEND",
 			"doubleSided":true,
 			"name":"SoccerFieldStripeMaterial",
 			"pbrMetallicRoughness":{
@@ -1144,8 +1143,8 @@
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"SoccerFieldStripeTexture-SoccerFieldStripeTextureAlpha",
-			"uri":"SoccerFieldStripeTexture-SoccerFieldStripeTextureAlpha.webp"
+			"name":"SoccerFieldStripeTexture",
+			"uri":"SoccerFieldStripeTexture.webp"
 		},
 		{
 			"mimeType":"image/webp",

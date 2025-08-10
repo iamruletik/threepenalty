@@ -6,12 +6,8 @@ export class SoccerScene {
 
   constructor(scene, world) {
     this.pathToGLTFScene = '/SoccerFieldNew/SoccerFieldNew.gltf'
-    this.pathToGLTFBall = '/SoccerBall/soccerBall.gltf'
-    this.soccerBall = null
-    this.soccerBallObjectName = "SoccerBall"
     this.soccerField = null
     this.soccerFieldObjectName = "SoccerField"
-    this.ballDownloaded = false
     this.gltfLoader = new GLTFLoader()
     this.scene = scene
     this.world = world
@@ -23,27 +19,11 @@ export class SoccerScene {
                           ]
   }
 
-  loadSceneMesh() {
+  load() {
 
     let colliderCreator = new ColliderCreator(this.scene, this.world)
 
-    //Load the Ball
-    this.gltfLoader.load(this.pathToGLTFBall, (gltf) => {
-      
-        //Iterate through all objects from GLTF file and add them to the provided scene
-        const children = [...gltf.scene.children]
-        console.log(children)
-        this.scene.add(children[0])
-        for (const child of children[0].children) { 
-          child.castShadow = true
-          
-        }
 
-        //Look for SoccerBall Object and set it to castshadow and change bool to indicate that ball was dowbloaded
-        this.soccerBall = this.scene.getObjectByName(this.soccerBallObjectName)
-        this.soccerBall.castShadow = true 
-        this.ballDownloaded = true 
-    })
 
 
    //Load Soccer Field
@@ -51,10 +31,7 @@ export class SoccerScene {
 
         //Iterate through all objects from GLTF file and add them to the provided scene
         const children = [...gltf.scene.children]
-        for (const child of children) { 
-          this.scene.add(child) 
-          child.castShadow = true
-        }
+        for (const child of children) { this.scene.add(child) }
 
         //Set Shadow for Soccer Field Outer
         let soccerFieldOuter = this.scene.getObjectByName("SoccerFieldOuter")
@@ -72,7 +49,7 @@ export class SoccerScene {
     })
 
 
-        //Load the Ball
+        //Load the Colliders
     this.gltfLoader.load("/SoccerFieldNew/SoccerFieldColliders.gltf", (gltf) => {
       
         //Iterate through all objects from GLTF file and add them to the provided scene
@@ -97,14 +74,6 @@ export class SoccerScene {
   }
 
   update() {
-
-    //You Can find specific RigidBody by its handle
-    let soccerBallRigidBody = this.world.getRigidBody(0)
-
-    if (this.ballDownloaded) {
-        this.soccerBall.position.copy(soccerBallRigidBody.translation())
-        this.soccerBall.setRotationFromQuaternion(soccerBallRigidBody.rotation())
-    }
 
   }
 

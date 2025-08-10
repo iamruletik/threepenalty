@@ -6,9 +6,9 @@ import { Pane } from 'tweakpane'
 
 export class SceneLights {
 
-  constructor(scene, debugPane) {
+  constructor(scene, debug) {
     this.scene = scene
-    this.debugPane = debugPane
+    this.debugPane = debug.addFolder({ title: 'Render Debug' })
   }
 
   loadLights() {
@@ -35,33 +35,13 @@ export class SceneLights {
     })
 
 
-    //Directional Light For Shadows
-    const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5)
-    directionalLight.position.set(0,11,-6)
-    directionalLight.castShadow = true
-    directionalLight.shadow.camera.near = 1
-    directionalLight.shadow.camera.far = 50
-    directionalLight.shadow.camera.top = 40
-    directionalLight.shadow.camera.right = 40
-    directionalLight.shadow.camera.bottom = - 40
-    directionalLight.shadow.camera.left = - 40
-    directionalLight.shadow.mapSize.width = 4096
-    directionalLight.shadow.mapSize.height = 4096
-    directionalLight.shadow.radius = 10
-    //directionalLight.lookAt(0,0,0)
-    this.scene.add(directionalLight)
-
-    //Add Debug for Directional Light
-    let directionalLightDebug = this.debugPane.addFolder({ title: "Directional Light for Shadows", expanded: false })
-    directionalLightDebug.addBinding(directionalLight, "intensity")
-    directionalLightDebug.addBinding(directionalLight, "position")
 
 
     //React Area Light Top
-    const rectAreaLightTop = new THREE.RectAreaLight(0xFFFFFF, 0, 16,28)
+    const rectAreaLightTop = new THREE.RectAreaLight(0xFFFFFF, 0, 10,28)
     rectAreaLightTop.rotation.set(-Math.PI / 2,0,0)
     rectAreaLightTop.position.set(0,8,0)
-    rectAreaLightTop.power = 500
+    rectAreaLightTop.power = 1000
     this.scene.add(rectAreaLightTop)
 
     //Add Debug for Area Light Top
@@ -162,8 +142,6 @@ export class SceneLights {
 
 
     //Light Helpers
-    const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight)
-    const directionalLightShadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
     const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLightTop)
     const rectAreaLightSideAHelper = new RectAreaLightHelper(rectAreaLightSideA)
     const rectAreaLightSideBHelper = new RectAreaLightHelper(rectAreaLightSideB)
@@ -176,8 +154,6 @@ export class SceneLights {
       scene.add(rectAreaLightSideBHelper) 
       scene.add(rectAreaLightSideCHelper) 
       scene.add(rectAreaLightSideDHelper) 
-      scene.add(directionalLightHelper) 
-      scene.add(directionalLightShadowCameraHelper) 
     }
     function removeHelpers(scene) { 
       scene.remove(rectAreaLightHelper)
@@ -185,8 +161,6 @@ export class SceneLights {
       scene.remove(rectAreaLightSideBHelper)
       scene.remove(rectAreaLightSideCHelper)
       scene.remove(rectAreaLightSideDHelper)
-      scene.remove(directionalLightHelper)
-      scene.remove(directionalLightShadowCameraHelper)
     }
 
   }
