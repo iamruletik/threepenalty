@@ -45,7 +45,7 @@ renderer.toneMapping = THREE.LinearToneMapping
 
 //Scene
 const scene = new THREE.Scene()
-scene.fog = new THREE.Fog(backgroundColor, 1, 50)
+//scene.fog = new THREE.Fog(backgroundColor, 1, 50)
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
@@ -99,6 +99,7 @@ loop.updatables.push(soccerBall)
 let bottleFinder = new BottleFinder(camera, scene, controls)
 bottleFinder.init()
 loop.updatables.push(bottleFinder)
+
 
 
 

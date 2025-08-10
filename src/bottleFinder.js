@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import gsap from 'gsap'
 
 export class BottleFinder {
 
@@ -14,6 +15,10 @@ export class BottleFinder {
         this.targetObject = new THREE.Object3D()
         this.camera = camera
         this.scene = scene
+        this.controls = controls
+        this.isCameraAnimating = false
+        this.isHovering = false
+        this.hoverableIntersector = null
     }
 
     onPointerMove(event) {
@@ -24,8 +29,40 @@ export class BottleFinder {
         this.pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1
     }
 
+    onPointerClick(event) {
+
+        if (this.isHovering) {
+            console.log(this.targetObject.position)
+            this.isCameraAnimating = true
+
+            
+
+            let coords = {
+                x: this.camera.position.x,
+                y: this.camera.position.y,
+                z: this.camera.position.z,
+            }
+
+            gsap.to(coords, {
+                x: this.hoverableIntersector.position.x,
+                y: 5,
+                z: this.hoverableIntersector.position.z,
+                onUpdate: () => {
+                    this.camera.position.x = coords.x
+                    this.camera.position.y = coords.y
+                    this.camera.position.z = coords.z
+                    this.controls.target.x = coords.x
+                    this.controls.target.z = coords.z
+                },
+                duration: 1
+            })
+        }
+
+    }
+
     init() {
         window.addEventListener( 'pointermove', (event) => this.onPointerMove(event) )
+        window.addEventListener( 'click', (event) => this.onPointerClick(event) )
 
 
         //Load Intersectros
@@ -53,16 +90,20 @@ export class BottleFinder {
     }
 
     update() {
-        if (this.intersectorsDownloaded) {
+        if (this.intersectorsDownloaded && !this.isCameraAnimating) {
             this.raycaster.setFromCamera(this.pointer, this.camera)
 
             const intersects = this.raycaster.intersectObjects(this.intersectors)
 
             for (const object of this.intersectors) {
+                this.isHovering = false
                 this.selectedLight.intensity = 0
             }
             
             for (const intersect of intersects) {
+                this.isHovering = true
+                this.hoverableIntersector = intersect.object
+
                 this.selectedLight.intensity = 200
                 this.spotlightFolder.position.x = intersect.object.position.x
                 this.spotlightFolder.position.z = intersect.object.position.z
@@ -70,6 +111,7 @@ export class BottleFinder {
                 this.targetObject.position.x = intersect.object.position.x
                 this.targetObject.position.z = intersect.object.position.z
             }
+            
         }
     }
 }
