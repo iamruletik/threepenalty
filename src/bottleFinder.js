@@ -35,7 +35,7 @@ export class BottleFinder {
         let modal = document.querySelector(".modalContainer")
         let modalButton = document.querySelector("#closeModal")
 
-        console.log(this.controls)
+        //console.log(this.controls)
 
         if (this.isHovering && !this.isCameraAnimating && !this.isModalActive) {
             console.log("fired")
@@ -52,7 +52,7 @@ export class BottleFinder {
             this.controls.enabled = false
             this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
             this.controls.moveTo(coords.x, coords.y, coords.z, true)
-            this.controls.dolly(18, true)
+            this.controls.dolly(this.camera.position.y - 2, true)
             
 
             gsap.to(modal, {
@@ -61,7 +61,7 @@ export class BottleFinder {
             })
 
             modalButton.addEventListener('click', (event) => {        
-                console.log("closed")       
+                //console.log("closed")       
                 this.controls.lookInDirectionOf(0, -100, 0, true)                
                 this.controls.moveTo(0, 0, 0, true)
                 this.controls.dolly(-18, true)
@@ -87,7 +87,7 @@ export class BottleFinder {
         
             //Iterate through all objects from GLTF file and add them to the provided scene
             this.intersectors = [...gltf.scene.children]
-            console.log(this.intersectors)
+            //console.log(this.intersectors)
             this.intersectorsDownloaded = true
             for (const child of this.intersectors) { 
                 this.scene.add(child)

@@ -1,10 +1,12 @@
+import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { ColliderCreator } from './colliderCreator.js'
 import RAPIER from '@dimforge/rapier3d'
+import gsap from 'gsap'
 
 export class SoccerScene {
 
-  constructor(scene, world) {
+  constructor(scene, world, camera, cameraControls) {
     this.pathToGLTFScene = '/SoccerFieldNew/SoccerFieldNew.gltf'
     this.soccerField = null
     this.soccerFieldObjectName = "SoccerField"
@@ -17,7 +19,15 @@ export class SoccerScene {
                             "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
                             "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
                           ]
-  }
+    this.bottleNames = [ 
+                          "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
+                          "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
+                        ]
+    this.bottles = []
+    this.camera = camera
+    this.cameraControls = cameraControls
+
+    }
 
   load() {
 
@@ -42,8 +52,36 @@ export class SoccerScene {
         this.soccerField.receiveShadow = true
         this.soccerField.castShadow = false
 
+        //Fund Soccer Inner Stripe
+        let soccerFieldStripe = this.scene.getObjectByName("SoccerFieldStripe")
+        soccerFieldStripe.material.map.offset.x = 0
+        soccerFieldStripe.material.emissiveMap.offset.x = 0
+        soccerFieldStripe.material.emissiveIntensity = 5
+
+
+        gsap.to(soccerFieldStripe.material.map.offset, {
+          x: -1,
+          repeat: -1,
+          ease: "none",
+          duration: 12
+        })
+
+        gsap.to(soccerFieldStripe.material.emissiveMap.offset, {
+          x: -1,
+          repeat: -1,
+          ease: "none",
+          duration: 12
+        }) 
+
+
         //Create Convex Hull Colliders for Specific Objects in the Scene
         colliderCreator.create(this.objectNames)
+
+        //Save Bottles in the Array
+        for (const objectName of this.bottleNames) { 
+          let temp = this.scene.getObjectByName(objectName)
+          this.bottles.push(temp)
+        }
 
 
     })
@@ -74,6 +112,15 @@ export class SoccerScene {
   }
 
   update() {
+    if (this.bottles) {
+      
+      for (const bottle of this.bottles) {
+        //bottle.rotation.y = this.camera.position.x / 4
+        bottle.lookAt(this.camera.position.x, bottle.position.y, this.camera.position.z)
+        bottle.material.opacity =  Math.min(Math.max(this.cameraControls.polarAngle, 0), 1)
+      }
+
+    }
 
   }
 

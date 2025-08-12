@@ -48,6 +48,7 @@ renderer.toneMapping = THREE.LinearToneMapping
 //Scene
 const scene = new THREE.Scene()
 //scene.fog = new THREE.Fog(backgroundColor, 1, 50)
+scene.background = new THREE.Color(backgroundColor)
 
 //Camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
@@ -94,8 +95,9 @@ sceneLights.loadLights()
 
 
 //Soccer Scene Loading
-let soccerScene = new SoccerScene(scene, world)
+let soccerScene = new SoccerScene(scene, world, camera, cameraControls)
 soccerScene.load()
+loop.updatables.push(soccerScene)
 
 //Soccer Ball Object
 let soccerBall = new SoccerBall(scene, world)
@@ -107,6 +109,7 @@ loop.updatables.push(soccerBall)
 let bottleFinder = new BottleFinder(camera, scene, cameraControls)
 bottleFinder.init()
 loop.updatables.push(bottleFinder)
+
 
 
 

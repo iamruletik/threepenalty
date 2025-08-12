@@ -431,6 +431,22 @@
 		},
 		{
 			"doubleSided":true,
+			"emissiveFactor":[
+				1,
+				1,
+				1
+			],
+			"emissiveTexture":{
+				"extensions":{
+					"KHR_texture_transform":{
+						"offset":[
+							0.44999998807907104,
+							0
+						]
+					}
+				},
+				"index":2
+			},
 			"name":"SoccerFieldStripeMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -442,10 +458,10 @@
 							]
 						}
 					},
-					"index":2
+					"index":3
 				},
 				"metallicFactor":0,
-				"roughnessFactor":0.5
+				"roughnessFactor":0
 			}
 		},
 		{
@@ -453,7 +469,7 @@
 			"name":"SoccerFieldOuterMaterial.001",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":3
+					"index":4
 				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
@@ -479,7 +495,7 @@
 			"name":"BottlesTexture",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":4
+					"index":5
 				},
 				"metallicFactor":0,
 				"roughnessFactor":0.11818182468414307
@@ -1101,6 +1117,14 @@
 			"extensions":{
 				"EXT_texture_webp":{
 					"source":1
+				}
+			},
+			"sampler":0
+		},
+		{
+			"extensions":{
+				"EXT_texture_webp":{
+					"source":2
 				}
 			},
 			"sampler":0
