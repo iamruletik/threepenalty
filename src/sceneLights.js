@@ -36,6 +36,11 @@ export class SceneLights {
 
 
 
+    const rectAreaLightSideBig = new THREE.RectAreaLight(0xFFFFFF, 0, 28,5)
+    rectAreaLightSideBig.rotation.set(0,Math.PI / 2,0)
+    rectAreaLightSideBig.position.set(14,-4,0)
+    rectAreaLightSideBig.power = 350
+    this.scene.add(rectAreaLightSideBig)
 
     //React Area Light Top
     const rectAreaLightTop = new THREE.RectAreaLight(0xFFFFFF, 0, 10,28)
@@ -143,6 +148,7 @@ export class SceneLights {
 
     //Light Helpers
     const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLightTop)
+    const rectAreaLightBigHelper = new RectAreaLightHelper(rectAreaLightSideBig)
     const rectAreaLightSideAHelper = new RectAreaLightHelper(rectAreaLightSideA)
     const rectAreaLightSideBHelper = new RectAreaLightHelper(rectAreaLightSideB)
     const rectAreaLightSideCHelper = new RectAreaLightHelper(rectAreaLightSideC)
@@ -154,6 +160,7 @@ export class SceneLights {
       scene.add(rectAreaLightSideBHelper) 
       scene.add(rectAreaLightSideCHelper) 
       scene.add(rectAreaLightSideDHelper) 
+      scene.add(rectAreaLightBigHelper) 
     }
     function removeHelpers(scene) { 
       scene.remove(rectAreaLightHelper)
@@ -161,6 +168,7 @@ export class SceneLights {
       scene.remove(rectAreaLightSideBHelper)
       scene.remove(rectAreaLightSideCHelper)
       scene.remove(rectAreaLightSideDHelper)
+      scene.remove(rectAreaLightBigHelper)
     }
 
   }
