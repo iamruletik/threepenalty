@@ -20,6 +20,8 @@ export class BottleFinder {
         this.isHovering = false
         this.hoverableIntersector = null
         this.isModalActive = false
+        this.activeModal = null
+        this.activeModalButton = null
     }
 
     onPointerMove(event) {
@@ -32,13 +34,68 @@ export class BottleFinder {
 
     onPointerClick(event) {
 
-        let modal = document.querySelector(".modalContainer")
-        let modalButton = document.querySelector("#closeModal")
+        this.activeModal = document.querySelector(".modalContainer")
+        this.activeModalButton = this.activeModal.querySelector("#closeModal")
 
-        //console.log(this.controls)
 
         if (this.isHovering && !this.isCameraAnimating && !this.isModalActive) {
-            console.log("fired")
+            
+            let intersectorNumber = this.hoverableIntersector.userData.name.slice(-2)
+            let bottleCap = null
+            let bottle = null
+
+            console.log(intersectorNumber)
+
+            switch (intersectorNumber) {
+                case "01": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"03")
+                    bottle = this.scene.getObjectByName("BottlePlaneBrah")
+                    break;
+                case "02": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"07")
+                    bottle = this.scene.getObjectByName("BottlePlaneGg")
+                    break;
+                case "03": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"09")
+                    bottle = this.scene.getObjectByName("BottlePlaneBs")
+                    break;
+                case "04": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"01")
+                    bottle = this.scene.getObjectByName("BottlePlaneStella")
+                    break;
+                case "05": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"05")
+                    bottle = this.scene.getObjectByName("BottlePlaneKoz")
+                    break;
+                case "06": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"04")
+                    bottle = this.scene.getObjectByName("BottlePlaneNtx") 
+                    break;
+                case "07": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"06")
+                    bottle = this.scene.getObjectByName("BottlePlaneZn")
+                    break;
+                case "08": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"02")
+                    bottle = this.scene.getObjectByName("BottlePlaneEssa")
+                    break;
+                case "09": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"08")
+                    bottle = this.scene.getObjectByName("BottlePlaneRf")
+                    break;
+                case "10": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"10")
+                    bottle = this.scene.getObjectByName("BottlePlaneLowe")
+                    break;
+                case "11": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"11")
+                    bottle = this.scene.getObjectByName("BottlePlaneHg")
+                    break;
+                case "12": 
+                    bottleCap = this.scene.getObjectByName("BottleCap"+"12")
+                    bottle = this.scene.getObjectByName("BottlePlaneAmster")
+                    break;
+            }
 
             this.isHovering = false
             this.isCameraAnimating = true
@@ -49,32 +106,47 @@ export class BottleFinder {
                 y: this.hoverableIntersector.position.y,
                 z: this.hoverableIntersector.position.z,
             }
+
+            let distance = this.camera.position.distanceTo(new THREE.Vector3(coords.x, coords.y, coords.z))
+            let compensate = Math.min(Math.max(distance, 0), 18)
+
             this.controls.enabled = false
             this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
             this.controls.moveTo(coords.x, coords.y, coords.z, true)
-            this.controls.dolly(this.camera.position.y - 2, true)
+            this.controls.dolly(compensate, true)
             
+            
+            this.showModal()
 
-            gsap.to(modal, {
-                yPercent: -100,
-                delay: 1
-            })
-
-            modalButton.addEventListener('click', (event) => {        
-                //console.log("closed")       
-                this.controls.lookInDirectionOf(0, -100, 0, true)                
-                this.controls.moveTo(0, 0, 0, true)
-                this.controls.dolly(-18, true)
-               
-                gsap.to(modal, {
-                    yPercent: 100
-                })
-                this.controls.enabled = true 
-                this.isModalActive = false
-                this.isCameraAnimating = false
+            this.activeModalButton.addEventListener('click', (event) => {      
+                this.resetCamera()  
+                this.closeModal()
             })
         }
 
+    }
+
+    resetCamera() {
+            //console.log("closed")       
+            this.controls.lookInDirectionOf(0, -100, 0, true)                
+            this.controls.moveTo(0, 0, 0, true)
+            this.controls.dolly(-18, true)
+
+            this.controls.enabled = true 
+            this.isCameraAnimating = false
+    }
+
+    closeModal() {
+            gsap.to(this.activeModal, { yPercent: 100 })
+            this.isModalActive = false
+    }
+
+    showModal() {
+        //Show Modal
+        gsap.to(this.activeModal, {
+            yPercent: -100,
+            delay: 1
+        })
     }
 
     init() {

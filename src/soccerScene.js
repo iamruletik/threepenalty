@@ -34,8 +34,6 @@ export class SoccerScene {
     let colliderCreator = new ColliderCreator(this.scene, this.world)
 
 
-
-
    //Load Soccer Field
     this.gltfLoader.load(this.pathToGLTFScene, (gltf) => {
 
@@ -58,7 +56,7 @@ export class SoccerScene {
         soccerFieldStripe.material.emissiveMap.offset.x = 0
         soccerFieldStripe.material.emissiveIntensity = 5
 
-
+        //Animate Ads Strip
         gsap.to(soccerFieldStripe.material.map.offset, {
           x: -1,
           repeat: -1,
@@ -66,6 +64,7 @@ export class SoccerScene {
           duration: 12
         })
 
+        //Animate Ads Strip
         gsap.to(soccerFieldStripe.material.emissiveMap.offset, {
           x: -1,
           repeat: -1,

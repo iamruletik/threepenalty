@@ -58,6 +58,7 @@ class Loop {
   }
 
   stop() {
+    this.renderer.clear()
     this.renderer.setAnimationLoop(null)
   }
 

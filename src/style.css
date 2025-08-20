@@ -48,3 +48,38 @@ button {
     width: 35vw;
     height: 5vh;
 }
+
+#penalty {
+  width: 10vw;
+  height: 5vw;
+  position: fixed;
+  bottom: 10%;
+  left: calc(50% - 10vw/2);
+  background-color: black;
+  color: white;
+  font-size: 2rem;
+  z-index: 2;
+}
+
+#closePenalty {
+  width: 10vw;
+  height: 5vw;
+  position: fixed;
+  bottom: 5%;
+  left: calc(50% - 10vw/2);
+  background-color: black;
+  color: white;
+  font-size: 2rem;
+  z-index: 1;
+  visibility: hidden;
+}
+
+#kickButton {
+  width: 15vw;
+  position: fixed;
+  bottom: 15%;
+  left: calc(50% - 15vw/2);
+  font-size: 2rem;
+  z-index: 1;
+  visibility: hidden;
+}

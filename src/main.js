@@ -9,6 +9,7 @@ import { SoccerScene } from './soccerScene.js'
 import { SoccerBall } from './soccerBall.js'
 import { SceneLights } from './sceneLights.js'
 import { BottleFinder } from './bottleFinder.js'
+import { Penalty } from './penaltyModule.js'
 import { Loop } from './loop.js'
 
 
@@ -58,6 +59,7 @@ scene.add(camera)
 //Loop Module
 let loop = new Loop(camera, scene, renderer, world, fpsGraph)
 loop.start()
+
 
 
 //CameraControls
@@ -111,9 +113,36 @@ bottleFinder.init()
 loop.updatables.push(bottleFinder)
 
 
+//Penalty Module
+let penalty = new Penalty(cameraControls, scene, world)
+let penaltyButton = document.querySelector("#penalty")
+let closeButton = document.querySelector("#closePenalty")
+let kickButton = document.querySelector("#kickButton")
+
+
+penaltyButton.addEventListener("click", (event) => {
+    penalty.init()
+    loop.updatables.pop()
+    loop.updatables.push(penalty)
+    closeButton.style.visibility = "visible"
+    kickButton.style.visibility = "visible"
+    penaltyButton.style.visibility = "hidden"
+    console.log(loop.updatables)
+}, true)
+
+
+closeButton.addEventListener("click", (event) => {
+    penalty.stop()
+    closeButton.style.visibility = "hidden"
+    kickButton.style.visibility = "hidden"
+    penaltyButton.style.visibility = "visible"
+    loop.updatables.pop()
+    loop.updatables.push(bottleFinder)
+}, true)
 
 
 
+console.log(loop.updatables)
 
 
 

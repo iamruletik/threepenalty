@@ -29,7 +29,7 @@ export class SoccerBall {
 
         // Create a dynamic rigid-body for a Ball
         let ballRigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-            .setTranslation(0.0, 1.0, 0.0)
+            .setTranslation(0.0, 0.0, 0.0)
             .setAdditionalMass(0.5)
         let ballRigidBody = this.world.createRigidBody(ballRigidBodyDesc)
         
@@ -52,7 +52,7 @@ export class SoccerBall {
         this.eventQueue.drainCollisionEvents((handle1, handle2, started) => {
             this.world.getRigidBody(0).sleep()
             this.world.getRigidBody(0).resetForces()
-            this.world.getRigidBody(0).setTranslation({ x: 0.0, y: 0.3, z: 0.0 }, true)
+            this.world.getRigidBody(0).setTranslation({ x: 0.0, y: 0.0, z: 0.0 }, true)
             //buttonState = BUTTON_IDLE
         })
   }
