@@ -17,6 +17,7 @@
     "@tweakpane/plugin-essentials": "^0.2.1",
     "camera-controls": "^3.1.0",
     "gsap": "^3.13.0",
+    "swiper": "^11.2.10",
     "three": "^0.178.0",
     "tweakpane": "^4.0.5",
     "vite-plugin-restart": "^1.0.0",

@@ -7,6 +7,14 @@ body {
   overflow: hidden;
 }
 
+html,body {
+  min-height: 100vh;
+}
+
+.dn {
+  display: none !important;
+}
+
 .progressBar {
   display: none;
   position: absolute;
@@ -47,4 +55,18 @@ body {
 button {
     width: 35vw;
     height: 5vh;
+}
+
+.bottle-container {
+  max-width: 100%;
+  height: 100%;
+}
+
+.bottle-container .swiper {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.swiper-slide img {
+  max-width: 100%;
 }
