@@ -83,3 +83,47 @@ button {
   z-index: 1;
   visibility: hidden;
 }
+
+.powerRings {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateY(-5px);
+}
+
+.soccerBallSvg {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateY(-5px);
+}
+
+.powerGradient {
+  --clip: 5%;
+  background: radial-gradient(50% 50% at 50% 50%, #72F322 0%, #FFAE00 54.33%, #F33322 100%);
+  filter: blur(24px);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateY(-5px);
+  clip-path: circle(var(--clip));
+  animation: circle 2s infinite linear;
+}
+
+.paused {
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused; 
+    animation-play-state:paused;
+}

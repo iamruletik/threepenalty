@@ -50,7 +50,7 @@ export class SoccerScene {
         this.soccerField.receiveShadow = true
         this.soccerField.castShadow = false
 
-        //Fund Soccer Inner Stripe
+        //Find Soccer Inner Stripe
         let soccerFieldStripe = this.scene.getObjectByName("SoccerFieldStripe")
         soccerFieldStripe.material.map.offset.x = 0
         soccerFieldStripe.material.emissiveMap.offset.x = 0
