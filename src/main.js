@@ -23,7 +23,7 @@ pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
 //Debug Folder
-const debug = pane.addFolder({ title: 'Scene Debug' })
+const debug = pane.addFolder({ title: 'Scene Debug', expanded: false})
 let fpsGraph = debug.addBlade({
                                             view: 'fpsgraph',
                                             label: 'FPS',
@@ -118,17 +118,16 @@ let penalty = new Penalty(cameraControls, scene, world)
 let penaltyButton = document.querySelector("#penalty")
 let closeButton = document.querySelector("#closePenalty")
 let kickButton = document.querySelector("#kickButton")
-let kickDirectionArrow = document.querySelector(".kickDirectionArrow")
 
 
 penaltyButton.addEventListener("click", (event) => {
     penalty.init()
     loop.updatables.pop()
     loop.updatables.push(penalty)
+    penaltyButton.style.visibility = "hidden"
     closeButton.style.visibility = "visible"
     kickButton.style.visibility = "visible"
-    kickDirectionArrow.style.visibility = "visible"
-    penaltyButton.style.visibility = "hidden"
+    
 }, true)
 
 
@@ -137,7 +136,6 @@ closeButton.addEventListener("click", (event) => {
     closeButton.style.visibility = "hidden"
     kickButton.style.visibility = "hidden"
     penaltyButton.style.visibility = "visible"
-    kickDirectionArrow.style.visibility = "hidden"
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)
 }, true)

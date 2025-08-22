@@ -50,11 +50,11 @@ button {
 }
 
 #penalty {
-  width: 10vw;
-  height: 5vw;
+  width: 30vw;
+  height: 15vw;
   position: fixed;
   bottom: 10%;
-  left: calc(50% - 10vw/2);
+  left: calc(50% - 30vw/2);
   font-size: 2rem;
   z-index: 2;
   cursor: pointer;
@@ -73,45 +73,7 @@ button {
   visibility: hidden;
 }
 
-#kickButton {
-  width: 15vw;
-  position: fixed;
-  bottom: 15%;
-  left: calc(50% - 15vw/2);
-  font-size: 2rem;
-  z-index: 1;
-  visibility: hidden;
-}
-
-.powerRings {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  transform: translateY(-5px);
-}
-
-.soccerBallSvg {
-  position: absolute;
-  z-index: 3;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  transform: translateY(-5px);
-}
-
-.kickDirectionArrow{
-  width: 6vw;
-  position: fixed;
-  bottom: 6%;
-  left: calc(50% - 6vw/2);
-  visibility:hidden;
-}
-
-.powerGradient {
+#powerGradient {
   --clip: 5%;
   background: radial-gradient(50% 50% at 50% 50%, #72F322 0%, #FFAE00 54.33%, #F33322 100%);
   filter: blur(24px);
@@ -123,23 +85,20 @@ button {
   right: 0;
   top: 0;
   bottom: 0;
-  transform: translateY(-5px);
+  transform: translateY(-2px);
   clip-path: circle(var(--clip));
   animation: circle 2s infinite linear;
 }
 
-.paused {
-    -webkit-animation-play-state:paused;
-    -moz-animation-play-state:paused;
-    -o-animation-play-state:paused; 
-    animation-play-state:paused;
-}
-
 .penalty-button {
   position: fixed;
-  bottom: 0;
-  visibility: visible;
-  width: 8vw;
-  left: calc(50% - 8vw/2);
+  bottom: 10%;
+  visibility: hidden;
+  width: 30vw;
+  left: calc(50% - 30vw/2);
   z-index: 1;
+}
+
+.kickDirectionArrow {
+
 }

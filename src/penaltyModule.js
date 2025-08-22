@@ -14,7 +14,7 @@ export class Penalty {
     this.world = world
     this.buttonState = BUTTON_IDLE
     this.kickButton = document.querySelector("#kickButton")
-    this.powerGradient = document.querySelector(".powerGradient")
+    this.powerGradient = document.querySelector("#powerGradient")
     this.kickDirectionArrow = document.querySelector(".kickDirectionArrow")
     this.objectNames = [ 
                             "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
@@ -38,14 +38,15 @@ export class Penalty {
 
   init() {
 
-    this.buttonState = BUTTON_KICK_POWER
+    this.buttonState = BUTTON_KICK_DIRECTION
+    
 
     this.timeClicked++
 
     this.moveCamera()
 
     this.powerGradient.classList.remove("paused")
-    this.powerTimeline.restart()
+    this.directionTimeline.restart()
     this.moveGateKeeper.restart()
 
     if (this.timeClicked <= 1) {
@@ -76,32 +77,35 @@ export class Penalty {
 
     
     this.kick.power = 0
+    this.powerTimeline.pause()
 
     this.powerTimeline.to(this.kick, {
         power: 10,
         yoyo: true,
         repeat: -1,
-        duration: 2,
+        duration: 1,
         ease: "none",
         onUpdate: () => {
         }
     })
-    this.powerTimeline.fromTo(".powerGradient", {
+    this.powerTimeline.fromTo("#powerGradient", {
         "--clip": '5%',
     }, {
-        "--clip": '48%',
+        "--clip": '55%',
         yoyo: true,
         repeat: -1,
-        duration: 2,
+        duration: 1,
         ease: "none"
     }, "<")
 
 
-     this.directionTimeline.to(".kickDirectionArrow", {
-      rotationZ: 90,
+     this.directionTimeline.to("#arrow-container", {
+      rotation: 90,
+      transformOrigin: "center center",
       yoyo: true,
       repeat: -1,
-      duration: 2,
+      duration: 1,
+      ease: "none"
      })
     
 
@@ -114,12 +118,15 @@ export class Penalty {
 
         switch (this.buttonState) {
 
-          case BUTTON_KICK_POWER:
-                this.buttonState = BUTTON_KICK_DIRECTION
+          case BUTTON_KICK_DIRECTION:
+                this.directionTimeline.pause()
+                this.powerTimeline.restart()
+                this.buttonState = BUTTON_KICK_POWER
                 break;
 
-          case BUTTON_KICK_DIRECTION:
+          case BUTTON_KICK_POWER:
                 this.buttonState = BUTTON_INACTIVE
+                this.powerTimeline.pause()
                 this.world.getRigidBody(0).resetForces()
                 this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
                 this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
