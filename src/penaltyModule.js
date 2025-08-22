@@ -70,6 +70,7 @@ export class Penalty {
     this.moveGateKeeper = gsap.timeline()
     this.timeClicked = 0
     this.isGoal = false
+    this.isExiting = false
   }
 
   init() {
@@ -177,13 +178,15 @@ export class Penalty {
 
 
      let resetTimer = (event) => {
-        if (!this.isGoal) {
+        if (!this.isGoal && !this.isExiting) {
           this.stop()
           this.init()
           missSignTimeline.restart()
           console.log("TIME RESET " + this.isGoal)
         } else if (this.isGoal) {
           this.isGoal = false
+        } else if (this.isExiting) {
+          this.isExiting = false
         }
      }
     

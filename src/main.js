@@ -82,6 +82,7 @@ penaltyButton.addEventListener("click", (event) => {
 
 
 closeButton.addEventListener("click", (event) => {
+    penalty.isExiting = true
     penalty.stop()
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)
