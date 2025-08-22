@@ -116,3 +116,26 @@ body {
   left: calc(50% - 30vw/2);
   z-index: 1;
 }
+
+
+.signContainer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.goalSign {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.missSign {
+  pointer-events: none;
+  opacity: 0;
+}

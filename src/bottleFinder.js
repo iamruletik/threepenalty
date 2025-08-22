@@ -40,7 +40,7 @@ export class BottleFinder {
         } else if (hoverCheck) {
             this.onTopOfOtherObjects = false
         }
-       console.log(this.onTopOfOtherObjects)
+       //console.log(this.onTopOfOtherObjects)
     }
 
     onPointerClick(event) {

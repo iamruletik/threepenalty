@@ -56,12 +56,6 @@ const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerH
 camera.position.set(0,35,0)
 scene.add(camera)
 
-//Loop Module
-let loop = new Loop(camera, scene, renderer, world, fpsGraph)
-loop.start()
-
-
-
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
@@ -72,7 +66,35 @@ cameraControls.maxAzimuthAngle = Math.PI / 2
 cameraControls.minPolarAngle = -Math.PI / 2
 cameraControls.maxPolarAngle = Math.PI / 3
 cameraControls.smoothTime = 0.5
+
+//Penalty Module
+let penalty = new Penalty(cameraControls, scene, world)
+let penaltyButton = document.querySelector("#penalty")
+let closeButton = document.querySelector("#closePenalty")
+let kickButton = document.querySelector("#kickButton")
+
+
+penaltyButton.addEventListener("click", (event) => {
+    penalty.init()
+    loop.updatables.pop()
+    loop.updatables.push(penalty)    
+}, true)
+
+
+closeButton.addEventListener("click", (event) => {
+    penalty.stop()
+    loop.updatables.pop()
+    loop.updatables.push(bottleFinder)
+}, true)
+
+//Loop Module
+let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
+loop.start()
+
+
 loop.updatables.push(cameraControls)
+
+
 
 
 //Debug Render for Physics
@@ -113,25 +135,7 @@ bottleFinder.init()
 loop.updatables.push(bottleFinder)
 
 
-//Penalty Module
-let penalty = new Penalty(cameraControls, scene, world)
-let penaltyButton = document.querySelector("#penalty")
-let closeButton = document.querySelector("#closePenalty")
-let kickButton = document.querySelector("#kickButton")
 
-
-penaltyButton.addEventListener("click", (event) => {
-    penalty.init()
-    loop.updatables.pop()
-    loop.updatables.push(penalty)    
-}, true)
-
-
-closeButton.addEventListener("click", (event) => {
-    penalty.stop()
-    loop.updatables.pop()
-    loop.updatables.push(bottleFinder)
-}, true)
 
 
 

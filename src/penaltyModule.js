@@ -5,6 +5,41 @@ const BUTTON_IDLE = 0, BUTTON_KICK_DIRECTION = 2, BUTTON_KICK_POWER = 1, BUTTON_
 const ARROW_RIGHT = -1, ARROW_LEFT = 1
 const POWER_DOWN = -1, POWER_UP = 1
 
+const goalSign = document.querySelector(".goalSign")
+const missSign = document.querySelector(".missSign")
+const goalSignTimeline = gsap.timeline()
+const missSignTimeline = gsap.timeline()
+
+goalSignTimeline.set(goalSign, { scale: 0, autoAlpha: 0 })
+
+goalSignTimeline.fromTo(goalSign, {
+  scale: 0,
+  autoAlpha: 0
+}, {
+  scale: 1,
+  autoAlpha: 1,
+  duration: 2,
+  ease: "power2.inOut"
+})
+goalSignTimeline.to(goalSign, {
+  autoAlpha: 0
+}, ">").pause()
+
+
+missSignTimeline.set(missSign, { scale: 0, autoAlpha: 0 })
+
+missSignTimeline.fromTo(missSign, {
+  scale: 0,
+  autoAlpha: 0
+}, {
+  scale: 1,
+  autoAlpha: 1,
+  duration: 2,
+  ease: "power2.inOut"
+})
+missSignTimeline.to(missSign, {
+  autoAlpha: 0
+}, ">").pause()
 
 export class Penalty {
   
@@ -34,11 +69,13 @@ export class Penalty {
     this.directionTimeline = gsap.timeline()
     this.moveGateKeeper = gsap.timeline()
     this.timeClicked = 0
+    this.isGoal = false
   }
 
   init() {
 
     this.buttonState = BUTTON_KICK_DIRECTION
+    console.log("INIT " + this.isGoal)
     
 
     this.timeClicked++
@@ -80,6 +117,18 @@ export class Penalty {
     this.world.getRigidBody(0).applyImpulse({ x: 0.9, y: 0.0, z: -1}, true)
   }
 
+  goal() {
+            this.isGoal = true
+            console.log("GOAL " + this.isGoal)
+
+            setTimeout(() => {
+              this.stop()
+              this.init()
+              goalSignTimeline.restart()
+            }, 1000)
+
+  }
+
   setupButton() {
 
     
@@ -106,9 +155,9 @@ export class Penalty {
     }, "<")
 
     this.directionTimeline.fromTo(this.kick, {
-        direction: -10,
+        direction: -7,
     }, {
-        direction: 10,
+        direction: 7,
         yoyo: true,
         repeat: -1,
         duration: 1,
@@ -128,10 +177,14 @@ export class Penalty {
 
 
      let resetTimer = (event) => {
-        this.controls.dolly(-5, true)
-        this.world.getRigidBody(0).resetForces()
-        this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
-        this.world.getRigidBody(0).sleep()
+        if (!this.isGoal) {
+          this.stop()
+          this.init()
+          missSignTimeline.restart()
+          console.log("TIME RESET " + this.isGoal)
+        } else if (this.isGoal) {
+          this.isGoal = false
+        }
      }
     
 
@@ -157,6 +210,7 @@ export class Penalty {
                 this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
                 this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
                 this.world.getRigidBody(0).applyImpulse({ x: this.kick.direction, y: this.kick.power, z: -this.kick.power }, true)
+                setTimeout(resetTimer, 5000)
                 break;
         }
         

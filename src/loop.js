@@ -3,9 +3,11 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+import RAPIER from '@dimforge/rapier3d'
+import { Penalty } from './penaltyModule'
 
 class Loop {
-  constructor(camera, scene, renderer, world, debug) {
+  constructor(camera, scene, renderer, world, debug, penalty) {
     this.camera = camera
     this.scene = scene
     this.renderer = renderer
@@ -15,6 +17,8 @@ class Loop {
     this.clock = new THREE.Clock()
     this.composer = new EffectComposer(renderer)
     this.renderScene = new RenderPass(scene, camera)
+    this.eventQueue = new RAPIER.EventQueue(true)
+    this.penalty = penalty
   }
 
   start() {
@@ -36,8 +40,17 @@ class Loop {
     this.composer.addPass( bloomPass )
     this.composer.addPass( outputPass )
 
+
+
     this.renderer.setAnimationLoop(() => {
         this.fpsGraph.begin()
+
+        this.eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+          if (started) {
+            this.penalty.goal()
+            console.log("COLLISION DETECTED")
+          }          
+        });
         
         //Clock
         let delta = this.clock.getDelta()
