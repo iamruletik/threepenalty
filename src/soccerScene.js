@@ -106,7 +106,12 @@ export class SoccerScene {
           }
 
         }
+
+        return true;
     })
+
+
+    
     
   }
 

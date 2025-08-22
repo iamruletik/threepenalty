@@ -15,6 +15,7 @@ export class Penalty {
     this.buttonState = BUTTON_IDLE
     this.kickButton = document.querySelector("#kickButton")
     this.powerGradient = document.querySelector(".powerGradient")
+    this.kickDirectionArrow = document.querySelector(".kickDirectionArrow")
     this.objectNames = [ 
                             "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
                             "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
@@ -29,28 +30,29 @@ export class Penalty {
         power: 0,
         direction: 0
     }
+    this.powerTimeline = gsap.timeline()
+    this.directionTimeline = gsap.timeline()
+    this.moveGateKeeper = gsap.timeline()
+    this.timeClicked = 0
   }
 
   init() {
 
-    //Set Button State
     this.buttonState = BUTTON_KICK_POWER
+
+    this.timeClicked++
 
     this.moveCamera()
 
-    this.setupButton()
+    this.powerGradient.classList.remove("paused")
+    this.powerTimeline.restart()
+    this.moveGateKeeper.restart()
 
-    this.saveBottlePositions()
+    if (this.timeClicked <= 1) {
+        this.setupButton()
+        this.saveBottlePositions()
+    }
 
-
-
-    //moveBottles()
-
-    //resetBall()
-
-    //animateGateKeeper()
-
-    //eventListeners()
 
 
   }
@@ -66,17 +68,16 @@ export class Penalty {
 
     this.controls.addEventListener("rest", (event) => {
         this.world.getRigidBody(0).sleep()
-        console.log('fired')
     })
 
   }
 
   setupButton() {
 
-    let powerTimeline = gsap.timeline()
+    
     this.kick.power = 0
 
-    powerTimeline.to(this.kick, {
+    this.powerTimeline.to(this.kick, {
         power: 10,
         yoyo: true,
         repeat: -1,
@@ -85,7 +86,7 @@ export class Penalty {
         onUpdate: () => {
         }
     })
-    powerTimeline.fromTo(".powerGradient", {
+    this.powerTimeline.fromTo(".powerGradient", {
         "--clip": '5%',
     }, {
         "--clip": '48%',
@@ -95,30 +96,38 @@ export class Penalty {
         ease: "none"
     }, "<")
 
-    this.powerGradient.classList.remove("paused")
-    powerTimeline.restart()
+
+     this.directionTimeline.to(".kickDirectionArrow", {
+      rotationZ: 90,
+      yoyo: true,
+      repeat: -1,
+      duration: 2,
+     })
     
 
-    kickButton.addEventListener("click", (event) => {
+    this.kickButton.addEventListener("click", (event) => {
+      console.log("click on button")
 
-         powerTimeline.pause()
+         this.powerTimeline.pause()
         //Stop Gradient Animation
         this.powerGradient.classList.add("paused")
 
-         if (this.buttonState == BUTTON_KICK_POWER) {
+        switch (this.buttonState) {
 
+          case BUTTON_KICK_POWER:
+                this.buttonState = BUTTON_KICK_DIRECTION
+                break;
 
-            console.log(this.kick.power)
-
-            this.buttonState = BUTTON_KICK_DIRECTION
-        } else if (this.buttonState == BUTTON_KICK_DIRECTION) {
-            this.buttonState = BUTTON_INACTIVE
-            this.world.getRigidBody(0).resetForces()
-            this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
-            this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
-            //world.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
-            this.world.getRigidBody(0).applyImpulse({ x: 0.0, y: this.kick.power, z: -this.kick.power }, true)
+          case BUTTON_KICK_DIRECTION:
+                this.buttonState = BUTTON_INACTIVE
+                this.world.getRigidBody(0).resetForces()
+                this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
+                this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
+                //world.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
+                this.world.getRigidBody(0).applyImpulse({ x: 0.0, y: this.kick.power, z: -this.kick.power }, true)
+                break;
         }
+        
     }, true)
   }
 
@@ -144,9 +153,7 @@ export class Penalty {
         i++
     }
 
-    console.log(this.bottleGroups)
-
-    gsap.fromTo(this.bottleGroups[11].position, {
+   this.moveGateKeeper.fromTo(this.bottleGroups[11].position, {
         x: -3
     }, {
         x: 3,
@@ -154,7 +161,10 @@ export class Penalty {
         repeat: -1,
         ease: "none",
         duration: 1
-    })
+    }).restart()
+
+
+
 
   }
 
@@ -164,6 +174,11 @@ export class Penalty {
   }
 
   stop() {
+
+    this.moveGateKeeper.pause()
+    //Set Button State
+    this.buttonState = BUTTON_IDLE
+
     this.world.getRigidBody(0).resetForces()
     this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
     this.world.getRigidBody(0).sleep()

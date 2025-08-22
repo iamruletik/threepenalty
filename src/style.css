@@ -104,6 +104,14 @@ button {
   transform: translateY(-5px);
 }
 
+.kickDirectionArrow{
+  width: 6vw;
+  position: fixed;
+  bottom: 6%;
+  left: calc(50% - 6vw/2);
+  visibility:hidden;
+}
+
 .powerGradient {
   --clip: 5%;
   background: radial-gradient(50% 50% at 50% 50%, #72F322 0%, #FFAE00 54.33%, #F33322 100%);

@@ -118,6 +118,7 @@ let penalty = new Penalty(cameraControls, scene, world)
 let penaltyButton = document.querySelector("#penalty")
 let closeButton = document.querySelector("#closePenalty")
 let kickButton = document.querySelector("#kickButton")
+let kickDirectionArrow = document.querySelector(".kickDirectionArrow")
 
 
 penaltyButton.addEventListener("click", (event) => {
@@ -126,8 +127,8 @@ penaltyButton.addEventListener("click", (event) => {
     loop.updatables.push(penalty)
     closeButton.style.visibility = "visible"
     kickButton.style.visibility = "visible"
+    kickDirectionArrow.style.visibility = "visible"
     penaltyButton.style.visibility = "hidden"
-    console.log(loop.updatables)
 }, true)
 
 
@@ -136,14 +137,10 @@ closeButton.addEventListener("click", (event) => {
     closeButton.style.visibility = "hidden"
     kickButton.style.visibility = "hidden"
     penaltyButton.style.visibility = "visible"
+    kickDirectionArrow.style.visibility = "hidden"
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)
 }, true)
-
-
-
-console.log(loop.updatables)
-
 
 
 
