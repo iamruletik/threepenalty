@@ -123,19 +123,12 @@ let kickButton = document.querySelector("#kickButton")
 penaltyButton.addEventListener("click", (event) => {
     penalty.init()
     loop.updatables.pop()
-    loop.updatables.push(penalty)
-    penaltyButton.style.visibility = "hidden"
-    closeButton.style.visibility = "visible"
-    kickButton.style.visibility = "visible"
-    
+    loop.updatables.push(penalty)    
 }, true)
 
 
 closeButton.addEventListener("click", (event) => {
     penalty.stop()
-    closeButton.style.visibility = "hidden"
-    kickButton.style.visibility = "hidden"
-    penaltyButton.style.visibility = "visible"
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)
 }, true)

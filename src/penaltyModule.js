@@ -13,9 +13,9 @@ export class Penalty {
     this.scene = scene
     this.world = world
     this.buttonState = BUTTON_IDLE
+    this.penaltyButton = document.querySelector("#penalty")
     this.kickButton = document.querySelector("#kickButton")
-    this.powerGradient = document.querySelector("#powerGradient")
-    this.kickDirectionArrow = document.querySelector(".kickDirectionArrow")
+    this.closeButton = document.querySelector("#closePenalty")
     this.objectNames = [ 
                             "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
                             "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
@@ -45,7 +45,18 @@ export class Penalty {
 
     this.moveCamera()
 
-    this.powerGradient.classList.remove("paused")
+    
+
+    let cameraRest = (event) => {
+        this.world.getRigidBody(0).sleep()
+        this.closeButton.style.visibility = "visible"
+        this.kickButton.style.visibility = "visible"
+        this.controls.removeEventListener("rest", cameraRest)
+    }
+
+    this.controls.addEventListener("rest", cameraRest)
+
+    this.penaltyButton.style.visibility = "hidden"
     this.directionTimeline.restart()
     this.powerTimeline.time(0).kill()
     this.moveGateKeeper.restart()
@@ -67,11 +78,6 @@ export class Penalty {
     this.controls.dolly(16, true)
     this.world.getRigidBody(0).resetForces()
     this.world.getRigidBody(0).applyImpulse({ x: 0.9, y: 0.0, z: -1}, true)
-
-    this.controls.addEventListener("rest", (event) => {
-        this.world.getRigidBody(0).sleep()
-    })
-
   }
 
   setupButton() {
@@ -108,7 +114,7 @@ export class Penalty {
         duration: 1,
         ease: "none",
         onUpdate: () => {
-          console.log(this.kick.direction)
+          //console.log(this.kick.direction)
         }
     })
      this.directionTimeline.to("#arrow-container", {
@@ -119,14 +125,20 @@ export class Penalty {
       duration: 1,
       ease: "none",
      }, "<")
+
+
+     let resetTimer = (event) => {
+        this.controls.dolly(-5, true)
+        this.world.getRigidBody(0).resetForces()
+        this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
+        this.world.getRigidBody(0).sleep()
+     }
     
 
     this.kickButton.addEventListener("click", (event) => {
       console.log("click on button")
 
          this.powerTimeline.pause()
-        //Stop Gradient Animation
-        this.powerGradient.classList.add("paused")
 
         switch (this.buttonState) {
 
@@ -139,10 +151,11 @@ export class Penalty {
           case BUTTON_KICK_POWER:
                 this.buttonState = BUTTON_INACTIVE
                 this.powerTimeline.pause()
+                this.kickButton.style.visibility = "hidden"
+                this.controls.dolly(5, true)
                 this.world.getRigidBody(0).resetForces()
                 this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
                 this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
-                //world.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
                 this.world.getRigidBody(0).applyImpulse({ x: this.kick.direction, y: this.kick.power, z: -this.kick.power }, true)
                 break;
         }
@@ -197,6 +210,10 @@ export class Penalty {
     this.moveGateKeeper.pause()
     //Set Button State
     this.buttonState = BUTTON_IDLE
+
+    this.closeButton.style.visibility = "hidden"
+    this.kickButton.style.visibility = "hidden"
+    this.penaltyButton.style.visibility = "visible"
 
     this.world.getRigidBody(0).resetForces()
     this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
