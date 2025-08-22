@@ -40,7 +40,7 @@ const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance"  })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(1)
+renderer.setPixelRatio(2)
 renderer.setClearColor(backgroundColor)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -52,8 +52,8 @@ const scene = new THREE.Scene()
 scene.background = new THREE.Color(backgroundColor)
 
 //Camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
-camera.position.set(0,20,0)
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
+camera.position.set(0,35,0)
 scene.add(camera)
 
 //Loop Module
@@ -65,7 +65,7 @@ loop.start()
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
-cameraControls.maxDistance = 20
+cameraControls.maxDistance = 35
 cameraControls.maxZoom = 1
 cameraControls.minAzimuthAngle = -Math.PI / 2
 cameraControls.maxAzimuthAngle = Math.PI / 2

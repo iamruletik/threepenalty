@@ -108,7 +108,7 @@ export class BottleFinder {
             }
 
             let distance = this.camera.position.distanceTo(new THREE.Vector3(coords.x, coords.y, coords.z))
-            let compensate = Math.min(Math.max(distance, 0), 18)
+            let compensate = Math.min(Math.max(distance, 0), 30)
 
             this.controls.enabled = false
             this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
@@ -130,7 +130,7 @@ export class BottleFinder {
             //console.log("closed")       
             this.controls.lookInDirectionOf(0, -100, 0, true)                
             this.controls.moveTo(0, 0, 0, true)
-            this.controls.dolly(-18, true)
+            this.controls.dolly(-30, true)
 
             this.controls.enabled = true 
             this.isCameraAnimating = false

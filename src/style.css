@@ -55,10 +55,9 @@ button {
   position: fixed;
   bottom: 10%;
   left: calc(50% - 10vw/2);
-  background-color: black;
-  color: white;
   font-size: 2rem;
   z-index: 2;
+  cursor: pointer;
 }
 
 #closePenalty {
@@ -134,4 +133,13 @@ button {
     -moz-animation-play-state:paused;
     -o-animation-play-state:paused; 
     animation-play-state:paused;
+}
+
+.penalty-button {
+  position: fixed;
+  bottom: 0;
+  visibility: visible;
+  width: 8vw;
+  left: calc(50% - 8vw/2);
+  z-index: 1;
 }
