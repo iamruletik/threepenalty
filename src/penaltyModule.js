@@ -99,15 +99,26 @@ export class Penalty {
         ease: "none"
     }, "<")
 
-
+    this.directionTimeline.fromTo(this.kick, {
+        direction: -10,
+    }, {
+        direction: 10,
+        yoyo: true,
+        repeat: -1,
+        duration: 1,
+        ease: "none",
+        onUpdate: () => {
+          console.log(this.kick.direction)
+        }
+    })
      this.directionTimeline.to("#arrow-container", {
       rotation: 90,
       transformOrigin: "center center",
       yoyo: true,
       repeat: -1,
       duration: 1,
-      ease: "none"
-     })
+      ease: "none",
+     }, "<")
     
 
     this.kickButton.addEventListener("click", (event) => {
@@ -132,7 +143,7 @@ export class Penalty {
                 this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
                 this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
                 //world.getRigidBody(0).addForce({ x: ((Math.random()-0.5)*20), y: 6.0, z: (-Math.random()*20) }, true)
-                this.world.getRigidBody(0).applyImpulse({ x: 0.0, y: this.kick.power, z: -this.kick.power }, true)
+                this.world.getRigidBody(0).applyImpulse({ x: this.kick.direction, y: this.kick.power, z: -this.kick.power }, true)
                 break;
         }
         
