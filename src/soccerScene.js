@@ -31,7 +31,7 @@ export class SoccerScene {
 
   load() {
 
-    let colliderCreator = new ColliderCreator(this.scene, this.world)
+    //let colliderCreator = new ColliderCreator(this.scene, this.world)
 
 
    //Load Soccer Field
@@ -74,7 +74,7 @@ export class SoccerScene {
 
 
         //Create Convex Hull Colliders for Specific Objects in the Scene
-        colliderCreator.create(this.objectNames)
+        //colliderCreator.create(this.objectNames)
 
         //Save Bottles in the Array
         for (const objectName of this.bottleNames) { 

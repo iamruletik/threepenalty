@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
+import { ColliderCreator } from './colliderCreator.js'
 
 const BUTTON_IDLE = 0, BUTTON_KICK_DIRECTION = 2, BUTTON_KICK_POWER = 1, BUTTON_INACTIVE = -1
 const ARROW_RIGHT = -1, ARROW_LEFT = 1
@@ -71,6 +72,15 @@ export class Penalty {
     this.timeClicked = 0
     this.isGoal = false
     this.isExiting = false
+    this.goalCount = 0
+    this.allNames = [ 
+                            "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
+                            "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
+                            "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
+                            "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
+                          ]
+    this.colliderCreator = new ColliderCreator(this.scene, this.world)
+    this.collidersList = []
   }
 
   init() {
@@ -102,6 +112,7 @@ export class Penalty {
     if (this.timeClicked <= 1) {
         this.setupButton()
         this.saveBottlePositions()
+        this.collidersList = this.colliderCreator.create(this.allNames)
     }
 
 
@@ -259,7 +270,11 @@ export class Penalty {
 
 
   update() {
-
+    let vector = this.collidersList[0].translation()
+    this.collidersList[0].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
+    this.collidersList[1].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
+    
+  
   }
 
   stop() {

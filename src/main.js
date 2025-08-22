@@ -73,11 +73,32 @@ let penaltyButton = document.querySelector("#penalty")
 let closeButton = document.querySelector("#closePenalty")
 let kickButton = document.querySelector("#kickButton")
 
+//Debug Render for Physics
+const debugButton = debug.addButton({ title: "Show Colliders" })
+let debugDataShown = false
+
+//Loop Module
+let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
+loop.start()
+
+
+loop.updatables.push(cameraControls)
 
 penaltyButton.addEventListener("click", (event) => {
     penalty.init()
     loop.updatables.pop()
-    loop.updatables.push(penalty)    
+    loop.updatables.push(penalty)   
+    let physicsDebugger = new RapierDebugger(scene, world)
+debugButton.on('click', () => {
+    if (debugDataShown == false) {
+        physicsDebugger.addDebugMesh()
+        debugDataShown = true
+    } else if (debugDataShown) {
+        physicsDebugger.removeDebugMesh()
+        debugDataShown = false
+    }
+})
+loop.updatables.push(physicsDebugger) 
 }, true)
 
 
@@ -88,31 +109,12 @@ closeButton.addEventListener("click", (event) => {
     loop.updatables.push(bottleFinder)
 }, true)
 
-//Loop Module
-let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
-loop.start()
-
-
-loop.updatables.push(cameraControls)
 
 
 
 
-//Debug Render for Physics
-const debugButton = debug.addButton({ title: "Show Colliders" })
-let debugDataShown = false
 
-let physicsDebugger = new RapierDebugger(scene, world)
-debugButton.on('click', () => {
-    if (debugDataShown == false) {
-        physicsDebugger.addDebugMesh()
-        debugDataShown = true
-    } else if (debugDataShown) {
-        physicsDebugger.removeDebugMesh()
-        debugDataShown = false
-    }
-})
-loop.updatables.push(physicsDebugger)
+
 
 //Adding Lights to the Scene
 let sceneLights = new SceneLights(scene, debug)
