@@ -22,6 +22,9 @@ export class BottleFinder {
         this.isModalActive = false
         this.activeModal = null
         this.activeModalButton = null
+        this.penaltyButton = document.querySelector("#penalty")
+        this.canvasElement = document.querySelector(".webgl")
+        this.onTopOfOtherObjects = false
     }
 
     onPointerMove(event) {
@@ -30,6 +33,14 @@ export class BottleFinder {
         // (-1 to +1) for both components
         this.pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1
         this.pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+
+        let hoverCheck = document.elementFromPoint(event.clientX, event.clientY)
+        if (hoverCheck != this.canvasElement) {
+            this.onTopOfOtherObjects = true
+        } else if (hoverCheck) {
+            this.onTopOfOtherObjects = false
+        }
+       console.log(this.onTopOfOtherObjects)
     }
 
     onPointerClick(event) {
@@ -38,11 +49,13 @@ export class BottleFinder {
         this.activeModalButton = this.activeModal.querySelector("#closeModal")
 
 
-        if (this.isHovering && !this.isCameraAnimating && !this.isModalActive) {
+        if (this.isHovering && !this.isCameraAnimating && !this.isModalActive && !this.onTopOfOtherObjects) {
             
             let intersectorNumber = this.hoverableIntersector.userData.name.slice(-2)
             let bottleCap = null
             let bottle = null
+
+            this.penaltyButton.style.visibility = "hidden"
 
             console.log(intersectorNumber)
 
@@ -139,6 +152,7 @@ export class BottleFinder {
     closeModal() {
             gsap.to(this.activeModal, { yPercent: 100 })
             this.isModalActive = false
+            this.penaltyButton.style.visibility = "visible"
     }
 
     showModal() {
@@ -179,7 +193,7 @@ export class BottleFinder {
     }
 
     update() {
-        if (this.intersectorsDownloaded && !this.isCameraAnimating && !this.isModalActive) {
+        if (this.intersectorsDownloaded && !this.isCameraAnimating && !this.isModalActive && !this.onTopOfOtherObjects) {
             this.raycaster.setFromCamera(this.pointer, this.camera)
 
             const intersects = this.raycaster.intersectObjects(this.intersectors)
