@@ -44,14 +44,9 @@ body {
   pointer-events: none;
 }
 
-button {
-    width: 35vw;
-    height: 5vh;
-}
-
 #penalty {
   width: 30vw;
-  height: 15vw;
+  height: 20vw;
   position: fixed;
   bottom: 10%;
   left: calc(50% - 30vw/2);
@@ -61,16 +56,14 @@ button {
 }
 
 #closePenalty {
-  width: 10vw;
-  height: 5vw;
+  width: 30vw;
+  height: 10vw;
   position: fixed;
-  bottom: 5%;
-  left: calc(50% - 10vw/2);
-  background-color: black;
-  color: white;
-  font-size: 2rem;
+  top: 5%;
+  left: 5%;
   z-index: 1;
   visibility: hidden;
+  cursor: pointer;
 }
 
 #powerGradient {
@@ -92,13 +85,9 @@ button {
 
 .penalty-button {
   position: fixed;
-  bottom: 10%;
+  bottom: 5%;
   visibility: hidden;
   width: 30vw;
   left: calc(50% - 30vw/2);
   z-index: 1;
-}
-
-.kickDirectionArrow {
-
 }

@@ -47,6 +47,7 @@ export class Penalty {
 
     this.powerGradient.classList.remove("paused")
     this.directionTimeline.restart()
+    this.powerTimeline.time(0).kill()
     this.moveGateKeeper.restart()
 
     if (this.timeClicked <= 1) {
