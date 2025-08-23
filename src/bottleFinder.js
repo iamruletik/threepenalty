@@ -2,6 +2,31 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import gsap from 'gsap'
 
+
+
+// SWIPER BITCH SOSI KIRPI4
+import Swiper from 'swiper';
+import { EffectCards } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+
+let swipers = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".swiper").forEach((el) => {
+
+    document.querySelectorAll(".swiper").forEach((el) => {
+        swipers.push(new Swiper(el, {
+            modules: [EffectCards],
+            effect: "cards",
+            grabCursor: true,
+            loop: true,
+        }));
+    });
+  });
+});
+
+
 export class BottleFinder {
 
     constructor(camera, scene, controls) {

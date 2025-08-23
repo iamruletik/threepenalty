@@ -7,6 +7,14 @@ body {
   overflow: hidden;
 }
 
+html,body {
+  min-height: 100vh;
+}
+
+.dn {
+  display: none !important;
+}
+
 .progressBar {
   display: none;
   position: absolute;
@@ -138,4 +146,18 @@ body {
 .missSign {
   pointer-events: none;
   opacity: 0;
+}
+
+.bottle-container {
+  max-width: 100%;
+  height: 100%;
+}
+
+.bottle-container .swiper {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.swiper-slide img {
+  max-width: 100%;
 }
