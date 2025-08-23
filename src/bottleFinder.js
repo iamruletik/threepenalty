@@ -10,15 +10,18 @@ import { EffectCards } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 
+let swipers = [];
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".swiper").forEach((el) => {
-    new Swiper(el, {
-      modules: [EffectCards],
-      effect: "cards",
-      grabCursor: true,
-      loop: true,
-      observer: true,
-        observeParents: true,
+
+    document.querySelectorAll(".swiper").forEach((el) => {
+        swipers.push(new Swiper(el, {
+            modules: [EffectCards],
+            effect: "cards",
+            grabCursor: true,
+            loop: true,
+        }));
     });
   });
 });
