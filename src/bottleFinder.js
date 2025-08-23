@@ -2,6 +2,28 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import gsap from 'gsap'
 
+
+
+// SWIPER BITCH SOSI KIRPI4
+import Swiper from 'swiper';
+import { EffectCards } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".swiper").forEach((el) => {
+    new Swiper(el, {
+      modules: [EffectCards],
+      effect: "cards",
+      grabCursor: true,
+      loop: true,
+      observer: true,
+        observeParents: true,
+    });
+  });
+});
+
+
 export class BottleFinder {
 
     constructor(camera, scene, controls) {
@@ -67,7 +89,11 @@ export class BottleFinder {
                 this.controls.dolly(-18, true)
                
                 gsap.to(modal, {
-                    yPercent: 100
+                    yPercent: 100,
+                    onComplete: () => {
+                    // когда анимация закончилась - обновляем все слайдеры
+                        swipers.forEach(swiper => swiper.update());
+                    }
                 })
                 this.controls.enabled = true 
                 this.isModalActive = false
