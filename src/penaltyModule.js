@@ -140,7 +140,7 @@ export class Penalty {
   moveCamera() {
     let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 10
     //console.log(distance)
-    this.controls.restThreshold = 0.2
+    this.controls.restThreshold = 1
     this.controls.enabled = false
     this.controls.lookInDirectionOf(0, -10, -14, true)
     this.controls.moveTo(0, 2, -2, true)
