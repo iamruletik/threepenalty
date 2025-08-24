@@ -1,30 +1,28 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import gsap from 'gsap'
+import Swiper from 'swiper'
+import { EffectCards } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/effect-cards'
 
 
-
-// SWIPER BITCH SOSI KIRPI4
-import Swiper from 'swiper';
-import { EffectCards } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
 
 let swipers = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".swiper").forEach((el) => {
-
     document.querySelectorAll(".swiper").forEach((el) => {
-        swipers.push(new Swiper(el, {
-            modules: [EffectCards],
-            effect: "cards",
-            grabCursor: true,
-            loop: true,
-        }));
-    });
-  });
-});
+        console.log((el.parentElement.id != "bra") && (el.parentElement.id != "am"))
+        if (el.parentElement.id != "bra" && el.parentElement.id != "am") {
+            swipers.push(new Swiper(el, {
+                modules: [EffectCards],
+                effect: "cards",
+                grabCursor: true,
+                loop: false,
+            }))
+        }
+    })
+})
 
 
 export class BottleFinder {
@@ -45,8 +43,9 @@ export class BottleFinder {
         this.isHovering = false
         this.hoverableIntersector = null
         this.isModalActive = false
-        this.activeModal = null
-        this.activeModalButton = null
+        this.activeModal = document.querySelector(".modalContainer")
+        this.activeSwiper = []
+        this.activeModalButton =  this.activeModal.querySelector("#closeModal")
         this.penaltyButton = document.querySelector("#penalty")
         this.canvasElement = document.querySelector(".webgl")
         this.onTopOfOtherObjects = false
@@ -70,10 +69,6 @@ export class BottleFinder {
 
     onPointerClick(event) {
 
-        this.activeModal = document.querySelector(".modalContainer")
-        this.activeModalButton = this.activeModal.querySelector("#closeModal")
-
-
         if (this.isHovering && !this.isCameraAnimating && !this.isModalActive && !this.onTopOfOtherObjects) {
             
             let intersectorNumber = this.hoverableIntersector.userData.name.slice(-2)
@@ -88,50 +83,74 @@ export class BottleFinder {
                 case "01": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"03")
                     bottle = this.scene.getObjectByName("BottlePlaneBrah")
+                     this.activeSwiper = document.querySelector("#bra")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "02": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"07")
                     bottle = this.scene.getObjectByName("BottlePlaneGg")
+                     this.activeSwiper= document.querySelector("#gg")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "03": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"09")
                     bottle = this.scene.getObjectByName("BottlePlaneBs")
+                     this.activeSwiper= document.querySelector("#bs")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "04": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"01")
                     bottle = this.scene.getObjectByName("BottlePlaneStella")
+                     this.activeSwiper = document.querySelector("#sa")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "05": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"05")
                     bottle = this.scene.getObjectByName("BottlePlaneKoz")
+                     this.activeSwiper = document.querySelector("#vk")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "06": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"04")
                     bottle = this.scene.getObjectByName("BottlePlaneNtx") 
+                    this.activeSwiper = document.querySelector("#nat")
+                    this.activeSwiper.classList.remove("dn")
                     break;
                 case "07": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"06")
                     bottle = this.scene.getObjectByName("BottlePlaneZn")
+                     this.activeSwiper = document.querySelector("#z")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "08": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"02")
                     bottle = this.scene.getObjectByName("BottlePlaneEssa")
+                     this.activeSwiper = document.querySelector("#es")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "09": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"08")
                     bottle = this.scene.getObjectByName("BottlePlaneRf")
+                     this.activeSwiper = document.querySelector("#rf")
+                     this.activeSwiper.classList.remove("dn")
                     break;
                 case "10": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"10")
                     bottle = this.scene.getObjectByName("BottlePlaneLowe")
+                    this.activeSwiper = document.querySelector("#low")
+                    this.activeSwiper.classList.remove("dn")
                     break;
                 case "11": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"11")
                     bottle = this.scene.getObjectByName("BottlePlaneHg")
+                    this.activeSwiper = document.querySelector("#hoe")
+                    this.activeSwiper.classList.remove("dn")
                     break;
                 case "12": 
                     bottleCap = this.scene.getObjectByName("BottleCap"+"12")
                     bottle = this.scene.getObjectByName("BottlePlaneAmster")
+                    this.activeSwiper = document.querySelector("#am")
+                    this.activeSwiper.classList.remove("dn")
                     break;
             }
 
@@ -175,9 +194,15 @@ export class BottleFinder {
     }
 
     closeModal() {
-            gsap.to(this.activeModal, { yPercent: 100 })
+            gsap.to(this.activeModal, { 
+                yPercent: 100,
+                onComplete: () => {
+                    swipers.forEach(swiper => swiper.update()) 
+                }
+             })
             this.isModalActive = false
             this.penaltyButton.style.visibility = "visible"
+            this.activeSwiper.classList.add("dn")
     }
 
     showModal() {
