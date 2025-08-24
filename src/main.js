@@ -11,6 +11,7 @@ import { SceneLights } from './sceneLights.js'
 import { BottleFinder } from './bottleFinder.js'
 import { Penalty } from './penaltyModule.js'
 import { Loop } from './loop.js'
+import gsap from 'gsap'
 
 
 
@@ -143,9 +144,15 @@ loop.updatables.push(bottleFinder)
 
 
 
+let startButton = document.querySelector(".startScreen")
 
-
-
+startButton.addEventListener("click", (event) => {
+    gsap.to(".startScreen", {
+        scale: 0.6,
+        autoAlpha: 0,
+        duration: 0.75,
+    })
+})
 
 
 
