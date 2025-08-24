@@ -19,12 +19,12 @@ let backgroundColor = 0x050505
 
 //TweakPane Gui
 const pane = new Pane()
-pane.hidden = true
+//pane.hidden = true
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
 //Debug Folder
-const debug = pane.addFolder({ title: 'Scene Debug', expanded: false, hidden: true})
+const debug = pane.addFolder({ title: 'Scene Debug', expanded: false})
 let fpsGraph = debug.addBlade({
                                             view: 'fpsgraph',
                                             label: 'FPS',

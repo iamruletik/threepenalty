@@ -84,6 +84,7 @@ export class Penalty {
                           ]
     this.colliderCreator = new ColliderCreator(this.scene, this.world)
     this.collidersList = []
+    this.gateKeeperPosition = null
   }
 
   init() {
@@ -258,11 +259,19 @@ export class Penalty {
         this.defaultPos.push(newGroup.position)
         this.bottleGroups.push(newGroup)
 
-        bottlePlane.position.x = capMesh.position.x
-        bottlePlane.position.z = capMesh.position.z
-
         i++
     }
+
+    this.bottleGroups[7].position.set(0,0,-0.5) //red finch
+    this.bottleGroups[1].position.set(2,0,-5) 
+    this.bottleGroups[0].position.set(0,100,0) 
+    this.bottleGroups[2].position.set(0,100,0) 
+    this.bottleGroups[3].position.set(0,100,0) 
+    this.bottleGroups[4].position.set(0,100,0)  
+    this.bottleGroups[5].position.set(0,100,0) 
+    this.bottleGroups[6].position.set(0,100,0) 
+    this.bottleGroups[8].position.set(0,100,0)  
+
 
    this.moveGateKeeper.fromTo(this.bottleGroups[11].position, {
         x: -3
@@ -284,8 +293,6 @@ export class Penalty {
     let vector = this.collidersList[0].translation()
     this.collidersList[0].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
     this.collidersList[1].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
-    
-  
   }
 
   stop() {
@@ -295,6 +302,20 @@ export class Penalty {
     this.buttonState = BUTTON_IDLE
 
     this.goalCounter.innerHTML = this.goalCount
+
+    if (this.isExiting) {
+      this.bottleGroups[11].position.set(0,0,0)
+      this.bottleGroups[7].position.set(0,0, 0) //red finch
+      this.bottleGroups[1].position.set(0,0,0) 
+      this.bottleGroups[0].position.set(0,0,0) 
+      this.bottleGroups[2].position.set(0,0,0) 
+      this.bottleGroups[3].position.set(0,0,0) 
+      this.bottleGroups[4].position.set(0,0,0)  
+      this.bottleGroups[5].position.set(0,0,0) 
+      this.bottleGroups[6].position.set(0,0,0) 
+      this.bottleGroups[8].position.set(0,0,0) 
+    }
+
 
     this.closeButton.style.visibility = "hidden"
     this.kickButton.style.visibility = "hidden"
