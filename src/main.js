@@ -69,7 +69,7 @@ cameraControls.maxPolarAngle = Math.PI / 3
 cameraControls.smoothTime = 0.5
 
 //Penalty Module
-let penalty = new Penalty(cameraControls, scene, world)
+let penalty = new Penalty(camera, cameraControls, scene, world)
 let penaltyButton = document.querySelector("#penalty")
 let closeButton = document.querySelector("#closePenalty")
 let kickButton = document.querySelector("#kickButton")
@@ -86,6 +86,7 @@ loop.start()
 loop.updatables.push(cameraControls)
 
 penaltyButton.addEventListener("click", (event) => {
+    penalty.isExiting = false
     penalty.goalCount = 0
     penalty.init()
     loop.updatables.pop()
@@ -107,6 +108,7 @@ loop.updatables.push(physicsDebugger)
 closeButton.addEventListener("click", (event) => {
     penalty.isExiting = true
     penalty.stop()
+    penalty.isGoal = false
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)
 }, true)

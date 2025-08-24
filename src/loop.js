@@ -48,7 +48,7 @@ class Loop {
         this.eventQueue.drainCollisionEvents((handle1, handle2, started) => {
           if (started) {
             this.penalty.goal()
-            console.log("COLLISION DETECTED")
+            //console.log("COLLISION DETECTED")
           }          
         });
         

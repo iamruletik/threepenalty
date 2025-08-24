@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import { ColliderCreator } from './colliderCreator.js'
 
-const BUTTON_IDLE = 0, BUTTON_KICK_DIRECTION = 2, BUTTON_KICK_POWER = 1, BUTTON_INACTIVE = -1
+const BUTTON_IDLE = "IDLE", BUTTON_KICK_DIRECTION = "DIRECTION", BUTTON_KICK_POWER = "KICK", BUTTON_INACTIVE = "INACTIVE"
 const ARROW_RIGHT = -1, ARROW_LEFT = 1
 const POWER_DOWN = -1, POWER_UP = 1
 
@@ -44,8 +44,9 @@ missSignTimeline.to(missSign, {
 
 export class Penalty {
   
-    constructor(controls, scene, world) {
+    constructor(camera, controls, scene, world) {
     this.controls = controls
+    this.camera = camera
     this.scene = scene
     this.world = world
     this.buttonState = BUTTON_IDLE
@@ -57,8 +58,8 @@ export class Penalty {
                             "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
                           ]
     this.bottleNames = [ 
-                            "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
-                            "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
+                            "BottlePlaneStella", "BottlePlaneEssa", "BottlePlaneBrah", "BottlePlaneNtx", "BottlePlaneKoz", "BottlePlaneZn",
+                            "BottlePlaneGg", "BottlePlaneRf", "BottlePlaneBs", "BottlePlaneLowe", "BottlePlaneHg", "BottlePlaneAmster",
                         ]               
     this.defaultPos = []
     this.bottleGroups = []
@@ -89,7 +90,7 @@ export class Penalty {
 
     this.buttonState = BUTTON_KICK_DIRECTION
     //console.log("INIT " + this.isGoal)
-    
+    this.goalCounter.innerHTML = this.goalCount
 
     this.timeClicked++
 
@@ -123,11 +124,13 @@ export class Penalty {
   }
 
   moveCamera() {
+    let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 10
+    //console.log(distance)
     this.controls.restThreshold = 0.2
     this.controls.enabled = false
     this.controls.lookInDirectionOf(0, -10, -14, true)
     this.controls.moveTo(0, 2, -2, true)
-    this.controls.dolly(16, true)
+    this.controls.dolly(distance, true)
     this.world.getRigidBody(0).resetForces()
     this.world.getRigidBody(0).applyImpulse({ x: 0.9, y: 0.0, z: -1}, true)
   }
@@ -136,7 +139,7 @@ export class Penalty {
             this.isGoal = true
             this.goalCount++
             this.goalCounter.innerHTML = this.goalCount
-            console.log("GOAL " + this.goalCount)
+            //console.log("GOAL " + this.goalCount)
 
             setTimeout(() => {
               this.stop()
@@ -194,6 +197,9 @@ export class Penalty {
 
 
      let resetTimer = (event) => {
+        console.log("reset Timer fired")
+        console.log(this.isGoal)
+        console.log(this.isExiting)
         if (!this.isGoal && !this.isExiting) {
           this.stop()
           this.init()
@@ -208,7 +214,7 @@ export class Penalty {
     
 
     this.kickButton.addEventListener("click", (event) => {
-      //console.log("click on button")
+        console.log(this.buttonState)
 
          this.powerTimeline.pause()
 
@@ -221,15 +227,15 @@ export class Penalty {
                 break;
 
           case BUTTON_KICK_POWER:
+                setTimeout(resetTimer, 4000)
                 this.buttonState = BUTTON_INACTIVE
                 this.powerTimeline.pause()
                 this.kickButton.style.visibility = "hidden"
-                this.controls.dolly(5, true)
+                this.controls.dolly(4, true)
                 this.world.getRigidBody(0).resetForces()
                 this.world.getRigidBody(0).setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true)
                 this.world.getRigidBody(0).setAngvel({ x: 3.0, y: 3.0, z: -3.0 }, true)
                 this.world.getRigidBody(0).applyImpulse({ x: this.kick.direction, y: this.kick.power, z: -this.kick.power }, true)
-                setTimeout(resetTimer, 5000)
                 break;
         }
         
@@ -288,6 +294,8 @@ export class Penalty {
     //Set Button State
     this.buttonState = BUTTON_IDLE
 
+    this.goalCounter.innerHTML = this.goalCount
+
     this.closeButton.style.visibility = "hidden"
     this.kickButton.style.visibility = "hidden"
     this.goalCounterContainer.style.visibility = "hidden"
@@ -297,9 +305,12 @@ export class Penalty {
     this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
     this.world.getRigidBody(0).sleep()
 
+    let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 10
+    //console.log(distance)
+
     this.controls.lookInDirectionOf(0, -100, 0, true)                
     this.controls.moveTo(0, 0, 0, true)
-    this.controls.dolly(-20, true)
+    this.controls.dolly(distance, true)
 
     this.controls.enabled = true 
     this.isCameraAnimating = false

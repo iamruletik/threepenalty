@@ -77,7 +77,7 @@ export class BottleFinder {
 
             this.penaltyButton.style.visibility = "hidden"
 
-            console.log(intersectorNumber)
+            //console.log(intersectorNumber)
 
             switch (intersectorNumber) {
                 case "01": 
@@ -164,8 +164,10 @@ export class BottleFinder {
                 z: this.hoverableIntersector.position.z,
             }
 
-            let distance = this.camera.position.distanceTo(new THREE.Vector3(coords.x, coords.y, coords.z))
+            let distance = this.camera.position.distanceTo(new THREE.Vector3(coords.x, coords.y, coords.z)) - 5
             let compensate = Math.min(Math.max(distance, 0), 30)
+
+            //console.log(distance)
 
             this.controls.enabled = false
             this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
@@ -243,7 +245,8 @@ export class BottleFinder {
     }
 
     update() {
-        if (this.intersectorsDownloaded && !this.isCameraAnimating && !this.isModalActive && !this.onTopOfOtherObjects) {
+        //console.log(this.onTopOfOtherObjects)
+        if (this.intersectorsDownloaded && !this.isCameraAnimating && !this.isModalActive) {
             this.raycaster.setFromCamera(this.pointer, this.camera)
 
             const intersects = this.raycaster.intersectObjects(this.intersectors)
@@ -252,18 +255,29 @@ export class BottleFinder {
                 this.isHovering = false
                 this.selectedLight.intensity = 0
             }
-            
-            for (const intersect of intersects) {
-                this.isHovering = true
-                this.hoverableIntersector = intersect.object
 
-                this.selectedLight.intensity = 200
-                this.spotlightFolder.position.x = intersect.object.position.x
-                this.spotlightFolder.position.z = intersect.object.position.z
-
-                this.targetObject.position.x = intersect.object.position.x
-                this.targetObject.position.z = intersect.object.position.z
+            if (this.onTopOfOtherObjects == true) {
+                for (const object of this.intersectors) {
+                this.isHovering = false
+                this.selectedLight.intensity = 0
             }
+            }
+
+            if (this.onTopOfOtherObjects == false) {
+                for (const intersect of intersects) {
+                    this.isHovering = true
+                    this.hoverableIntersector = intersect.object
+
+                    this.selectedLight.intensity = 200
+                    this.spotlightFolder.position.x = intersect.object.position.x
+                    this.spotlightFolder.position.z = intersect.object.position.z
+
+                    this.targetObject.position.x = intersect.object.position.x
+                    this.targetObject.position.z = intersect.object.position.z
+                }
+            }
+            
+
             
         }
     }
