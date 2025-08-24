@@ -314,7 +314,7 @@ export class Penalty {
         yoyo: true,
         repeat: -1,
         ease: "none",
-        duration: 1
+        duration: 0.8
     }).restart()
 
 
