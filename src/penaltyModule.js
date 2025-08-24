@@ -85,6 +85,7 @@ export class Penalty {
     this.colliderCreator = new ColliderCreator(this.scene, this.world)
     this.collidersList = []
     this.gateKeeperPosition = null
+    this.bottleGroupsExist = false
   }
 
   init() {
@@ -118,6 +119,18 @@ export class Penalty {
         this.setupButton()
         this.saveBottlePositions()
         this.collidersList = this.colliderCreator.create(this.allNames)
+    }
+    
+    if (this.bottleGroupsExist) {
+      this.bottleGroups[7].position.set(0,0,-0.5) //red finch
+      this.bottleGroups[1].position.set(2,0,-5) 
+      this.bottleGroups[0].position.set(0,100,0) 
+      this.bottleGroups[2].position.set(0,100,0) 
+      this.bottleGroups[3].position.set(0,100,0) 
+      this.bottleGroups[4].position.set(0,100,0)  
+      this.bottleGroups[5].position.set(0,100,0) 
+      this.bottleGroups[6].position.set(0,100,0) 
+      this.bottleGroups[8].position.set(0,100,0) 
     }
 
 
@@ -272,6 +285,7 @@ export class Penalty {
     this.bottleGroups[6].position.set(0,100,0) 
     this.bottleGroups[8].position.set(0,100,0)  
 
+    this.bottleGroupsExist = true
 
    this.moveGateKeeper.fromTo(this.bottleGroups[11].position, {
         x: -3
