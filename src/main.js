@@ -20,7 +20,7 @@ let backgroundColor = 0x050505
 
 //TweakPane Gui
 const pane = new Pane()
-pane.hidden = true
+//pane.hidden = true
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
