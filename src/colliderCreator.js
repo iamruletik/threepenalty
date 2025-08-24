@@ -23,6 +23,14 @@ export class ColliderCreator {
         if(objectName == "BottlePlaneAmster") {
           this.collidersList.push(realCollider)
         }
+
+        if(objectName == "BottleCap02") {
+          this.collidersList.push(realCollider)
+        }
+
+        if(objectName == "BottlePlaneEssa") {
+          this.collidersList.push(realCollider)
+        }
         
     }
 

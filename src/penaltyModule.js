@@ -116,9 +116,9 @@ export class Penalty {
     this.moveGateKeeper.restart()
 
     if (this.timeClicked <= 1) {
+        this.collidersList = this.colliderCreator.create(this.allNames)
         this.setupButton()
         this.saveBottlePositions()
-        this.collidersList = this.colliderCreator.create(this.allNames)
     }
     
     if (this.bottleGroupsExist) {
@@ -276,7 +276,27 @@ export class Penalty {
     }
 
     this.bottleGroups[7].position.set(0,0,-0.5) //red finch
-    this.bottleGroups[1].position.set(2,0,-5) 
+    
+    this.bottleGroups[1].position.set(2,0,-5)  //essa
+    let vectorA = this.collidersList[0].translation()
+    let vectorB = this.collidersList[2].translation()
+
+    let colliderNewVecA = {
+      x: this.bottleGroups[1].children[0].position.x + this.bottleGroups[1].position.x,
+      y: vectorA.y,
+      z: this.bottleGroups[1].children[0].position.z + this.bottleGroups[1].position.z,
+    }
+
+    let colliderNewVecB = {
+      x: this.bottleGroups[1].children[1].position.x + this.bottleGroups[1].position.x,
+      y: vectorB.y,
+      z: this.bottleGroups[1].children[1].position.z + this.bottleGroups[1].position.z,
+    }
+
+    this.collidersList[0].setTranslation({x: colliderNewVecA.x , y: colliderNewVecA.y , z:colliderNewVecA.z})
+    this.collidersList[2].setTranslation({x: colliderNewVecB.x , y: colliderNewVecB.y , z:colliderNewVecB.z})
+    console.log(this.bottleGroups[1])
+
     this.bottleGroups[0].position.set(0,100,0) 
     this.bottleGroups[2].position.set(0,100,0) 
     this.bottleGroups[3].position.set(0,100,0) 
@@ -304,9 +324,10 @@ export class Penalty {
 
 
   update() {
-    let vector = this.collidersList[0].translation()
-    this.collidersList[0].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
-    this.collidersList[1].setTranslation({x: this.bottleGroups[11].position.x, y: vector.y, z:vector.z})
+    let vectorA = this.collidersList[1].translation()
+    let vectorB = this.collidersList[3].translation()
+    this.collidersList[1].setTranslation({x: this.bottleGroups[11].position.x, y: vectorA.y, z:vectorA.z})
+    this.collidersList[3].setTranslation({x: this.bottleGroups[11].position.x, y: vectorB.y, z:vectorB.z})
   }
 
   stop() {
