@@ -170,7 +170,6 @@
       <video autoplay muted loop>
         <source src="/mathcbutton.webm" type="video/webm" />
       </video>
-
     </div>
     
 
@@ -286,8 +285,16 @@
         </clipPath>
         </defs>
         </svg>
-
     </div>
+
+    <div id="goalCounter">
+      <div class="goalCounterContainer">
+        <div class="topGradient"></div>
+        <div class="goalCounterNumber">0</div>
+      </div>
+      <div class="goalCounterLabel">Забито<br>мячей</div>
+    </div>
+
     <canvas class="webgl"></canvas>
     <input hidden type="file" id="jsonFileInput" accept=".json">
     <script type="module" src="src/main.js"></script>

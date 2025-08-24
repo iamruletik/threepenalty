@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Inter';
+  font-stretch: 0% 100%; /* Note that font-stretch is a % of normal width */
+  font-style: normal; /* See note below */
+  font-weight: 100 900;
+  src: url("/Inter-VariableFont.ttf") format('woff2');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -171,4 +179,69 @@ html,body {
   position: absolute;
   z-index: 3;
   bottom: 7%;
+}
+
+#goalCounter {
+  position: fixed;
+  right: 5%;
+  top: 2.5%;
+  z-index: 1;
+  color: white;
+  font-family: 'Inter';
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.goalCounterNumber {
+  font-weight: 800;
+  font-size: 3rem;
+  display: flex;
+  opacity: 0.67;
+  text-align: center;
+  width: auto;
+}
+
+.goalCounterContainer {
+  position: relative;
+  padding: 1rem;
+  background: linear-gradient(
+                            #0E0E0E,
+                            #262626 100%
+                          );
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 2px #EDEDED24 solid;
+  overflow: hidden;
+  width: 2.5rem;
+  max-width: 2.5rem;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.goalCounterLabel {
+  opacity: 0.4;
+  text-align: center;
+}
+
+.topGradient {
+    background: linear-gradient(
+                            #FFFFFF00,
+                            #FFFFFF 100%
+                          );
+    opacity: 0.15;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    z-index: 2;
 }

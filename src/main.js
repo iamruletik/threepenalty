@@ -19,11 +19,12 @@ let backgroundColor = 0x050505
 
 //TweakPane Gui
 const pane = new Pane()
+pane.hidden = true
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
 //Debug Folder
-const debug = pane.addFolder({ title: 'Scene Debug', expanded: false})
+const debug = pane.addFolder({ title: 'Scene Debug', expanded: false, hidden: true})
 let fpsGraph = debug.addBlade({
                                             view: 'fpsgraph',
                                             label: 'FPS',
@@ -85,6 +86,7 @@ loop.start()
 loop.updatables.push(cameraControls)
 
 penaltyButton.addEventListener("click", (event) => {
+    penalty.goalCount = 0
     penalty.init()
     loop.updatables.pop()
     loop.updatables.push(penalty)   

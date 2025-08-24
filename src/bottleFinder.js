@@ -12,7 +12,7 @@ let swipers = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".swiper").forEach((el) => {
-        console.log((el.parentElement.id != "bra") && (el.parentElement.id != "am"))
+        //console.log((el.parentElement.id != "bra") && (el.parentElement.id != "am"))
         if (el.parentElement.id != "bra" && el.parentElement.id != "am") {
             swipers.push(new Swiper(el, {
                 modules: [EffectCards],

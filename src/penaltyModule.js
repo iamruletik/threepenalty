@@ -73,6 +73,8 @@ export class Penalty {
     this.isGoal = false
     this.isExiting = false
     this.goalCount = 0
+    this.goalCounter = document.querySelector(".goalCounterNumber")
+    this.goalCounterContainer = document.querySelector("#goalCounter")
     this.allNames = [ 
                             "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
                             "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
@@ -86,7 +88,7 @@ export class Penalty {
   init() {
 
     this.buttonState = BUTTON_KICK_DIRECTION
-    console.log("INIT " + this.isGoal)
+    //console.log("INIT " + this.isGoal)
     
 
     this.timeClicked++
@@ -98,6 +100,7 @@ export class Penalty {
     let cameraRest = (event) => {
         this.world.getRigidBody(0).sleep()
         this.closeButton.style.visibility = "visible"
+        this.goalCounterContainer.style.visibility = "visible"
         this.kickButton.style.visibility = "visible"
         this.controls.removeEventListener("rest", cameraRest)
     }
@@ -131,7 +134,9 @@ export class Penalty {
 
   goal() {
             this.isGoal = true
-            console.log("GOAL " + this.isGoal)
+            this.goalCount++
+            this.goalCounter.innerHTML = this.goalCount
+            console.log("GOAL " + this.goalCount)
 
             setTimeout(() => {
               this.stop()
@@ -193,7 +198,7 @@ export class Penalty {
           this.stop()
           this.init()
           missSignTimeline.restart()
-          console.log("TIME RESET " + this.isGoal)
+          //console.log("TIME RESET " + this.isGoal)
         } else if (this.isGoal) {
           this.isGoal = false
         } else if (this.isExiting) {
@@ -203,7 +208,7 @@ export class Penalty {
     
 
     this.kickButton.addEventListener("click", (event) => {
-      console.log("click on button")
+      //console.log("click on button")
 
          this.powerTimeline.pause()
 
@@ -260,7 +265,7 @@ export class Penalty {
         yoyo: true,
         repeat: -1,
         ease: "none",
-        duration: 1
+        duration: 0.5
     }).restart()
 
 
@@ -285,6 +290,7 @@ export class Penalty {
 
     this.closeButton.style.visibility = "hidden"
     this.kickButton.style.visibility = "hidden"
+    this.goalCounterContainer.style.visibility = "hidden"
     this.penaltyButton.style.visibility = "visible"
 
     this.world.getRigidBody(0).resetForces()
