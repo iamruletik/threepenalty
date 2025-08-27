@@ -42,7 +42,7 @@ const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance"  })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(2)
+renderer.setPixelRatio(1)
 renderer.setClearColor(backgroundColor)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
