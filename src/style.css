@@ -176,6 +176,11 @@ html,body {
   user-select: none;
 }
 
+.swiper-slide {
+  border-radius: 30px;
+  overflow: hidden;
+}
+
 #closeModal {
   cursor: pointer;
   position: absolute;

@@ -40,7 +40,9 @@ world.timestep = 1/60 //Sync to 60 Hz
 const canvas = document.querySelector('canvas.webgl')
 
 //Renderer
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance"  })
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance",   type: THREE.HalfFloatType,
+  format: THREE.RGBAFormat,
+  encoding: THREE.sRGBEncoding,  })
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.setPixelRatio(1)
 renderer.setClearColor(backgroundColor)
