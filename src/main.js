@@ -64,6 +64,7 @@ scene.add(camera)
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
 cameraControls.maxDistance = 35
+cameraControls.minDistance = 10
 cameraControls.maxZoom = 1
 cameraControls.minAzimuthAngle = -Math.PI / 2
 cameraControls.maxAzimuthAngle = Math.PI / 2
