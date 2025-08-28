@@ -182,7 +182,7 @@ export class BottleFinder {
             gsap.to(this.activeModal, { 
                 yPercent: 100,
                 onComplete: () => {
-                    swipers.forEach(swiper => swiper.update()) 
+                    this.swipers.forEach(swiper => swiper.update()) 
                 }
              })
             this.isModalActive = false
