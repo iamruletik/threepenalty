@@ -109,6 +109,7 @@ loop.updatables.push(physicsDebugger)
 closeButton.addEventListener("click", (event) => {
     penalty.isExiting = true
     penalty.stop()
+    cameraControls.dolly(-18, true)
     penalty.isGoal = false
     loop.updatables.pop()
     loop.updatables.push(bottleFinder)

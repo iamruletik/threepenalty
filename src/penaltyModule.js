@@ -6,24 +6,27 @@ const BUTTON_IDLE = "IDLE", BUTTON_KICK_DIRECTION = "DIRECTION", BUTTON_KICK_POW
 const ARROW_RIGHT = -1, ARROW_LEFT = 1
 const POWER_DOWN = -1, POWER_UP = 1
 
-const goalSign = document.querySelector(".goalSign")
+const goalSign = document.querySelector(".goal")
 const missSign = document.querySelector(".miss")
 const goalSignTimeline = gsap.timeline()
 const missSignTimeline = gsap.timeline()
 
-goalSignTimeline.set(goalSign, { scale: 0, autoAlpha: 0 })
+goalSignTimeline.set(goalSign, {autoAlpha: 0 })
 
 goalSignTimeline.fromTo(goalSign, {
-  scale: 0,
-  autoAlpha: 0
+  autoAlpha: 0,
+  onComplete: () => {
+    goalSign.load()
+    goalSign.play()
+  }
 }, {
-  scale: 1,
   autoAlpha: 1,
-  duration: 2,
+  duration: 0.3,
   ease: "power2.inOut"
 })
 goalSignTimeline.to(goalSign, {
-  autoAlpha: 0
+  autoAlpha: 0,
+  delay: 1.5
 }, ">").pause()
 
 

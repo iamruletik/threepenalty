@@ -24,9 +24,9 @@ class Loop {
   start() {
 
     const params = {
-				threshold: 0.3,
+				threshold: 0.5,
 				strength: 0.3,
-				radius: 0.5,
+				radius: 0.4,
 				exposure: 0
     }
 

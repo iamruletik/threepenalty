@@ -172,6 +172,8 @@ html,body {
 
 .swiper-slide img {
   max-width: 100%;
+  pointer-events: none;
+  user-select: none;
 }
 
 #closeModal {

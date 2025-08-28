@@ -7,7 +7,7 @@ import gsap from 'gsap'
 export class SoccerScene {
 
   constructor(scene, world, camera, cameraControls) {
-    this.pathToGLTFScene = '/SoccerFieldNew/SoccerFieldNew.gltf'
+    this.pathToGLTFScene = '/SoccerFieldNew/SoccerField.gltf'
     this.soccerField = null
     this.soccerFieldObjectName = "SoccerField"
     this.gltfLoader = new GLTFLoader()
@@ -54,7 +54,7 @@ export class SoccerScene {
         let soccerFieldStripe = this.scene.getObjectByName("SoccerFieldStripe")
         soccerFieldStripe.material.map.offset.x = 0
         soccerFieldStripe.material.emissiveMap.offset.x = 0
-        soccerFieldStripe.material.emissiveIntensity = 5
+        soccerFieldStripe.material.emissiveIntensity = 10
 
         //Animate Ads Strip
         gsap.to(soccerFieldStripe.material.map.offset, {
@@ -72,6 +72,20 @@ export class SoccerScene {
           duration: 12
         }) 
 
+        //Find Soccer Inner Stripe
+        let fieldEmission = this.scene.getObjectByName("FieldEmission")
+        //fieldEmission.material.toneMapped = false
+        //fieldEmission.material.emissive = new THREE.Color(0xFF0600)
+        fieldEmission.material.emissiveIntensity = 12
+        //Animate Ads Strip
+        gsap.to(fieldEmission.material, {
+          emissiveIntensity: 0,
+          opacity: 0,
+          repeat: -1,
+          yoyo: true,
+          duration: 3
+        }) 
+
 
         //Create Convex Hull Colliders for Specific Objects in the Scene
         //colliderCreator.create(this.objectNames)
@@ -79,6 +93,7 @@ export class SoccerScene {
         //Save Bottles in the Array
         for (const objectName of this.bottleNames) { 
           let temp = this.scene.getObjectByName(objectName)
+          temp.material.alphaTest = 0.1 
           this.bottles.push(temp)
         }
 
