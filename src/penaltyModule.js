@@ -7,7 +7,7 @@ const ARROW_RIGHT = -1, ARROW_LEFT = 1
 const POWER_DOWN = -1, POWER_UP = 1
 
 const goalSign = document.querySelector(".goalSign")
-const missSign = document.querySelector(".missSign")
+const missSign = document.querySelector(".miss")
 const goalSignTimeline = gsap.timeline()
 const missSignTimeline = gsap.timeline()
 
@@ -27,19 +27,22 @@ goalSignTimeline.to(goalSign, {
 }, ">").pause()
 
 
-missSignTimeline.set(missSign, { scale: 0, autoAlpha: 0 })
+missSignTimeline.set(missSign, { autoAlpha: 0 })
 
 missSignTimeline.fromTo(missSign, {
-  scale: 0,
-  autoAlpha: 0
+  autoAlpha: 0,
+  onComplete: () => {
+    missSign.load()
+    missSign.play()
+  }
 }, {
-  scale: 1,
   autoAlpha: 1,
-  duration: 2,
+  duration: 0.3,
   ease: "power2.inOut"
 })
 missSignTimeline.to(missSign, {
-  autoAlpha: 0
+  autoAlpha: 0,
+  delay: 1.5
 }, ">").pause()
 
 export class Penalty {

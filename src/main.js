@@ -144,13 +144,17 @@ loop.updatables.push(bottleFinder)
 
 
 
-let startButton = document.querySelector(".startScreen")
+let startButton = document.querySelector(".start-screen")
 
 startButton.addEventListener("click", (event) => {
-    gsap.to(".startScreen", {
-        scale: 0.6,
+    startButton.play()
+    gsap.to(startButton, {
         autoAlpha: 0,
-        duration: 0.75,
+        duration: 1,
+        delay: 1,
+        onComplete: () => {
+            startButton.pause()
+        }
     })
 })
 
