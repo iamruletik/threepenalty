@@ -7,26 +7,10 @@ import 'swiper/css'
 import 'swiper/css/effect-cards'
 
 
-
-let swipers = [];
-
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".swiper").forEach((el) => {
-        if (el.parentElement.id != "bra" && el.parentElement.id != "am") {
-            swipers.push(new Swiper(el, {
-                modules: [EffectCards],
-                effect: "cards",
-                grabCursor: true,
-                loop: false,
-            }))
-        }
-    })
-})
-
-
 export class BottleFinder {
 
     constructor(camera, scene, controls) {
+        this.swipers = []
         this.raycaster = new THREE.Raycaster()
         this.pointer = new THREE.Vector2()
         this.gltfLoader = new GLTFLoader()
@@ -238,6 +222,19 @@ export class BottleFinder {
         //this.spotlightFolder.add(lightHelper)
         this.scene.add(this.spotlightFolder)
         this.scene.add(this.targetObject)
+
+
+
+        document.querySelectorAll(".swiper").forEach((el) => {
+            if (el.parentElement.id != "bra" && el.parentElement.id != "am") {
+                this.swipers.push(new Swiper(el, {
+                    modules: [EffectCards],
+                    effect: "cards",
+                    grabCursor: true,
+                    loop: false,
+                }))
+            }
+        })
         
 
 
