@@ -72,15 +72,14 @@ export class SoccerScene {
           duration: 12
         }) 
 
-        //Find Soccer Inner Stripe
-        let fieldEmission = this.scene.getObjectByName("FieldEmission")
+        ///Find Soccer Inner Stripe
+        let fieldEmission = this.scene.getObjectByName("SoccerField")
         //fieldEmission.material.toneMapped = false
         //fieldEmission.material.emissive = new THREE.Color(0xFF0600)
-        fieldEmission.material.emissiveIntensity = 12
+        fieldEmission.material.emissiveIntensity = 15
         //Animate Ads Strip
         gsap.to(fieldEmission.material, {
           emissiveIntensity: 0,
-          opacity: 0,
           repeat: -1,
           yoyo: true,
           duration: 3
