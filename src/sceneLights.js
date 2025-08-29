@@ -48,11 +48,23 @@ export class SceneLights {
     rectAreaLightSideBigR.power = 350
     this.scene.add(rectAreaLightSideBigR)
 
+    const rectAreaLightSideBigB = new THREE.RectAreaLight(0xFFFFFF, 0, 12,5)
+    rectAreaLightSideBigB.rotation.set(0,Math.PI, 0)
+    rectAreaLightSideBigB.position.set(0,-5,-20)
+    rectAreaLightSideBigB.power = 350
+    this.scene.add(rectAreaLightSideBigB)
+
+    const rectAreaLightSideBigT = new THREE.RectAreaLight(0xFFFFFF, 0, 12,5)
+    rectAreaLightSideBigT.rotation.set(0,Math.PI * 2, 0)
+    rectAreaLightSideBigT.position.set(0,-5,20)
+    rectAreaLightSideBigT.power = 350
+    this.scene.add(rectAreaLightSideBigT)
+
     //React Area Light Top
     const rectAreaLightTop = new THREE.RectAreaLight(0xFFFFFF, 0, 10,28)
     rectAreaLightTop.rotation.set(-Math.PI / 2,0,0)
     rectAreaLightTop.position.set(0,8,0)
-    rectAreaLightTop.power = 1000
+    rectAreaLightTop.power = 2000
     this.scene.add(rectAreaLightTop)
 
     //Add Debug for Area Light Top
@@ -67,7 +79,7 @@ export class SceneLights {
     const rectAreaLightSideA = new THREE.RectAreaLight(0xFFFFFF, 0, 6,6)
     rectAreaLightSideA.position.set(-10,4,16)
     rectAreaLightSideA.lookAt(0,0,0)
-    rectAreaLightSideA.power = 150
+    rectAreaLightSideA.power = 250
     this.scene.add(rectAreaLightSideA)
 
     //Add Debug for Area Light Side A
@@ -90,7 +102,7 @@ export class SceneLights {
     const rectAreaLightSideB = new THREE.RectAreaLight(0xFFFFFF, 0, 6,6)
     rectAreaLightSideB.position.set(10,4,16)
     rectAreaLightSideB.lookAt(0,0,0)
-    rectAreaLightSideB.power = 150
+    rectAreaLightSideB.power = 250
     this.scene.add(rectAreaLightSideB)
 
     //Add Debug for Area Light Side B
@@ -112,7 +124,7 @@ export class SceneLights {
     const rectAreaLightSideC = new THREE.RectAreaLight(0xFFFFFF, 0, 6,6)
     rectAreaLightSideC.position.set(10,4,-16)
     rectAreaLightSideC.lookAt(0,0,0)
-    rectAreaLightSideC.power = 150
+    rectAreaLightSideC.power = 250
     this.scene.add(rectAreaLightSideC)
 
     //Add Debug for Area Light Side C
@@ -133,7 +145,7 @@ export class SceneLights {
     const rectAreaLightSideD = new THREE.RectAreaLight(0xFFFFFF, 0, 6,6)
     rectAreaLightSideD.position.set(-10,4,-16)
     rectAreaLightSideD.lookAt(0,0,0)
-    rectAreaLightSideD.power = 150
+    rectAreaLightSideD.power = 250
     this.scene.add(rectAreaLightSideD)
 
     //Add Debug for Area Light Side C
@@ -156,6 +168,8 @@ export class SceneLights {
     const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLightTop)
     const rectAreaLightBigHelperL = new RectAreaLightHelper(rectAreaLightSideBigL)
     const rectAreaLightBigHelperR = new RectAreaLightHelper(rectAreaLightSideBigR)
+    const rectAreaLightBigHelperB = new RectAreaLightHelper(rectAreaLightSideBigB)
+    const rectAreaLightBigHelperT = new RectAreaLightHelper(rectAreaLightSideBigT)
     const rectAreaLightSideAHelper = new RectAreaLightHelper(rectAreaLightSideA)
     const rectAreaLightSideBHelper = new RectAreaLightHelper(rectAreaLightSideB)
     const rectAreaLightSideCHelper = new RectAreaLightHelper(rectAreaLightSideC)
@@ -169,6 +183,8 @@ export class SceneLights {
       scene.add(rectAreaLightSideDHelper) 
       scene.add(rectAreaLightBigHelperL) 
       scene.add(rectAreaLightBigHelperR) 
+      scene.add(rectAreaLightBigHelperB) 
+      scene.add(rectAreaLightBigHelperT) 
     }
     function removeHelpers(scene) { 
       scene.remove(rectAreaLightHelper)
@@ -178,6 +194,8 @@ export class SceneLights {
       scene.remove(rectAreaLightSideDHelper)
       scene.remove(rectAreaLightBigHelperL)
       scene.remove(rectAreaLightBigHelperR)
+      scene.remove(rectAreaLightBigHelperB)
+      scene.remove(rectAreaLightBigHelperT)
     }
 
   }

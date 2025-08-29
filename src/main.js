@@ -20,7 +20,7 @@ let backgroundColor = 0x050505
 
 //TweakPane Gui
 const pane = new Pane()
-pane.hidden = true
+//pane.hidden = true
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
@@ -42,13 +42,13 @@ const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance",   type: THREE.HalfFloatType,
   format: THREE.RGBAFormat,
-  encoding: THREE.sRGBEncoding,  })
+  encoding: THREE.sRGBEncoding,   })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(1)
+renderer.setPixelRatio(2)
 renderer.setClearColor(backgroundColor)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
-renderer.toneMapping = THREE.LinearToneMapping
+renderer.toneMapping = THREE.ACESFilmicToneMapping
 
 //Scene
 const scene = new THREE.Scene()
@@ -63,7 +63,7 @@ scene.add(camera)
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
-cameraControls.maxDistance = 35
+cameraControls.maxDistance = 100
 cameraControls.minDistance = 6
 cameraControls.maxZoom = 1
 cameraControls.minAzimuthAngle = -Math.PI / 2
