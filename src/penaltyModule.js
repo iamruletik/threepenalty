@@ -367,10 +367,10 @@ export class Penalty {
     this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
     this.world.getRigidBody(0).sleep()
 
-    let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 10
+    let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 8
     //console.log(distance)
 
-    this.controls.lookInDirectionOf(0, -100, 0, true)                
+    this.controls.lookInDirectionOf(0, -100, -10, true)                
     this.controls.moveTo(0, 0, 0, true)
     this.controls.dolly(distance, true)
 

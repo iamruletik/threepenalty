@@ -153,7 +153,7 @@ export class BottleFinder {
             //console.log(distance)
 
             this.controls.enabled = false
-            this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
+            this.controls.lookInDirectionOf(coords.x, coords.y, -coords.z, true)
             this.controls.moveTo(coords.x, coords.y, coords.z, true)
             this.controls.dolly(compensate, true)
             
