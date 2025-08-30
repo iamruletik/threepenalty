@@ -40,12 +40,12 @@ let world = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
 const canvas = document.querySelector('canvas.webgl')
 
 //Renderer
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, powerPreference: "high-performance", format: THREE.RGBAFormat, encoding: THREE.sRGBEncoding })
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", encoding: THREE.sRGBEncoding })
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.setPixelRatio(1)
 renderer.setClearColor(backgroundColor)
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
+//renderer.shadowMap.enabled = true
+//renderer.shadowMap.type = THREE.PCFSoftShadowMap
 renderer.toneMapping = THREE.ACESFilmicToneMapping
 
 //Scene
