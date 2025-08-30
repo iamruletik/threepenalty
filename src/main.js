@@ -149,18 +149,62 @@ loop.updatables.push(bottleFinder)
 
 
 let startButton = document.querySelector(".start-screen")
+let startScreenTimeline = gsap.timeline()
 
-startButton.addEventListener("click", (event) => {
-    startButton.play()
-    gsap.to(startButton, {
+    startScreenTimeline.to(startButton, {
         autoAlpha: 0,
         duration: 1,
         delay: 1,
         onComplete: () => {
-            startButton.pause()
+            startButton.load()
         }
-    })
+    }).pause()
+
+startButton.addEventListener("click", (event) => {
+    startButton.play()
+    startScreenTimeline.restart()
 })
 
 
+
+
+
+//reset to start screen
+
+function inactivityTimeout() {
+  let timer
+  const IDLE_TIMEOUT = 60000
+
+  const resetTimer = () => {
+
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+
+        console.log("restart")
+
+        if (penalty.isActive) {
+            penalty.isExiting = true
+            penalty.stop()
+            cameraControls.dolly(-18, true)
+            penalty.isGoal = false
+            loop.updatables.pop()
+            loop.updatables.push(bottleFinder)
+        } else if (!penalty.isActive) {
+            cameraControls.dolly(-18, true)
+        }
+
+        startScreenTimeline.reverse()
+
+    }, IDLE_TIMEOUT)
+  };
+
+  window.onload = resetTimer
+  document.onmousemove = resetTimer
+  document.onmousedown = resetTimer
+  document.onkeydown = resetTimer
+  document.onscroll = resetTimer
+  document.ontouchstart = resetTimer
+}
+
+inactivityTimeout()
 

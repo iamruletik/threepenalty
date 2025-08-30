@@ -79,6 +79,7 @@ export class Penalty {
     this.timeClicked = 0
     this.isGoal = false
     this.isExiting = false
+    this.isActive = false
     this.goalCount = 0
     this.goalCounter = document.querySelector(".goalCounterNumber")
     this.goalCounterContainer = document.querySelector("#goalCounter")
@@ -104,7 +105,7 @@ export class Penalty {
 
     this.moveCamera()
 
-    
+    this.isActive = true
 
     let cameraRest = (event) => {
         this.world.getRigidBody(0).sleep()
@@ -337,6 +338,8 @@ export class Penalty {
   }
 
   stop() {
+
+    this.isActive = false
 
     this.moveGateKeeper.pause()
     //Set Button State
