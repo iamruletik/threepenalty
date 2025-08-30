@@ -153,7 +153,7 @@ export class BottleFinder {
             //console.log(distance)
 
             this.controls.enabled = false
-            this.controls.lookInDirectionOf(coords.x, coords.y, -coords.z, true)
+            this.controls.lookInDirectionOf(coords.x, coords.y, coords.z, true)
             this.controls.moveTo(coords.x, coords.y, coords.z, true)
             this.controls.dolly(compensate, true)
             
@@ -169,10 +169,11 @@ export class BottleFinder {
     }
 
     resetCamera() {
-            //console.log("closed")       
-            this.controls.lookInDirectionOf(0, -100, 0, true)                
-            this.controls.moveTo(0, 0, 0, true)
-            this.controls.dolly(-30, true)
+            //console.log("closed")      
+            this.controls.moveTo(0, 0, 0, true) 
+            this.controls.lookInDirectionOf(0, -100, -20, true)                
+            
+            this.controls.dolly(-35, true)
 
             this.controls.enabled = true 
             this.isCameraAnimating = false
