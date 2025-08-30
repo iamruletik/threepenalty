@@ -61,7 +61,7 @@ export class SoccerScene {
           x: -1,
           repeat: -1,
           ease: "none",
-          duration: 12
+          duration: 20
         })
 
         //Animate Ads Strip
@@ -69,7 +69,7 @@ export class SoccerScene {
           x: -1,
           repeat: -1,
           ease: "none",
-          duration: 12
+          duration: 20
         }) 
 
         ///Find Soccer Inner Stripe

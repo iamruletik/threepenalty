@@ -444,6 +444,10 @@
 						"offset":[
 							0.44999998807907104,
 							0
+						],
+						"scale":[
+							0.5300000309944153,
+							1
 						]
 					}
 				},
@@ -457,6 +461,10 @@
 							"offset":[
 								0.44999998807907104,
 								0
+							],
+							"scale":[
+								0.5300000309944153,
+								1
 							]
 						}
 					},
@@ -1198,8 +1206,8 @@
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"SoccerFieldStripeTexture",
-			"uri":"SoccerFieldStripeTexture.webp"
+			"name":"row-updated",
+			"uri":"row-updated.webp"
 		},
 		{
 			"mimeType":"image/webp",

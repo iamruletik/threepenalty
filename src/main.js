@@ -34,17 +34,15 @@ let fpsGraph = debug.addBlade({
 
 //Seting the Physics World
 let world = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
-world.timestep = 1/60 //Sync to 60 Hz
+//world.timestep = 1/60 //Sync to 60 Hz
 
 //Canvas Element
 const canvas = document.querySelector('canvas.webgl')
 
 //Renderer
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance",   type: THREE.HalfFloatType,
-  format: THREE.RGBAFormat,
-  encoding: THREE.sRGBEncoding,   })
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, powerPreference: "high-performance", format: THREE.RGBAFormat, encoding: THREE.sRGBEncoding })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(2)
+renderer.setPixelRatio(1.5)
 renderer.setClearColor(backgroundColor)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
