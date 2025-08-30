@@ -3,6 +3,8 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js'
+import { FXAAPass } from 'three/addons/postprocessing/FXAAPass.js'
 import RAPIER from '@dimforge/rapier3d'
 import { Penalty } from './penaltyModule'
 
@@ -30,6 +32,11 @@ class Loop {
 				exposure: 0
     }
 
+    const smaaPass = new SMAAPass()
+    smaaPass.enabled = true
+
+    const fxaaPass = new FXAAPass()
+
     const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 )
     bloomPass.threshold = params.threshold
     bloomPass.strength = params.strength
@@ -37,8 +44,17 @@ class Loop {
 
     const outputPass = new OutputPass()
     this.composer.addPass( this.renderScene )
+    //this.composer.addPass( fxaaPass )
     this.composer.addPass( bloomPass )
     this.composer.addPass( outputPass )
+
+
+    // hardware (MSAA) antialiasing with postprocessing
+    if ( this.renderer.getContext() instanceof WebGL2RenderingContext ) {
+        this.composer.renderTarget1.samples = 16;
+        this.composer.renderTarget2.samples = 16;
+    }
+    
 
 
 
