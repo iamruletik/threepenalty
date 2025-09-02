@@ -56,9 +56,7 @@ export class Penalty {
     this.scene = scene
     this.world = world
     this.buttonState = BUTTON_IDLE
-    this.penaltyButton = document.querySelector("#penalty")
     this.kickButton = document.querySelector("#kickButton")
-    this.closeButton = document.querySelector("#closePenalty")
     this.objectNames = [ 
                             "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
                             "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
@@ -109,7 +107,6 @@ export class Penalty {
 
     let cameraRest = (event) => {
         this.world.getRigidBody(0).sleep()
-        this.closeButton.style.visibility = "visible"
         this.goalCounterContainer.style.visibility = "visible"
         this.kickButton.style.visibility = "visible"
         this.controls.removeEventListener("rest", cameraRest)
@@ -117,7 +114,6 @@ export class Penalty {
 
     this.controls.addEventListener("rest", cameraRest)
 
-    this.penaltyButton.style.visibility = "hidden"
     this.directionTimeline.restart()
     this.powerTimeline.time(0).kill()
     this.moveGateKeeper.restart()
@@ -126,6 +122,7 @@ export class Penalty {
         this.collidersList = this.colliderCreator.create(this.allNames)
         this.setupButton()
         this.saveBottlePositions()
+        this.timeClicked++
     }
     
     if (this.bottleGroupsExist) {
@@ -146,7 +143,6 @@ export class Penalty {
 
   moveCamera() {
     let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 10
-    //console.log(distance)
     this.controls.restThreshold = 1
     this.controls.enabled = false
     this.controls.lookInDirectionOf(0, -10, -14, true)
@@ -160,7 +156,6 @@ export class Penalty {
             this.isGoal = true
             this.goalCount++
             this.goalCounter.innerHTML = this.goalCount
-            //console.log("GOAL " + this.goalCount)
 
             setTimeout(() => {
               this.stop()
@@ -361,10 +356,8 @@ export class Penalty {
     }
 
 
-    this.closeButton.style.visibility = "hidden"
     this.kickButton.style.visibility = "hidden"
     this.goalCounterContainer.style.visibility = "hidden"
-    this.penaltyButton.style.visibility = "visible"
 
     this.world.getRigidBody(0).resetForces()
     this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)

@@ -37,6 +37,9 @@ export class SoccerBall {
         let ballColliderDesc = RAPIER.ColliderDesc.ball(0.55).setDensity(0.5)
         let ballCollider = this.world.createCollider(ballColliderDesc, ballRigidBody)
     })
+
+    return this.ballDownloaded
+
   }
 
   update() {

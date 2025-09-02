@@ -10,6 +10,7 @@ export class SoccerScene {
     this.pathToGLTFScene = '/SoccerFieldNew/SoccerField.gltf'
     this.soccerField = null
     this.soccerFieldObjectName = "SoccerField"
+    this.soccerFieldDownloaded = false
     this.gltfLoader = new GLTFLoader()
     this.scene = scene
     this.world = world
@@ -120,6 +121,8 @@ export class SoccerScene {
           }
 
         }
+
+        this.soccerFieldDownloaded = true
 
         return true;
     })
