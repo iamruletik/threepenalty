@@ -39,8 +39,8 @@ const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, powerPreference: "high-performance", encoding: THREE.sRGBEncoding })
 renderer.setSize(window.innerWidth, window.innerHeight)
-//renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setPixelRatio(1)
+renderer.setPixelRatio(window.devicePixelRatio)
+//renderer.setPixelRatio(1)
 renderer.setClearColor(backgroundColor)
 renderer.toneMapping = THREE.ACESFilmicToneMapping
 
@@ -49,31 +49,22 @@ const scene = new THREE.Scene()
 scene.background = new THREE.Color(backgroundColor)
 
 //Camera
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
+const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
 camera.position.set(0,35,0)
 scene.add(camera)
-
-//Penalty Module
-let penalty = new Penalty(camera, cameraControls, scene, world)
-penalty.goalCount = 0
-
-//Loop Module
-let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
-loop.start()
-
 
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
-cameraControls.maxDistance = 35
-cameraControls.minDistance = 6
-cameraControls.maxZoom = 1
-cameraControls.minAzimuthAngle = -Math.PI / 2
-cameraControls.maxAzimuthAngle = Math.PI / 2
-cameraControls.minPolarAngle = -Math.PI / 2
-cameraControls.maxPolarAngle = Math.PI / 3
+cameraControls.enabled = false
+cameraControls.lookInDirectionOf(0, -9, -14, false)
+cameraControls.moveTo(0, 2, -2, false)
+cameraControls.dolly(22, false)
 cameraControls.smoothTime = 0.5
-loop.updatables.push(cameraControls)
+
+//Penalty Module
+let penalty = new Penalty(camera, cameraControls, scene, world)
+penalty.goalCount = 0
 
 
 
@@ -85,18 +76,28 @@ sceneLights.loadLights()
 //Soccer Scene Loading
 let soccerScene = new SoccerScene(scene, world, camera, cameraControls)
 soccerScene.load()
-loop.updatables.push(soccerScene)
+
 
 //Soccer Ball Object
 let soccerBall = new SoccerBall(scene, world)
 soccerBall.load()
+
+
+
+
+
+//Loop Module
+let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
+loop.updatables.push(cameraControls)
+loop.updatables.push(soccerScene)
 loop.updatables.push(soccerBall)
+loop.start()
 
 
 
 
 function runPenalty() {
-    console.log(soccerBall.ballDownloaded + ' ' + soccerScene.soccerFieldDownloaded)
+    //Check if Models are Loaded and Ready
     if (soccerBall.ballDownloaded && soccerScene.soccerFieldDownloaded) { 
         penalty.init()
         loop.updatables.push(penalty)

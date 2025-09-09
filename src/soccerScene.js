@@ -1,38 +1,24 @@
-import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { ColliderCreator } from './colliderCreator.js'
 import RAPIER from '@dimforge/rapier3d'
 import gsap from 'gsap'
 
 export class SoccerScene {
 
   constructor(scene, world, camera, cameraControls) {
-    this.pathToGLTFScene = '/SoccerFieldNew/SoccerField.gltf'
+    this.pathToGLTFScene = '/SoccerFieldNew/SoccerField-Penalty.gltf'
     this.soccerField = null
     this.soccerFieldObjectName = "SoccerField"
     this.soccerFieldDownloaded = false
     this.gltfLoader = new GLTFLoader()
     this.scene = scene
     this.world = world
-    this.objectNames = [ 
-                            "BottleCap01", "BottleCap02", "BottleCap03", "BottleCap04",  "BottleCap05", "BottleCap06", 
-                            "BottleCap07", "BottleCap08", "BottleCap09", "BottleCap10",  "BottleCap11", "BottleCap12", 
-                            "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
-                            "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
-                          ]
-    this.bottleNames = [ 
-                          "BottlePlaneNtx", "BottlePlaneZn", "BottlePlaneKoz", "BottlePlaneStella", "BottlePlaneBrah", "BottlePlaneRf",
-                          "BottlePlaneGg", "BottlePlaneBs", "BottlePlaneEssa", "BottlePlaneHg", "BottlePlaneLowe", "BottlePlaneAmster",
-                        ]
     this.bottles = []
     this.camera = camera
     this.cameraControls = cameraControls
-
     }
 
   load() {
 
-    //let colliderCreator = new ColliderCreator(this.scene, this.world)
 
 
    //Load Soccer Field
@@ -87,21 +73,11 @@ export class SoccerScene {
         }) 
 
 
-        //Create Convex Hull Colliders for Specific Objects in the Scene
-        //colliderCreator.create(this.objectNames)
-
-        //Save Bottles in the Array
-        for (const objectName of this.bottleNames) { 
-          let temp = this.scene.getObjectByName(objectName)
-          temp.material.alphaTest = 0.1 
-          this.bottles.push(temp)
-        }
-
 
     })
 
 
-        //Load the Colliders
+    //Load the Colliders
     this.gltfLoader.load("/SoccerFieldNew/SoccerFieldColliders.gltf", (gltf) => {
       
         //Iterate through all objects from GLTF file and add them to the provided scene
@@ -133,15 +109,6 @@ export class SoccerScene {
   }
 
   update() {
-    if (this.bottles) {
-      
-      for (const bottle of this.bottles) {
-        //bottle.rotation.y = this.camera.position.x / 4
-        bottle.lookAt(this.camera.position.x, bottle.position.y, this.camera.position.z)
-        bottle.material.opacity =  Math.min(Math.max(this.cameraControls.polarAngle, 0), 1)
-      }
-
-    }
 
   }
 

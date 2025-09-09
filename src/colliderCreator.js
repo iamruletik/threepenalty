@@ -16,21 +16,10 @@ export class ColliderCreator {
         newCollider.setTranslation(tempMesh.position.x, tempMesh.position.y, tempMesh.position.z)
         let realCollider = this.world.createCollider(newCollider)
 
+        /*
         if(objectName == "BottleCap12") {
           this.collidersList.push(realCollider)
-        }
-
-        if(objectName == "BottlePlaneAmster") {
-          this.collidersList.push(realCollider)
-        }
-
-        if(objectName == "BottleCap02") {
-          this.collidersList.push(realCollider)
-        }
-
-        if(objectName == "BottlePlaneEssa") {
-          this.collidersList.push(realCollider)
-        }
+        } */
         
     }
 
