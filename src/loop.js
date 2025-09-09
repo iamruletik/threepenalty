@@ -58,7 +58,7 @@ class Loop {
             this.penalty.goal()
             console.log("COLLISION DETECTED")
           }          
-        });
+        })
         
         //Clock
         let delta = this.clock.getDelta()

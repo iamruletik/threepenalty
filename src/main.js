@@ -17,7 +17,7 @@ let backgroundColor = 0x050505
 
 //TweakPane Gui
 const pane = new Pane()
-//pane.hidden = true
+pane.hidden = true
 pane.registerPlugin(EssentialsPlugin)
 pane.registerPlugin(TweakpaneRotationInputPlugin)
 
@@ -39,8 +39,8 @@ const canvas = document.querySelector('canvas.webgl')
 //Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, powerPreference: "high-performance", encoding: THREE.sRGBEncoding })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(window.devicePixelRatio)
-//renderer.setPixelRatio(1)
+//renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setPixelRatio(1)
 renderer.setClearColor(backgroundColor)
 renderer.toneMapping = THREE.ACESFilmicToneMapping
 
@@ -61,6 +61,22 @@ cameraControls.lookInDirectionOf(0, -9, -14, false)
 cameraControls.moveTo(0, 2, -2, false)
 cameraControls.dolly(22, false)
 cameraControls.smoothTime = 0.5
+
+
+//On/Off All Lights Helpers in the Scene
+let enableCameraControls = debug.addButton({
+    title: "Enable Camera Controls"
+})
+enableCameraControls.on('click', () => {
+    switch (cameraControls.enabled) {
+    case false:
+        cameraControls.enabled = true
+        break;
+    case true:
+        cameraControls.enabled = false
+        break;
+    }
+})
 
 //Penalty Module
 let penalty = new Penalty(camera, cameraControls, scene, world)
@@ -99,14 +115,14 @@ loop.start()
 function runPenalty() {
     //Check if Models are Loaded and Ready
     if (soccerBall.ballDownloaded && soccerScene.soccerFieldDownloaded) { 
-        penalty.init()
+        penalty.start()
         loop.updatables.push(penalty)
     } else if (!soccerBall.ballDownloaded || !soccerScene.soccerFieldDownloaded) {
-        setTimeout(runPenalty, 1000)
+        setTimeout(runPenalty, 100)
     }
 }
 
-setTimeout(runPenalty, 1000)
+setTimeout(runPenalty, 100)
 
  
 

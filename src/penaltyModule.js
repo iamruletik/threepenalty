@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import gsap from 'gsap'
 
 const BUTTON_IDLE = "IDLE", 
@@ -6,47 +5,10 @@ const BUTTON_IDLE = "IDLE",
       BUTTON_KICK_POWER = "KICK", 
       BUTTON_INACTIVE = "INACTIVE"
 
-const goalSign = document.querySelector(".goal")
-const missSign = document.querySelector(".miss")
-const goalSignTimeline = gsap.timeline()
-const missSignTimeline = gsap.timeline()
+const GOAL = 1,
+      EMPTY = 0,
+      MISS = -1
 
-goalSignTimeline.set(goalSign, {autoAlpha: 0 })
-
-goalSignTimeline.fromTo(goalSign, {
-  autoAlpha: 0,
-  onComplete: () => {
-    goalSign.load()
-    goalSign.play()
-  }
-}, {
-  autoAlpha: 1,
-  duration: 0.3,
-  ease: "power2.inOut"
-})
-goalSignTimeline.to(goalSign, {
-  autoAlpha: 0,
-  delay: 1.5
-}, ">").pause()
-
-
-missSignTimeline.set(missSign, { autoAlpha: 0 })
-
-missSignTimeline.fromTo(missSign, {
-  autoAlpha: 0,
-  onComplete: () => {
-    missSign.load()
-    missSign.play()
-  }
-}, {
-  autoAlpha: 1,
-  duration: 0.3,
-  ease: "power2.inOut"
-})
-missSignTimeline.to(missSign, {
-  autoAlpha: 0,
-  delay: 1.5
-}, ">").pause()
 
 export class Penalty {
   
@@ -55,85 +17,140 @@ export class Penalty {
     this.camera = camera
     this.scene = scene
     this.world = world
+    
+    this.isGoal = false
+    this.goalCount = 0
+
+    this.scoreboard = [0,0,0]
+    this.kickCounter = 0
+    this.scoreImg = null
+
     this.buttonState = BUTTON_IDLE
+    this.kick = { 
+                      power: 0, 
+                      direction: 0 
+                  }
     this.kickButton = document.querySelector("#kickButton")           
-    this.kick = {
-        power: 0,
-        direction: 0
-    }
     this.powerTimeline = gsap.timeline()
     this.directionTimeline = gsap.timeline()
-    this.moveGateKeeper = gsap.timeline()
-    this.timeClicked = 0
-    this.isGoal = false
-    this.isExiting = false
-    this.isActive = false
-    this.goalCount = 0
-    this.goalCounter = document.querySelector(".goalCounterNumber")
-    this.goalCounterContainer = document.querySelector("#goalCounter")
-    this.gateKeeperPosition = null
+
+    this.goalSign = document.querySelector(".goal")
+    this.missSign = document.querySelector(".miss")
+    this.goalSignTimeline = gsap.timeline()
+    this.missSignTimeline = gsap.timeline()
+
+    this.scoreBoardElements = document.querySelectorAll(".scoreBoardLightImg")
+
+
   }
 
   start() {
-    //Penalty Active
-    this.isActive = true
+
+    //Set goals to 0
+    this.scoreboard = [0,0,0]
+    this.kickCounter = 0
+
+    //Set State Direction for a Button
+    this.buttonState = BUTTON_KICK_DIRECTION
+
     //Enable Button for Penalty
     this.setupButton()
 
+    //Create Goal&Miss Signs Timelines
+    this.setupSigns()
+
+    //Ball Sleep
+    this.world.getRigidBody(0).sleep()
+
+    //Show Kick Button
+    this.kickButton.style.visibility = "visible"
+
   }
 
-  init() {
 
-    //Set State for a Button
-    this.buttonState = BUTTON_KICK_DIRECTION
+  setupSigns() {
 
-    //Reset Goal Text
-    this.goalCounter.innerHTML = this.goalCount
-    
+    //Goal Animation
+    this.goalSignTimeline.set(this.goalSign, {autoAlpha: 0 })
 
-    let cameraRest = (event) => {
-        this.world.getRigidBody(0).sleep()
-        this.goalCounterContainer.style.visibility = "visible"
+    this.goalSignTimeline.fromTo(this.goalSign, {
+      autoAlpha: 0,
+      onComplete: () => {
+          this.goalSign.load()
+          this.goalSign.play()
+      }
+    }, {
+      autoAlpha: 1,
+      duration: 0.3,
+      ease: "power2.inOut"
+    })
+
+    this.goalSignTimeline.to(this.goalSign, {
+      autoAlpha: 0,
+      delay: 1.5,
+      onComplete: () => {
+        //Show Button After Videos
         this.kickButton.style.visibility = "visible"
-        this.controls.removeEventListener("rest", cameraRest)
-    }
+      }
+    }, ">").pause()
 
-    this.controls.addEventListener("rest", cameraRest)
+    //Miss Animation
+    this.missSignTimeline.set(this.missSign, { autoAlpha: 0 })
 
-    this.directionTimeline.restart()
-    this.powerTimeline.time(0).kill()
-    this.moveGateKeeper.restart()
+    this.missSignTimeline.fromTo(this.missSign, {
+      autoAlpha: 0,
+      onComplete: () => {
+        this.missSign.load()
+        this.missSign.play()
+      }
+    }, {
+      autoAlpha: 1,
+      duration: 0.3,
+      ease: "power2.inOut"
+    })
+
+    this.missSignTimeline.to(this.missSign, {
+      autoAlpha: 0,
+      delay: 1.5,
+      onComplete: () => {
+        //Show Button After Videos
+        this.kickButton.style.visibility = "visible"
+      }
+    }, ">").pause()
+
 
   }
 
-
+  //Goal Function
   goal() {
-    this.isGoal = true
-    this.goalCount++
-    this.goalCounter.innerHTML = this.goalCount
 
+    this.isGoal = true
+
+    this.scoreboard[this.kickCounter] = GOAL
+
+    //Reset Scene & Play Animation after goal
     setTimeout(() => {
-      this.stop()
-      this.init()
-      goalSignTimeline.restart()
+          this.reset()
+          this.goalSignTimeline.restart()
     }, 1000)
 
   }
 
+
+  //Setup Button
   setupButton() {
 
-    
+    //Reset Power of Kick
     this.kick.power = 0
-    this.powerTimeline.pause()
 
+    //Power Animation Timeline
+    this.powerTimeline.pause()
     this.powerTimeline.to(this.kick, {
         power: 10,
         yoyo: true,
         repeat: -1,
         duration: 1,
         ease: "none",
-        onUpdate: () => {
-        }
     })
     this.powerTimeline.fromTo("#powerGradient", {
         "--clip": '5%',
@@ -145,6 +162,7 @@ export class Penalty {
         ease: "none"
     }, "<")
 
+    //Direction Animation
     this.directionTimeline.fromTo(this.kick, {
         direction: -7,
     }, {
@@ -153,9 +171,6 @@ export class Penalty {
         repeat: -1,
         duration: 1,
         ease: "none",
-        onUpdate: () => {
-          //console.log(this.kick.direction)
-        }
     })
      this.directionTimeline.to("#arrow-container", {
       rotation: 90,
@@ -167,19 +182,15 @@ export class Penalty {
      }, "<")
 
 
+
+     //Reset Timer
      let resetTimer = (event) => {
-        console.log("reset Timer fired")
-        console.log(this.isGoal)
-        console.log(this.isExiting)
-        if (!this.isGoal && !this.isExiting) {
-          this.stop()
-          this.init()
-          missSignTimeline.restart()
-          //console.log("TIME RESET " + this.isGoal)
+        if (!this.isGoal) {
+          this.scoreboard[this.kickCounter] = MISS
+          this.reset()
+          this.missSignTimeline.restart()
         } else if (this.isGoal) {
           this.isGoal = false
-        } else if (this.isExiting) {
-          this.isExiting = false
         }
      }
     
@@ -214,39 +225,43 @@ export class Penalty {
   }
 
 
+  //Reset Scene
+  reset() {
 
-  update() {
+    console.log(this.scoreboard[this.kickCounter])
+    //Change Image on ScoreBoard
+    if (this.scoreboard[this.kickCounter] == GOAL) {
+      this.scoreImg = "/scoreBoardGoal.png"
+    } else if (this.scoreboard[this.kickCounter] == MISS) {
+      this.scoreImg = "/scoreBoardMiss.png"
+    }
+
+    this.scoreBoardElements[this.kickCounter].src = this.scoreImg
+
+    //Count Kicks
+    this.kickCounter++
+    console.log(this.kickCounter)
+
+    //Reset Camera
+    this.controls.dolly(-4, true)
+
+    //Reset Animations for Button
+    this.directionTimeline.restart()
+    this.powerTimeline.time(0).kill()
+
+    //Set Button State
+    this.buttonState = BUTTON_KICK_DIRECTION
+
+    //Reset Ball State and put to Sleep
+    this.world.getRigidBody(0).resetForces()
+    this.world.getRigidBody(0).setTranslation({ x: 0.75, y: -1.2, z: -2.1 }, true)
+    this.world.getRigidBody(0).sleep()
 
   }
 
-  stop() {
 
-    this.isActive = false
+  update() {
 
-    this.moveGateKeeper.pause()
-    //Set Button State
-    this.buttonState = BUTTON_IDLE
-
-    this.goalCounter.innerHTML = this.goalCount
-
-
-
-    this.kickButton.style.visibility = "hidden"
-    this.goalCounterContainer.style.visibility = "hidden"
-
-    this.world.getRigidBody(0).resetForces()
-    this.world.getRigidBody(0).setTranslation({ x: 0.0, y: -1.2, z: 0.0 }, true)
-    this.world.getRigidBody(0).sleep()
-
-    let distance = this.camera.position.distanceTo(new THREE.Vector3(0,0,0)) - 8
-    //console.log(distance)
-
-    this.controls.lookInDirectionOf(0, -100, -10, true)                
-    this.controls.moveTo(0, 0, 0, true)
-    this.controls.dolly(distance, true)
-
-    this.controls.enabled = true 
-    this.isCameraAnimating = false
   }
 
 

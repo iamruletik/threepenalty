@@ -39,32 +39,32 @@ export class SceneLights {
     const rectAreaLightSideBigL = new THREE.RectAreaLight(0xFFFFFF, 0, 28,5)
     rectAreaLightSideBigL.rotation.set(0,Math.PI / 2,0)
     rectAreaLightSideBigL.position.set(14,-4,0)
-    rectAreaLightSideBigL.power = 350
+    rectAreaLightSideBigL.power = 250
     this.scene.add(rectAreaLightSideBigL)
 
     const rectAreaLightSideBigR = new THREE.RectAreaLight(0xFFFFFF, 0, 28,5)
     rectAreaLightSideBigR.rotation.set(0,Math.PI / -2,0)
     rectAreaLightSideBigR.position.set(-14,-4,0)
-    rectAreaLightSideBigR.power = 350
+    rectAreaLightSideBigR.power = 250
     this.scene.add(rectAreaLightSideBigR)
 
     const rectAreaLightSideBigB = new THREE.RectAreaLight(0xFFFFFF, 0, 12,5)
     rectAreaLightSideBigB.rotation.set(0,Math.PI, 0)
     rectAreaLightSideBigB.position.set(0,-5,-20)
-    rectAreaLightSideBigB.power = 350
+    rectAreaLightSideBigB.power = 250
     this.scene.add(rectAreaLightSideBigB)
 
     const rectAreaLightSideBigT = new THREE.RectAreaLight(0xFFFFFF, 0, 12,5)
     rectAreaLightSideBigT.rotation.set(0,Math.PI * 2, 0)
     rectAreaLightSideBigT.position.set(0,-5,20)
-    rectAreaLightSideBigT.power = 350
+    rectAreaLightSideBigT.power = 250
     this.scene.add(rectAreaLightSideBigT)
 
     //React Area Light Top
     const rectAreaLightTop = new THREE.RectAreaLight(0xFFFFFF, 0, 10,28)
     rectAreaLightTop.rotation.set(-Math.PI / 2,0,0)
     rectAreaLightTop.position.set(0,8,0)
-    rectAreaLightTop.power = 2000
+    rectAreaLightTop.power = 1850
     this.scene.add(rectAreaLightTop)
 
     //Add Debug for Area Light Top

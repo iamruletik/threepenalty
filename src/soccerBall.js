@@ -11,7 +11,6 @@ export class SoccerBall {
     this.pathToGLTFBall = '/SoccerBall/soccerBall.gltf'
     this.soccerBallObjectName = "SoccerBall"
     this.gltfLoader = new GLTFLoader()
-    this.eventQueue = new RAPIER.EventQueue(true)
   }
 
   load() {
@@ -29,7 +28,7 @@ export class SoccerBall {
 
         // Create a dynamic rigid-body for a Ball
         let ballRigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-            .setTranslation(0.0, 0.0, 0.0)
+            .setTranslation(0.75, -1.2, -2.1)
             .setAdditionalMass(0.5)
         let ballRigidBody = this.world.createRigidBody(ballRigidBodyDesc)
         
@@ -43,21 +42,13 @@ export class SoccerBall {
   }
 
   update() {
-    //You Can find specific RigidBody by its handle
-    let soccerBallRigidBody = this.world.getRigidBody(0)
+        //You Can find specific RigidBody by its handle
+        let soccerBallRigidBody = this.world.getRigidBody(0)
 
-    if (this.ballDownloaded) {
-        this.soccerBall.position.copy(soccerBallRigidBody.translation())
-        this.soccerBall.setRotationFromQuaternion(soccerBallRigidBody.rotation())
-    }
-
-        //Handling Collision Events
-        this.eventQueue.drainCollisionEvents((handle1, handle2, started) => {
-            this.world.getRigidBody(0).sleep()
-            this.world.getRigidBody(0).resetForces()
-            this.world.getRigidBody(0).setTranslation({ x: 0.0, y: 0.0, z: 0.0 }, true)
-            //buttonState = BUTTON_IDLE
-        })
+        if (this.ballDownloaded) {
+            this.soccerBall.position.copy(soccerBallRigidBody.translation())
+            this.soccerBall.setRotationFromQuaternion(soccerBallRigidBody.rotation())
+        }
   }
 
 }
