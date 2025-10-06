@@ -165,7 +165,8 @@
 		},
 		{
 			"extras":{
-				"collider":true
+				"collider":true,
+				"gatekeeper":true
 			},
 			"mesh":7,
 			"name":"BottleGateKeeper",
@@ -304,7 +305,8 @@
 		},
 		{
 			"extras":{
-				"collider":true
+				"collider":true,
+				"gatekeeper":true
 			},
 			"mesh":14,
 			"name":"ManGateKeeper"

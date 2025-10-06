@@ -105,8 +105,6 @@ soccerBall.load()
 //Loop Module
 let loop = new Loop(camera, scene, renderer, world, fpsGraph, penalty)
 loop.updatables.push(cameraControls)
-loop.updatables.push(soccerScene)
-loop.updatables.push(soccerBall)
 loop.start()
 
 
@@ -119,6 +117,8 @@ function runPenalty() {
     if (soccerBall.ballDownloaded && soccerScene.soccerFieldDownloaded) { 
         penalty.start()
         loop.updatables.push(penalty)
+        loop.updatables.push(soccerScene)
+loop.updatables.push(soccerBall)
         worldDebugger.addDebugMesh()
         loop.updatables.push(worldDebugger)
     } else if (!soccerBall.ballDownloaded || !soccerScene.soccerFieldDownloaded) {

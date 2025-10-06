@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import RAPIER from '@dimforge/rapier3d'
 import gsap from 'gsap'
@@ -16,6 +17,11 @@ export class SoccerScene {
     this.bottles = []
     this.camera = camera
     this.cameraControls = cameraControls
+    this.gateKeeperMeshes = []
+    this.gateKeeperColliders = []
+    this.clock = new THREE.Clock()
+    this.time = 0
+    this.gkDistance = 3
     }
 
   load() {
@@ -28,15 +34,22 @@ export class SoccerScene {
         //Iterate through all objects from GLTF file and add them to the provided scene
         const children = [...gltf.scene.children]
         for (const child of children) { 
-          console.log(child.userData.collider)
+          
 
           if (child.userData.collider) {
                 let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
                 newCollider.setTranslation(child.position.x, child.position.y, child.position.z)
                 let realCollider = this.world.createCollider(newCollider)
+
+                if (child.userData.gatekeeper) {
+                  this.gateKeeperColliders.push(realCollider)
+                  this.gateKeeperMeshes.push(child)
+                }
           }
 
           this.scene.add(child) 
+
+          console.log(this.gateKeeperMeshes)
         }
 
         //Set Shadow for Soccer Field Outer
@@ -111,7 +124,7 @@ export class SoccerScene {
 
         this.soccerFieldDownloaded = true
 
-        return true;
+        return this.soccerFieldDownloaded;
     })
 
 
@@ -121,6 +134,23 @@ export class SoccerScene {
 
   update() {
 
+    this.gkPosition = this.gateKeeperMeshes[0].position.x
+    this.time = this.clock.getElapsedTime()
+
+     if (this.soccerFieldDownloaded == true) { 
+
+        //YoYo Sin function
+        this.gateKeeperMeshes[0].position.x = Math.sin(this.time) * this.gkDistance
+        this.gateKeeperMeshes[1].position.x = Math.sin(this.time) * this.gkDistance
+
+        //Save current COlliders positions
+        let vectorA = this.gateKeeperColliders[0].translation()
+        let vectorB = this.gateKeeperColliders[1].translation()
+
+        //Apply new position of mesh to colliders
+        this.gateKeeperColliders[0].setTranslation({x: this.gateKeeperMeshes[0].position.x, y: vectorA.y, z:vectorA.z})
+        this.gateKeeperColliders[1].setTranslation({x: this.gateKeeperMeshes[0].position.x, y: vectorB.y, z:vectorB.z})
+     }
   }
 
 }
