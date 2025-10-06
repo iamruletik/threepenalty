@@ -49,7 +49,6 @@ export class SoccerScene {
 
           this.scene.add(child) 
 
-          console.log(this.gateKeeperMeshes)
         }
 
         //Set Shadow for Soccer Field Outer
@@ -122,10 +121,18 @@ export class SoccerScene {
 
         }
 
-        this.soccerFieldDownloaded = true
+        
 
         return this.soccerFieldDownloaded;
-    })
+    },
+    (xhr) => {
+      let percent = xhr.loaded / xhr.total * 100
+      console.log( percent + '% loaded' );
+      if (percent == 100) {
+        this.soccerFieldDownloaded = true
+      }
+    }
+  )
 
 
     

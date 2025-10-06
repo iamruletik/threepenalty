@@ -23,15 +23,6 @@ html,body {
   visibility: hidden;
 }
 
-.progressBar {
-  display: none;
-  position: absolute;
-  width: 200px;
-  height: 50px;
-  bottom: 20%;
-  right: calc(50% - 100px);
-}
-
 .modalContainer {
   display: flex;
   position: fixed;
@@ -259,4 +250,64 @@ html,body {
 .scoreBoardLight img {
   width: 100%;
   height: auto;
+}
+
+.loaderScreen {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: #00000070;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4em;
+}
+
+.scoreboardLoader {
+  width: 10em;
+}
+
+.svgSign {
+  height: 6em;
+}
+
+
+.progressLoader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.progressBar {
+  position: relative;
+  
+}
+
+.progressBarBox {
+  background-color: #ffffff50;
+  border-radius: 100px;
+  height: 8px;
+  width: 264px;
+}
+
+.progressBarLoader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 10px;
+  background-color: #ffffff;
+  border-radius: 100px;
+  box-shadow: 0 0 5.2px 0 rgba(255, 255, 255, 0.40), 0 0 14.2px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 5.2px 0 color(display-p3 1 1 1 / 0.40), 0 0 14.2px 0 color(display-p3 1 1 1 / 0.18);
+  z-index: 1;
 }

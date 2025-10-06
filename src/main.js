@@ -10,6 +10,7 @@ import { SceneLights } from './sceneLights.js'
 import { Penalty } from './penaltyModule.js'
 import { Loop } from './loop.js'
 import { RapierDebugger } from './physicsDebugger.js'
+import gsap from 'gsap'
 
 
 //Variables
@@ -50,14 +51,14 @@ scene.background = new THREE.Color(backgroundColor)
 
 //Camera
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight) // FOV vertical angle, aspect ratio with/height
-camera.position.set(0,35,0)
+camera.position.set(0,36,0)
 scene.add(camera)
 
 //CameraControls
 CameraControls.install({ THREE: THREE })
 const cameraControls = new CameraControls( camera, canvas )
 cameraControls.enabled = false
-cameraControls.lookInDirectionOf(0, -9, -14, false)
+cameraControls.lookInDirectionOf(0, -8, -14, false)
 cameraControls.moveTo(0, 2, -2, false)
 cameraControls.dolly(22, false)
 cameraControls.smoothTime = 0.5
@@ -118,9 +119,9 @@ function runPenalty() {
         penalty.start()
         loop.updatables.push(penalty)
         loop.updatables.push(soccerScene)
-loop.updatables.push(soccerBall)
-        worldDebugger.addDebugMesh()
-        loop.updatables.push(worldDebugger)
+        loop.updatables.push(soccerBall)
+        //worldDebugger.addDebugMesh()
+        //loop.updatables.push(worldDebugger)
     } else if (!soccerBall.ballDownloaded || !soccerScene.soccerFieldDownloaded) {
         setTimeout(runPenalty, 100)
     }
@@ -129,5 +130,26 @@ loop.updatables.push(soccerBall)
 setTimeout(runPenalty, 100)
 
  
+
+let svgSign = document.querySelector(".svgSign svg")
+let progressBarLoader = document.querySelector(".progressBarLoader")
+let loaderScreen = document.querySelector(".loaderScreen")
+
+gsap.to(svgSign, {
+    x: -282,
+    repeat: -1,
+    duration: 5,
+    ease: "none"
+})
+
+let loaderTimeline = gsap.timeline()
+
+loaderTimeline.to(progressBarLoader, {
+    width: 266,
+    duration: 6,
+})
+loaderTimeline.to(loaderScreen,{
+    autoAlpha: 0
+})
 
 
