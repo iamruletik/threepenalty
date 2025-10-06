@@ -17,6 +17,41 @@
 	"scene":0,
 	"scenes":[
 		{
+			"extras":{
+				"MM":{
+					"revision":"c02baa1fc8575508105ab93284a7b655451d102b"
+				},
+				"photographer":{
+					"main_camera":{}
+				},
+				"bc":{
+					"snap":{
+						"hit":false
+					}
+				},
+				"M3":{},
+				"renderqueue":{},
+				"hops":{
+					"modifiers":{}
+				},
+				"uuid":"881d1450-3455-4348-8046-7cc35ec6e2fb",
+				"assets reported":{},
+				"VDMBrushBakerAddonData":{},
+				"kitops":{},
+				"lightmixer":{
+					"hdri_rotation":0.0,
+					"hdri_tex":1
+				},
+				"texToolsSettings":{
+					"align_mode":0
+				},
+				"NWBusyDrawing":"",
+				"NWLazySource":"Image Texture",
+				"NWLazyTarget":"Color Ramp",
+				"wiggle":{
+					"is_rendering":0
+				}
+			},
 			"name":"Scene",
 			"nodes":[
 				1,
@@ -40,6 +75,11 @@
 	],
 	"nodes":[
 		{
+			"extras":{
+				"MM":{},
+				"kitops":{},
+				"hops":{}
+			},
 			"mesh":0,
 			"name":"SoccerGate"
 		},
@@ -112,6 +152,9 @@
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":7,
 			"name":"BottleCapPlayer",
 			"translation":[
@@ -121,6 +164,9 @@
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":7,
 			"name":"BottleGateKeeper",
 			"translation":[
@@ -130,6 +176,9 @@
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":7,
 			"name":"BottleDefenderA",
 			"rotation":[
@@ -141,10 +190,13 @@
 			"translation":[
 				-2.3615403175354004,
 				-1.6346607208251953,
-				-6.14549446105957
+				-5.423155784606934
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":7,
 			"name":"BottleDefenderC",
 			"rotation":[
@@ -156,10 +208,13 @@
 			"translation":[
 				2.2694811820983887,
 				-1.6346607208251953,
-				-6.14549446105957
+				-5.423155784606934
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":7,
 			"name":"BottleDefenderB",
 			"rotation":[
@@ -171,7 +226,7 @@
 			"translation":[
 				-0.19060039520263672,
 				-1.6346607208251953,
-				-5.496153831481934
+				-4.773815155029297
 			]
 		},
 		{
@@ -227,66 +282,40 @@
 			]
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":11,
-			"name":"ManDefenderA",
-			"rotation":[
-				0,
-				0.19944487512111664,
-				0,
-				0.9799090623855591
-			],
-			"translation":[
-				-2.3615403175354004,
-				-1.6346607208251953,
-				-6.14549446105957
-			]
+			"name":"ManDefenderA"
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":12,
-			"name":"ManDefenderB",
-			"scale":[
-				0.30581486225128174,
-				0.30581486225128174,
-				0.30581486225128174
-			],
-			"translation":[
-				-0.1285519003868103,
-				-1.6346607208251953,
-				-5.496153831481934
-			]
+			"name":"ManDefenderB"
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":13,
-			"name":"ManDefenderC",
-			"scale":[
-				0.30581486225128174,
-				0.30581486225128174,
-				0.30581486225128174
-			],
-			"translation":[
-				2.3285253047943115,
-				-1.6346607208251953,
-				-6.14549446105957
-			]
+			"name":"ManDefenderC"
 		},
 		{
+			"extras":{
+				"collider":true
+			},
 			"mesh":14,
-			"name":"ManGateKeeper",
-			"scale":[
-				0.30581486225128174,
-				0.30581486225128174,
-				0.30581486225128174
-			],
-			"translation":[
-				0.029485702514648438,
-				-1.6346607208251953,
-				-9.448668479919434
-			]
+			"name":"ManGateKeeper"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"SoccerGateMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -302,6 +331,9 @@
 		{
 			"alphaMode":"BLEND",
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"SoccerGateNetMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -351,6 +383,9 @@
 				},
 				"index":1
 			},
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"SoccerFieldStripeMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -395,6 +430,9 @@
 					"anisotropyRotation":3.8555910520432968
 				}
 			},
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"SoccerFieldOuterMaterial.001",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -406,6 +444,9 @@
 		},
 		{
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"TRBN-BLK",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -420,6 +461,9 @@
 		},
 		{
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"TRBN-WHITE",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -443,6 +487,9 @@
 				"KHR_materials_specular":{
 					"specularFactor":0
 				}
+			},
+			"extras":{
+				"ghostmat_nodetree":{}
 			},
 			"name":"BLAKOUT",
 			"pbrMetallicRoughness":{
@@ -471,6 +518,11 @@
 					"emissiveStrength":1.5199999809265137
 				}
 			},
+			"extras":{
+				"kitops":{},
+				"ghostmat_nodetree":{},
+				"blenderkit":{}
+			},
 			"name":"BottleCapMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -482,6 +534,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extras":{
+				"kitops":{},
+				"ghostmat_nodetree":{},
+				"blenderkit":{}
+			},
 			"name":"BottlePlayerCapMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -496,6 +553,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{},
+				"kitops":{},
+				"blenderkit":{}
+			},
 			"name":"Label Stick",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -507,6 +569,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extras":{
+				"ghostmat_nodetree":{},
+				"kitops":{},
+				"blenderkit":{}
+			},
 			"name":"btl-gls",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -534,6 +601,9 @@
 					"emissiveStrength":4.409999847412109
 				}
 			},
+			"extras":{
+				"ghostmat_nodetree":{}
+			},
 			"name":"PlayerGradientMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -546,6 +616,9 @@
 	],
 	"meshes":[
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"SoccerGateMesh",
 			"primitives":[
 				{
@@ -560,6 +633,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"SoccerGateNetMesh.001",
 			"primitives":[
 				{
@@ -574,6 +650,11 @@
 			]
 		},
 		{
+			"extras":{
+				"use_auto_smooth":1,
+				"auto_smooth_angle":1.0471975803375244,
+				"hops":{}
+			},
 			"name":"SoccerFieldStripeMesh",
 			"primitives":[
 				{
@@ -588,6 +669,11 @@
 			]
 		},
 		{
+			"extras":{
+				"use_auto_smooth":1,
+				"auto_smooth_angle":1.0471975803375244,
+				"hops":{}
+			},
 			"name":"SoccerFieldMesh",
 			"primitives":[
 				{
@@ -602,6 +688,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"SoccerFieldOuterMesh.001",
 			"primitives":[
 				{
@@ -616,6 +705,11 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{},
+				"use_auto_smooth":1,
+				"auto_smooth_angle":1.0471975803375244
+			},
 			"name":"SoccerFieldSeatsMesh",
 			"primitives":[
 				{
@@ -630,6 +724,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"BackgroundPlaneMesh",
 			"primitives":[
 				{
@@ -644,6 +741,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"BottleCapMesh",
 			"primitives":[
 				{
@@ -659,6 +759,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"BottlePlayerCapMesh",
 			"primitives":[
 				{
@@ -674,6 +777,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"BottlePlayerLabelMesh",
 			"primitives":[
 				{
@@ -689,6 +795,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"BottlePlayerMesh",
 			"primitives":[
 				{
@@ -704,6 +813,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"ManDefenderAMesh",
 			"primitives":[
 				{
@@ -718,6 +830,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"ManDefenderBMesh",
 			"primitives":[
 				{
@@ -732,6 +847,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"ManDefenderCMesh",
 			"primitives":[
 				{
@@ -746,6 +864,9 @@
 			]
 		},
 		{
+			"extras":{
+				"hops":{}
+			},
 			"name":"ManGateKeeperMesh",
 			"primitives":[
 				{
@@ -906,8 +1027,8 @@
 		},
 		{
 			"mimeType":"image/webp",
-			"name":"grad",
-			"uri":"grad.webp"
+			"name":"grad.png",
+			"uri":"grad_png.webp"
 		}
 	],
 	"accessors":[
@@ -1314,14 +1435,14 @@
 			"componentType":5126,
 			"count":31183,
 			"max":[
-				0.2878784239292145,
-				1.9564316272735596,
-				0.029266171157360077
+				-2.0928335189819336,
+				0.32177090644836426,
+				-5.213620185852051
 			],
 			"min":[
-				-0.48722049593925476,
-				0.09227776527404785,
-				-0.020771492272615433
+				-2.810321807861328,
+				-1.5423829555511475,
+				-5.547290325164795
 			],
 			"type":"VEC3"
 		},
@@ -1348,14 +1469,14 @@
 			"componentType":5126,
 			"count":33488,
 			"max":[
-				1.019994854927063,
-				6.483704566955566,
-				0.08278664946556091
+				0.1833776831626892,
+				0.3481525182723999,
+				-4.74849796295166
 			],
 			"min":[
-				-1.5700207948684692,
-				0.37685322761535645,
-				-0.07460030913352966
+				-0.6086875796318054,
+				-1.5194133520126343,
+				-4.796628952026367
 			],
 			"type":"VEC3"
 		},
@@ -1382,14 +1503,14 @@
 			"componentType":5126,
 			"count":28336,
 			"max":[
-				1.060776710510254,
-				6.561872482299805,
-				0.08278664946556091
+				2.6529266834259033,
+				0.3720574378967285,
+				-5.397838592529297
 			],
 			"min":[
-				-1.8965387344360352,
-				0.37221312522888184,
-				-0.07460030913352966
+				1.7485356330871582,
+				-1.5208324193954468,
+				-5.445969581604004
 			],
 			"type":"VEC3"
 		},
@@ -1416,14 +1537,14 @@
 			"componentType":5126,
 			"count":33488,
 			"max":[
-				1.6964750289916992,
-				6.545737266540527,
-				0.08278664946556091
+				0.5482929944992065,
+				0.3671231269836426,
+				-9.423351287841797
 			],
 			"min":[
-				-1.8780238628387451,
-				0.37083005905151367,
-				-0.07460030913352966
+				-0.5448418855667114,
+				-1.521255373954773,
+				-9.471482276916504
 			],
 			"type":"VEC3"
 		},

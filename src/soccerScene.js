@@ -2,6 +2,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import RAPIER from '@dimforge/rapier3d'
 import gsap from 'gsap'
 
+
 export class SoccerScene {
 
   constructor(scene, world, camera, cameraControls) {
@@ -26,7 +27,17 @@ export class SoccerScene {
 
         //Iterate through all objects from GLTF file and add them to the provided scene
         const children = [...gltf.scene.children]
-        for (const child of children) { this.scene.add(child) }
+        for (const child of children) { 
+          console.log(child.userData.collider)
+
+          if (child.userData.collider) {
+                let newCollider = RAPIER.ColliderDesc.convexHull(child.geometry.attributes.position.array)
+                newCollider.setTranslation(child.position.x, child.position.y, child.position.z)
+                let realCollider = this.world.createCollider(newCollider)
+          }
+
+          this.scene.add(child) 
+        }
 
         //Set Shadow for Soccer Field Outer
         let soccerFieldOuter = this.scene.getObjectByName("SoccerFieldOuter")
@@ -61,9 +72,7 @@ export class SoccerScene {
 
         ///Find Soccer Inner Stripe
         let fieldEmission = this.scene.getObjectByName("SoccerField")
-        //fieldEmission.material.toneMapped = false
-        //fieldEmission.material.emissive = new THREE.Color(0xFF0600)
-        fieldEmission.material.emissiveIntensity = 15
+        fieldEmission.material.emissiveIntensity = 1500
         //Animate Ads Strip
         gsap.to(fieldEmission.material, {
           emissiveIntensity: 0,
@@ -71,6 +80,8 @@ export class SoccerScene {
           yoyo: true,
           duration: 3
         }) 
+
+
 
 
 

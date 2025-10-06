@@ -9,7 +9,7 @@ import { SoccerBall } from './soccerBall.js'
 import { SceneLights } from './sceneLights.js'
 import { Penalty } from './penaltyModule.js'
 import { Loop } from './loop.js'
-
+import { RapierDebugger } from './physicsDebugger.js'
 
 
 //Variables
@@ -31,7 +31,7 @@ let fpsGraph = debug.addBlade({
 
 //Seting the Physics World
 let world = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 })
-world.timestep = 1 / 30
+world.timestep = 1 / 60
 
 //Canvas Element
 const canvas = document.querySelector('canvas.webgl')
@@ -40,7 +40,7 @@ const canvas = document.querySelector('canvas.webgl')
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, powerPreference: "high-performance", encoding: THREE.sRGBEncoding })
 renderer.setSize(window.innerWidth, window.innerHeight)
 //renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setPixelRatio(1)
+renderer.setPixelRatio(2)
 renderer.setClearColor(backgroundColor)
 renderer.toneMapping = THREE.ACESFilmicToneMapping
 
@@ -110,6 +110,8 @@ loop.updatables.push(soccerBall)
 loop.start()
 
 
+let worldDebugger = new RapierDebugger(scene, world)
+
 
 
 function runPenalty() {
@@ -117,6 +119,8 @@ function runPenalty() {
     if (soccerBall.ballDownloaded && soccerScene.soccerFieldDownloaded) { 
         penalty.start()
         loop.updatables.push(penalty)
+        worldDebugger.addDebugMesh()
+        loop.updatables.push(worldDebugger)
     } else if (!soccerBall.ballDownloaded || !soccerScene.soccerFieldDownloaded) {
         setTimeout(runPenalty, 100)
     }
