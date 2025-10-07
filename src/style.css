@@ -13,6 +13,7 @@
 
 body {
   overflow: hidden;
+  font-family: Inter;
 }
 
 html,body {
@@ -266,6 +267,17 @@ html,body {
   align-items: center;
   justify-content: center;
   gap: 4em;
+  opacity: 0;
+  visibility: hidden;
+  
+}
+
+.backCounter {
+    color: #FFFFFF50;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    font-size: 12px;
 }
 
 .scoreboardLoader {
@@ -274,6 +286,26 @@ html,body {
 
 .svgSign {
   height: 6em;
+  overflow: hidden;
+}
+
+.svgSign svg {
+  animation-name: slide-in;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  animation-direction: forward;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-282px);
+  }
 }
 
 
@@ -311,3 +343,10 @@ html,body {
   box-shadow: 0 0 5.2px 0 color(display-p3 1 1 1 / 0.40), 0 0 14.2px 0 color(display-p3 1 1 1 / 0.18);
   z-index: 1;
 }
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+

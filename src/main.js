@@ -131,25 +131,10 @@ setTimeout(runPenalty, 100)
 
  
 
-let svgSign = document.querySelector(".svgSign svg")
-let progressBarLoader = document.querySelector(".progressBarLoader")
-let loaderScreen = document.querySelector(".loaderScreen")
 
-gsap.to(svgSign, {
-    x: -282,
-    repeat: -1,
-    duration: 5,
-    ease: "none"
-})
 
-let loaderTimeline = gsap.timeline()
 
-loaderTimeline.to(progressBarLoader, {
-    width: 266,
-    duration: 6,
-})
-loaderTimeline.to(loaderScreen,{
-    autoAlpha: 0
-})
+
+
 
 

@@ -39,7 +39,13 @@ export class Penalty {
     this.goalSignTimeline = gsap.timeline()
     this.missSignTimeline = gsap.timeline()
 
-    this.scoreBoardElements = document.querySelectorAll(".scoreBoardLightImg")
+    this.scoreBoardElements = document.querySelectorAll(".mainScoreImg")
+
+    this.progressBarLoader = document.querySelector(".progressBarLoader")
+    this.loaderScreen = document.querySelector(".loaderScreen")
+    this.scores = document.querySelectorAll(".scoreImg")
+    this.backCounter = document.querySelector(".backCounterNumber")
+    this.loaderTimeline = gsap.timeline()
 
 
   }
@@ -59,6 +65,9 @@ export class Penalty {
     //Create Goal&Miss Signs Timelines
     this.setupSigns()
 
+    //Setup Score Screen
+    this.setupScoreScreen()
+
     //Ball Sleep
     this.world.getRigidBody(0).sleep()
 
@@ -76,7 +85,8 @@ export class Penalty {
     this.goalSignTimeline.fromTo(this.goalSign, {
       autoAlpha: 0,
       onComplete: () => {
-          this.goalSign.load()
+          this.goalSign.pause()
+          this.goalSign.currentTime = 0
           this.goalSign.play()
       }
     }, {
@@ -100,7 +110,8 @@ export class Penalty {
     this.missSignTimeline.fromTo(this.missSign, {
       autoAlpha: 0,
       onComplete: () => {
-        this.missSign.load()
+        this.missSign.pause()
+        this.missSign.currentTime = 0
         this.missSign.play()
       }
     }, {
@@ -196,7 +207,7 @@ export class Penalty {
     
 
     this.kickButton.addEventListener("click", (event) => {
-        console.log(this.buttonState)
+        //console.log(this.buttonState)
 
          this.powerTimeline.pause()
 
@@ -228,15 +239,21 @@ export class Penalty {
   //Reset Scene
   reset() {
 
-    console.log(this.scoreboard[this.kickCounter])
+   // console.log(this.scoreboard[this.kickCounter])
     //Change Image on ScoreBoard
     if (this.scoreboard[this.kickCounter] == GOAL) {
       this.scoreImg = "/scoreBoardGoal.png"
+      this.scoreBoardElements[this.kickCounter].src = this.scoreImg
+      this.scores[this.kickCounter].src = this.scoreImg
+      console.log(this.scoreBoardElements[this.kickCounter])
     } else if (this.scoreboard[this.kickCounter] == MISS) {
       this.scoreImg = "/scoreBoardMiss.png"
+      this.scoreBoardElements[this.kickCounter].src = this.scoreImg
+      this.scores[this.kickCounter].src = this.scoreImg
+      console.log(this.scoreBoardElements[this.kickCounter])
     }
 
-    this.scoreBoardElements[this.kickCounter].src = this.scoreImg
+
 
     //Count Kicks
     this.kickCounter++
@@ -257,6 +274,68 @@ export class Penalty {
     this.world.getRigidBody(0).setTranslation({ x: 0.75, y: -1.2, z: -2.1 }, true)
     this.world.getRigidBody(0).sleep()
 
+    if (this.kickCounter == 3) { 
+        setTimeout(() => {
+          this.resetGame() 
+        }, 2500)
+      }
+
+  }
+
+  resetGame() {
+    
+    this.kickCounter = 0
+
+    this.loaderTimeline.restart()
+
+    
+    //Reset Scoreboard Images
+    this.scoreBoardElements[0].src = "/scoreBoardEmpty.png"
+    this.scoreBoardElements[1].src = "/scoreBoardEmpty.png"
+    this.scoreBoardElements[2].src = "/scoreBoardEmpty.png"
+
+
+  }
+
+  setupScoreScreen() {
+
+    this.loaderTimeline.pause()
+    let counter = {
+      i: 10
+    }
+
+    this.loaderTimeline.to(this.loaderScreen,{
+      autoAlpha: 1
+    })
+
+    this.loaderTimeline.to(this.scores, {
+        scale: 1.35,
+        duration: 0.5,
+        stagger: {
+          each: 0.3,
+          ease: 'power2.inOut',
+        }
+    })
+
+    this.loaderTimeline.to(this.progressBarLoader, {
+        width: 266,
+        duration: 10,
+        ease: "none"
+    }, "<")
+
+    this.loaderTimeline.fromTo(counter, {
+      i: 10
+    }, {
+      i: 0,
+      ease: "steps(10)",
+      duration: 10,
+      onUpdate: () => {this.backCounter. innerHTML = counter.i}
+    }, "<")
+
+    this.loaderTimeline.to(this.loaderScreen,{
+        autoAlpha: 0
+    })
+    
   }
 
 
