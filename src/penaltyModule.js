@@ -157,7 +157,7 @@ export class Penalty {
     //Power Animation Timeline
     this.powerTimeline.pause()
     this.powerTimeline.to(this.kick, {
-        power: 7,
+        power: 6,
         yoyo: true,
         repeat: -1,
         duration: 1,
