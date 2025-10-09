@@ -141,10 +141,12 @@ export class SoccerScene {
 
   update() {
 
-    this.gkPosition = this.gateKeeperMeshes[0].position.x
-    this.time = this.clock.getElapsedTime()
+     if (this.soccerFieldDownloaded == true && this.gateKeeperMeshes[0]) { 
 
-     if (this.soccerFieldDownloaded == true) { 
+        console.log(this.gateKeeperMeshes[0])
+
+        this.gkPosition = this.gateKeeperMeshes[0].position.x
+        this.time = this.clock.getElapsedTime()
 
         //YoYo Sin function
         this.gateKeeperMeshes[0].position.x = Math.sin(this.time) * this.gkDistance
