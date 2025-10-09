@@ -129,6 +129,24 @@ function runPenalty() {
 
 setTimeout(runPenalty, 100)
 
+
+let startButton = document.querySelector(".start-screen")
+let startScreenTimeline = gsap.timeline()
+
+    startScreenTimeline.to(startButton, {
+        autoAlpha: 0,
+        duration: 1,
+        delay: 1,
+        onComplete: () => {
+            startButton.load()
+        }
+    }).pause()
+
+startButton.addEventListener("click", (event) => {
+    startButton.play()
+    startScreenTimeline.restart()
+})
+
  
 
 

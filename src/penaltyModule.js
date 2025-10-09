@@ -152,12 +152,12 @@ export class Penalty {
   setupButton() {
 
     //Reset Power of Kick
-    this.kick.power = 0
+    this.kick.power = 5
 
     //Power Animation Timeline
     this.powerTimeline.pause()
     this.powerTimeline.to(this.kick, {
-        power: 10,
+        power: 7,
         yoyo: true,
         repeat: -1,
         duration: 1,
@@ -175,9 +175,9 @@ export class Penalty {
 
     //Direction Animation
     this.directionTimeline.fromTo(this.kick, {
-        direction: -7,
+        direction: -2,
     }, {
-        direction: 7,
+        direction: 2,
         yoyo: true,
         repeat: -1,
         duration: 1,
