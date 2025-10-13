@@ -143,7 +143,7 @@ export class SoccerScene {
 
      if (this.soccerFieldDownloaded == true && this.gateKeeperMeshes[0]) { 
 
-        console.log(this.gateKeeperMeshes[0])
+        //console.log(this.gateKeeperMeshes[0])
 
         this.gkPosition = this.gateKeeperMeshes[0].position.x
         this.time = this.clock.getElapsedTime()

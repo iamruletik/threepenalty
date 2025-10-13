@@ -39,7 +39,7 @@ export class Penalty {
     this.goalSignTimeline = gsap.timeline()
     this.missSignTimeline = gsap.timeline()
 
-    this.scoreBoardElements = document.querySelectorAll(".mainScoreImg")
+    this.scoreBoardContainer = document.querySelector(".scoreBoardContainer")
 
     this.progressBarLoader = document.querySelector(".progressBarLoader")
     this.loaderScreen = document.querySelector(".loaderScreen")
@@ -239,25 +239,25 @@ export class Penalty {
   //Reset Scene
   reset() {
 
-   // console.log(this.scoreboard[this.kickCounter])
+    let tempChild = document.createElement("div")
+    tempChild.classList.add("scoreBoardLight")
+    tempChild.classList.add("mainScoreImgContainer")
     //Change Image on ScoreBoard
     if (this.scoreboard[this.kickCounter] == GOAL) {
-      this.scoreImg = "/scoreBoardGoal.png"
-      this.scoreBoardElements[this.kickCounter].src = this.scoreImg
-      this.scores[this.kickCounter].src = this.scoreImg
-      console.log(this.scoreBoardElements[this.kickCounter])
+      tempChild.innerHTML = `<img class="scoreBoardLightImg mainScoreImg" src="/scoreBoardGoal.png">`
+      this.scoreBoardContainer.append(tempChild)
+      this.scores[this.kickCounter].src = "/scoreBoardGoalSign.png"
     } else if (this.scoreboard[this.kickCounter] == MISS) {
-      this.scoreImg = "/scoreBoardMiss.png"
-      this.scoreBoardElements[this.kickCounter].src = this.scoreImg
-      this.scores[this.kickCounter].src = this.scoreImg
-      console.log(this.scoreBoardElements[this.kickCounter])
+      tempChild.innerHTML = `<img class="scoreBoardLightImg mainScoreImg" src="/scoreBoardMiss.png">`
+      this.scoreBoardContainer.append(tempChild)
+      this.scores[this.kickCounter].src = "/scoreBoardMissSign.png"
     }
 
 
 
     //Count Kicks
     this.kickCounter++
-    console.log(this.kickCounter)
+    //console.log(this.kickCounter)
 
     //Reset Camera
     this.controls.dolly(-4, true)
@@ -290,9 +290,7 @@ export class Penalty {
 
     
     //Reset Scoreboard Images
-    this.scoreBoardElements[0].src = "/scoreBoardEmpty.png"
-    this.scoreBoardElements[1].src = "/scoreBoardEmpty.png"
-    this.scoreBoardElements[2].src = "/scoreBoardEmpty.png"
+     this.scoreBoardContainer.innerHTML = ""
 
 
   }
@@ -309,7 +307,7 @@ export class Penalty {
     })
 
     this.loaderTimeline.to(this.scores, {
-        scale: 1.35,
+        scale: 2,
         duration: 0.5,
         stagger: {
           each: 0.3,
